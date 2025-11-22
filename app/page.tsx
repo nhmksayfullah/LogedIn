@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Clock, Image, Share2, Lock } from 'lucide-react';
 import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -172,21 +171,22 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-landing-xl px-4 bg-white">
+      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="text-center mb-16"
           >
-            <h2 className="text-landing-section md:text-landing-section-lg font-bold text-center text-slate-900 mb-3">
-              Everything you need to document your transformation
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+              It&apos;s time to take your <span className="text-blue-600">journey portfolio</span> to the next level
             </h2>
           </motion.div>
 
-          <div className="mt-landing-lg grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Feature 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Feature 1 - Showcase Your Best */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -194,18 +194,25 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
               onHoverStart={() => setHoveredCard(1)}
               onHoverEnd={() => setHoveredCard(null)}
-              className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
-              <div className={`w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all ${hoveredCard === 1 ? 'scale-110' : ''}`}>
-                <Clock className="w-5 h-5 text-blue-500" />
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-56 h-72 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl transform -rotate-3 scale-90 group-hover:scale-95 transition-transform">
+                    <div className="p-4 h-full flex flex-col">
+                      <div className="w-full h-12 bg-blue-500/20 rounded-lg mb-3"></div>
+                      <div className="flex-1 bg-slate-700/30 rounded-lg"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Timeline of your evolution</h3>
-              <p className="text-landing-small text-slate-600 leading-relaxed">
-                Create versions of yourself over time — from &quot;Day 1&quot; to &quot;Version 2.0&quot;. Add notes, photos, and milestones that show how far you&apos;ve come.
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Showcase Your Best Apps</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Easily feature your most popular apps, set your favorites and hide apps from your portfolio
               </p>
             </motion.div>
 
-            {/* Feature 2 */}
+            {/* Feature 2 - Automatic Updates */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -213,19 +220,27 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               onHoverStart={() => setHoveredCard(2)}
               onHoverEnd={() => setHoveredCard(null)}
-              className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
-              <div className={`w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all ${hoveredCard === 2 ? 'scale-110' : ''}`}>
-                {/* eslint-disable-next-line jsx-a11y/alt-text */}
-                <Image className="w-5 h-5 text-blue-500" />
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center">
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform"></div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-75"></div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-100"></div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-150"></div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full shadow-lg group-hover:rotate-180 transition-transform delay-200 flex items-center justify-center">
+                    <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-75"></div>
+                </div>
               </div>
-              <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Tell the story behind each change</h3>
-              <p className="text-landing-small text-slate-600 leading-relaxed">
-                Attach progress photos, write what really happened, and capture the emotions behind each shift — not just numbers.
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Automatic Updates</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Never waste time updating your portfolio again! Your new portfolio automatically updates from the App Store
               </p>
             </motion.div>
 
-            {/* Feature 3 */}
+            {/* Feature 3 - Customize Profile */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -233,18 +248,30 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               onHoverStart={() => setHoveredCard(3)}
               onHoverEnd={() => setHoveredCard(null)}
-              className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
-              <div className={`w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all ${hoveredCard === 3 ? 'scale-110' : ''}`}>
-                <Share2 className="w-5 h-5 text-blue-500" />
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
+                <div className="w-full max-w-xs bg-white rounded-2xl shadow-xl p-6 group-hover:scale-105 transition-transform">
+                  <div className="flex flex-col items-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full mb-3"></div>
+                    <div className="h-3 w-32 bg-slate-200 rounded mb-2"></div>
+                    <div className="h-2 w-24 bg-slate-100 rounded mb-4"></div>
+                    <div className="flex gap-2 mb-3">
+                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
+                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
+                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
+                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Shareable journey page</h3>
-              <p className="text-landing-small text-slate-600 leading-relaxed">
-                Turn your transformation into a clean, shareable page. Keep it private for yourself or share it with friends, followers, or clients.
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Customize Your Profile</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Make your portfolio part of your personal branding with customizable bio, profile photo, banner and links
               </p>
             </motion.div>
 
-            {/* Feature 4 */}
+            {/* Feature 4 - Track Analytics */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -252,14 +279,26 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               onHoverStart={() => setHoveredCard(4)}
               onHoverEnd={() => setHoveredCard(null)}
-              className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer"
+              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
-              <div className={`w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all ${hoveredCard === 4 ? 'scale-110' : ''}`}>
-                <Lock className="w-5 h-5 text-blue-500" />
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center p-6">
+                <div className="w-full h-full bg-white rounded-xl shadow-lg p-4 group-hover:scale-105 transition-transform">
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="h-2 w-20 bg-slate-200 rounded"></div>
+                    <div className="h-4 w-12 bg-slate-900 rounded"></div>
+                  </div>
+                  <div className="h-2 w-16 bg-slate-100 rounded mb-4"></div>
+                  <div className="flex items-end justify-between h-24 gap-2">
+                    <div className="w-full bg-blue-200 rounded-t" style={{ height: '60%' }}></div>
+                    <div className="w-full bg-blue-300 rounded-t" style={{ height: '45%' }}></div>
+                    <div className="w-full bg-blue-300 rounded-t" style={{ height: '50%' }}></div>
+                    <div className="w-full bg-blue-400 rounded-t" style={{ height: '75%' }}></div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Built to stay</h3>
-              <p className="text-landing-small text-slate-600 leading-relaxed">
-                Loged.in is made for years, not weeks. A simple place to keep your evolution in one timeline, forever.
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Track How It&apos;s Going</h3>
+              <p className="text-slate-600 leading-relaxed">
+                Get real-time insights into the popularity of your apps. Track user interactions and referral sites
               </p>
             </motion.div>
           </div>
