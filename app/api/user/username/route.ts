@@ -16,7 +16,7 @@ export async function GET() {
     // Get user profile with username
     const { data: userData, error: userError } = await supabase
       .from('users')
-      .select('username')
+      .select('username, is_public, bio')
       .eq('id', user.id)
       .single();
 
@@ -25,7 +25,9 @@ export async function GET() {
     }
 
     return NextResponse.json({ 
-      username: userData?.username || null
+      username: userData?.username || null,
+      isPublic: userData?.is_public || false,
+      bio: userData?.bio || ''
     });
   } catch (error) {
     console.error('Error fetching username:', error);

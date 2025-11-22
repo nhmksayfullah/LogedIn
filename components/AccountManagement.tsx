@@ -22,6 +22,11 @@ export function AccountManagement() {
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const coverFileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Profile settings states
+  const [isPublic, setIsPublic] = useState(false);
+  const [bio, setBio] = useState('');
+  const [isUpdatingSettings, setIsUpdatingSettings] = useState(false);
 
   // Check if user signed in with OAuth
   const isOAuthUser = user?.app_metadata?.provider === 'google' || user?.app_metadata?.provider === 'twitter';
@@ -67,6 +72,26 @@ export function AccountManagement() {
     };
 
     fetchCoverPhoto();
+  }, [user?.id]);
+
+  // Fetch profile settings on mount
+  useEffect(() => {
+    const fetchProfileSettings = async () => {
+      if (!user?.id) return;
+      
+      try {
+        const response = await fetch('/api/user/username');
+        if (response.ok) {
+          const data = await response.json();
+          setIsPublic(data.isPublic || false);
+          setBio(data.bio || '');
+        }
+      } catch (error) {
+        console.error('Error fetching profile settings:', error);
+      }
+    };
+
+    fetchProfileSettings();
   }, [user?.id]);
 
   // Fetch username from database
@@ -296,6 +321,58 @@ export function AccountManagement() {
     }
   };
 
+  const handleTogglePublic = async (checked: boolean) => {
+    setIsUpdatingSettings(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/user/profile-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ isPublic: checked }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to update profile visibility');
+      }
+
+      setIsPublic(checked);
+    } catch (error) {
+      console.error('Update visibility error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to update profile visibility');
+    } finally {
+      setIsUpdatingSettings(false);
+    }
+  };
+
+  const handleBioSave = async () => {
+    setIsUpdatingSettings(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/user/profile-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bio }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to update bio');
+      }
+    } catch (error) {
+      console.error('Update bio error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to update bio');
+    } finally {
+      setIsUpdatingSettings(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       {/* Cover Photo Section - Twitter ratio 3:1 (1500x500) */}
@@ -462,6 +539,57 @@ export function AccountManagement() {
 
         {/* User Information */}
         <div className="space-y-3 pt-6 border-t border-slate-200">
+          {/* Profile Visibility Toggle */}
+          <div className="pb-4 border-b border-slate-200">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <h3 className="text-landing-body font-semibold text-slate-900">Public Profile</h3>
+                <p className="text-landing-tiny text-slate-500 mt-0.5">
+                  {isPublic 
+                    ? `Anyone can view your profile at /${username}`
+                    : 'Your profile is private'}
+                </p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isPublic}
+                  onChange={(e) => handleTogglePublic(e.target.checked)}
+                  disabled={isUpdatingSettings}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              </label>
+            </div>
+            
+            {/* Bio Editor */}
+            <div className="mt-3">
+              <label className="block text-landing-small font-medium text-slate-700 mb-1.5">
+                Bio
+              </label>
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                maxLength={500}
+                rows={3}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-landing-small focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                placeholder="Tell people about yourself..."
+              />
+              <div className="flex items-center justify-between mt-1.5">
+                <span className="text-landing-tiny text-slate-500">
+                  {bio.length}/500 characters
+                </span>
+                <button
+                  onClick={handleBioSave}
+                  disabled={isUpdatingSettings}
+                  className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isUpdatingSettings ? 'Saving...' : 'Save Bio'}
+                </button>
+              </div>
+            </div>
+          </div>
+          
           {username && (
           <div className="flex items-center justify-between py-3 border-b border-slate-200">
             <span className="text-landing-small text-slate-600">
