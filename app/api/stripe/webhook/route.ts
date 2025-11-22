@@ -99,46 +99,59 @@ export const POST = withCors(async function POST(request: NextRequest) {
           return NextResponse.json({ status: 'skipped', message: 'Not a one-time payment' });
         }
 
-        if (!session.client_reference_id || !session.customer || !session.payment_intent) {
-          logWebhookEvent('Missing required session data', {
-            clientReferenceId: session.client_reference_id,
-            customerId: session.customer,
-            paymentIntent: session.payment_intent
-          });
-          return NextResponse.json({ error: 'Invalid session data' }, { status: 400 });
+        // If payment_intent is missing, we can't process this
+        if (!session.payment_intent) {
+          logWebhookEvent('Missing payment_intent', { sessionId: session.id });
+          return NextResponse.json({ error: 'No payment intent' }, { status: 400 });
         }
 
-        // Check for existing purchase
-        const hasExistingPurchase = await checkExistingPurchase(session.client_reference_id);
-        
-        if (hasExistingPurchase) {
-          logWebhookEvent('Duplicate purchase attempt blocked', {
-            userId: session.client_reference_id,
-            sessionId: session.id
+        // If we have client_reference_id and customer, use the standard flow
+        if (session.client_reference_id && session.customer) {
+          // Check for existing purchase
+          const hasExistingPurchase = await checkExistingPurchase(session.client_reference_id);
+          
+          if (hasExistingPurchase) {
+            logWebhookEvent('Duplicate purchase attempt blocked', {
+              userId: session.client_reference_id,
+              sessionId: session.id
+            });
+            
+            return NextResponse.json({ 
+              status: 'blocked',
+              message: 'User already has an active purchase'
+            });
+          }
+
+          // For instant payment methods, payment_status will be 'paid'
+          // For delayed payment methods (ACH, bank transfers), payment_status will be 'unpaid'
+          // We create the purchase record in both cases, but with different status
+          const purchaseStatus = session.payment_status === 'paid' ? 'active' : 'pending';
+
+          try {
+            const purchase = await createPurchase(
+              session.payment_intent as string,
+              session.client_reference_id!,
+              session.customer as string,
+              purchaseStatus
+            );
+            logWebhookEvent('Successfully created purchase', purchase);
+          } catch (error) {
+            logWebhookEvent('Failed to create purchase', error);
+            throw error;
+          }
+        } else {
+          // Fallback: No client_reference_id or customer
+          // Let payment_intent.succeeded handle this via email lookup
+          logWebhookEvent('Checkout session missing client_reference_id or customer - will be handled by payment_intent.succeeded', {
+            sessionId: session.id,
+            paymentIntent: session.payment_intent,
+            paymentStatus: session.payment_status
           });
           
           return NextResponse.json({ 
-            status: 'blocked',
-            message: 'User already has an active purchase'
+            status: 'deferred',
+            message: 'Will be processed by payment_intent.succeeded event'
           });
-        }
-
-        // For instant payment methods, payment_status will be 'paid'
-        // For delayed payment methods (ACH, bank transfers), payment_status will be 'unpaid'
-        // We create the purchase record in both cases, but with different status
-        const purchaseStatus = session.payment_status === 'paid' ? 'active' : 'pending';
-
-        try {
-          const purchase = await createPurchase(
-            session.payment_intent as string,
-            session.client_reference_id!,
-            session.customer as string,
-            purchaseStatus
-          );
-          logWebhookEvent('Successfully created purchase', purchase);
-        } catch (error) {
-          logWebhookEvent('Failed to create purchase', error);
-          throw error;
         }
         break;
       }
@@ -304,17 +317,94 @@ export const POST = withCors(async function POST(request: NextRequest) {
           currency: paymentIntent.currency
         });
 
-        // Update purchase status if it exists
-        const { error } = await supabaseAdmin
+        // First, try to update an existing purchase record
+        const { data: existingPurchase, error: updateError } = await supabaseAdmin
           .from('purchases')
           .update({
             status: 'active',
             updated_at: new Date().toISOString()
           })
-          .eq('stripe_payment_intent_id', paymentIntent.id);
+          .eq('stripe_payment_intent_id', paymentIntent.id)
+          .select()
+          .single();
 
-        if (error) {
-          logWebhookEvent('Error updating purchase on payment success', error);
+        if (updateError && updateError.code !== 'PGRST116') {
+          logWebhookEvent('Error updating purchase on payment success', updateError);
+        }
+
+        // If no existing purchase and no customer, try to create one by looking up user by email
+        if (!existingPurchase && !paymentIntent.customer) {
+          logWebhookEvent('Payment succeeded without customer - attempting to create purchase via email lookup', {
+            paymentIntentId: paymentIntent.id
+          });
+
+          try {
+            // Retrieve the charge to get billing email
+            const paymentIntentWithCharge = await stripe.paymentIntents.retrieve(paymentIntent.id, {
+              expand: ['latest_charge']
+            });
+
+            const charge = paymentIntentWithCharge.latest_charge as Stripe.Charge | null;
+            const billingEmail = charge?.billing_details?.email;
+
+            if (billingEmail) {
+              logWebhookEvent('Found billing email, looking up user', { email: billingEmail });
+
+              // Look up user by email
+              const { data: user, error: userError } = await supabaseAdmin
+                .from('users')
+                .select('id')
+                .eq('email', billingEmail)
+                .single();
+
+              if (user && !userError) {
+                logWebhookEvent('Found user, creating purchase record', { userId: user.id });
+
+                // Check if user already has an active purchase
+                const { data: existingUserPurchase } = await supabaseAdmin
+                  .from('purchases')
+                  .select('*')
+                  .eq('user_id', user.id)
+                  .eq('status', 'active')
+                  .single();
+
+                if (existingUserPurchase) {
+                  logWebhookEvent('User already has active purchase, skipping', { userId: user.id });
+                } else {
+                  // Create purchase record
+                  const { data: newPurchase, error: insertError } = await supabaseAdmin
+                    .from('purchases')
+                    .insert({
+                      user_id: user.id,
+                      stripe_customer_id: null,
+                      stripe_payment_intent_id: paymentIntent.id,
+                      purchase_type: 'lifetime_pro',
+                      status: 'active',
+                      amount_paid: paymentIntent.amount,
+                      currency: paymentIntent.currency,
+                      coupon_id: null,
+                      purchased_at: new Date().toISOString(),
+                      created_at: new Date().toISOString(),
+                      updated_at: new Date().toISOString()
+                    })
+                    .select()
+                    .single();
+
+                  if (insertError) {
+                    logWebhookEvent('Error creating purchase from email lookup', insertError);
+                  } else {
+                    logWebhookEvent('Successfully created purchase from email lookup', newPurchase);
+                  }
+                }
+              } else {
+                logWebhookEvent('Could not find user by email', { email: billingEmail, error: userError });
+              }
+            } else {
+              logWebhookEvent('No billing email found on charge');
+            }
+          } catch (error) {
+            logWebhookEvent('Error in email-based purchase creation', error);
+          }
         }
         
         break;
