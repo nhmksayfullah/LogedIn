@@ -59,16 +59,6 @@ export default function Header() {
     }
   };
 
-  const handleNavigation = (path: string) => {
-    if (path.startsWith('#') && isLandingPage) {
-      scrollToSection(path.substring(1));
-    } else if (path.startsWith('#')) {
-      router.push('/' + path);
-    } else {
-      router.push(path);
-    }
-  };
-
   return (
     <>
       <header className="fixed top-0 w-full z-50 pt-4 px-4">
