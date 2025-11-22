@@ -12,7 +12,6 @@ export default function LandingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIntent, setModalIntent] = useState<ModalIntent>('signup');
 
@@ -192,8 +191,6 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              onHoverStart={() => setHoveredCard(1)}
-              onHoverEnd={() => setHoveredCard(null)}
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center overflow-hidden">
@@ -218,8 +215,6 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              onHoverStart={() => setHoveredCard(2)}
-              onHoverEnd={() => setHoveredCard(null)}
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center">
@@ -246,8 +241,6 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              onHoverStart={() => setHoveredCard(3)}
-              onHoverEnd={() => setHoveredCard(null)}
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
@@ -277,8 +270,6 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              onHoverStart={() => setHoveredCard(4)}
-              onHoverEnd={() => setHoveredCard(null)}
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center p-6">
