@@ -72,7 +72,6 @@ export default function PaymentPage() {
           className="flex justify-center text-neutral"
           buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
           publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
-          promoCode="LAUNCHDEAL"
         />
       </div>
     </div>
