@@ -194,9 +194,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Then perform the actual signout
         await supabase.auth.signOut();
         
+        // Clear local state immediately
+        setUser(null);
+        setSession(null);
+        setHasLifetimeAccess(false);
+        
         // Only redirect if not already on landing page
         if (window.location.pathname !== '/') {
           window.location.assign('/');
+        } else {
+          // If already on landing page, just reload to ensure clean state
+          window.location.reload();
         }
       } catch (error) {
         console.error('Error signing out:', error);
