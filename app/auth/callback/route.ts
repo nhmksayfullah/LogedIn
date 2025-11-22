@@ -1,5 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -10,8 +9,7 @@ export async function GET(request: Request) {
 
   if (code) {
     console.log('AuthCallback: Exchanging code for session');
-    const cookieStore = cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const supabase = await createClient();
     const { data: sessionData, error } = await supabase.auth.exchangeCodeForSession(code);
     
     if (error) {
@@ -101,15 +99,41 @@ export async function GET(request: Request) {
       // Store data in users table if available
       if (Object.keys(updateData).length > 0) {
         console.log('AuthCallback: Storing OAuth data:', updateData);
-        const { error: updateError } = await supabase
-          .from('users')
-          .update(updateData)
-          .eq('id', user.id);
         
-        if (updateError) {
-          console.error('AuthCallback: Error updating user data:', updateError);
+        // First, check if user exists in users table
+        const { data: existingUserData } = await supabase
+          .from('users')
+          .select('id')
+          .eq('id', user.id)
+          .maybeSingle();
+        
+        if (existingUserData) {
+          // User exists, update the record
+          const { error: updateError } = await supabase
+            .from('users')
+            .update(updateData)
+            .eq('id', user.id);
+          
+          if (updateError) {
+            console.error('AuthCallback: Error updating user data:', updateError);
+          } else {
+            console.log('AuthCallback: Successfully updated OAuth data');
+          }
         } else {
-          console.log('AuthCallback: Successfully stored OAuth data');
+          // User doesn't exist, insert new record
+          const { error: insertError } = await supabase
+            .from('users')
+            .insert({
+              id: user.id,
+              email: user.email,
+              ...updateData
+            });
+          
+          if (insertError) {
+            console.error('AuthCallback: Error inserting user data:', insertError);
+          } else {
+            console.log('AuthCallback: Successfully inserted OAuth data');
+          }
         }
       }
     }

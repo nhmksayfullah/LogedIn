@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { 
   Session, 
   User, 
@@ -32,6 +32,9 @@ interface AuthContextType {
   profilePictureUrl: string | null;
   username: string | null;
   refreshProfilePicture: () => Promise<void>;
+  coverPhotoUrl: string | null;
+  coverColor: string;
+  refreshCoverPhoto: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -44,12 +47,15 @@ interface PurchasePayload {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const supabase = createClient();
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasLifetimeAccess, setHasLifetimeAccess] = useState(false);
   const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
+  const [coverPhotoUrl, setCoverPhotoUrl] = useState<string | null>(null);
+  const [coverColor, setCoverColor] = useState<string>('#1DA1F2');
 
   const checkPurchase = useCallback(async (userId: string) => {
     try {
@@ -76,20 +82,43 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const refreshProfilePicture = useCallback(async () => {
+    if (!user?.id) return;
+    
     try {
       const { data, error } = await supabase
         .from('users')
-        .select('profile_picture_url, avatar_url, username')
-        .eq('id', user?.id)
-        .single();
+        .select('profile_picture_url, avatar_url, username, cover_photo_url, cover_color')
+        .eq('id', user.id)
+        .maybeSingle();
 
       if (!error && data) {
         const pictureUrl = data.profile_picture_url || data.avatar_url;
         setProfilePictureUrl(pictureUrl);
         setUsername(data.username);
+        setCoverPhotoUrl(data.cover_photo_url);
+        setCoverColor(data.cover_color || '#1DA1F2');
       }
     } catch (error) {
       console.error('Error fetching profile picture:', error);
+    }
+  }, [user?.id]);
+
+  const refreshCoverPhoto = useCallback(async () => {
+    if (!user?.id) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('cover_photo_url, cover_color')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!error && data) {
+        setCoverPhotoUrl(data.cover_photo_url);
+        setCoverColor(data.cover_color || '#1DA1F2');
+      }
+    } catch (error) {
+      console.error('Error fetching cover photo:', error);
     }
   }, [user?.id]);
 
@@ -119,16 +148,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           await checkPurchase(currentUser.id);
           
           // Fetch profile picture and username
-          const { data: userData } = await supabase
-            .from('users')
-            .select('profile_picture_url, avatar_url, username')
-            .eq('id', currentUser.id)
-            .single();
+          try {
+            const { data: userData } = await supabase
+              .from('users')
+              .select('profile_picture_url, avatar_url, username')
+              .eq('id', currentUser.id)
+              .maybeSingle();
 
-          if (userData) {
-            const pictureUrl = userData.profile_picture_url || userData.avatar_url;
-            setProfilePictureUrl(pictureUrl);
-            setUsername(userData.username);
+            if (userData) {
+              const pictureUrl = userData.profile_picture_url || userData.avatar_url;
+              setProfilePictureUrl(pictureUrl);
+              setUsername(userData.username);
+            }
+          } catch (err) {
+            console.error('Error fetching user data:', err);
           }
         }
         
@@ -145,16 +178,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               await checkPurchase(newUser.id);
               
               // Fetch profile picture and username
-              const { data: userData } = await supabase
-                .from('users')
-                .select('profile_picture_url, avatar_url, username')
-                .eq('id', newUser.id)
-                .single();
+              try {
+                const { data: userData } = await supabase
+                  .from('users')
+                  .select('profile_picture_url, avatar_url, username')
+                  .eq('id', newUser.id)
+                  .maybeSingle();
 
-              if (userData) {
-                const pictureUrl = userData.profile_picture_url || userData.avatar_url;
-                setProfilePictureUrl(pictureUrl);
-                setUsername(userData.username);
+                if (userData) {
+                  const pictureUrl = userData.profile_picture_url || userData.avatar_url;
+                  setProfilePictureUrl(pictureUrl);
+                  setUsername(userData.username);
+                }
+              } catch (err) {
+                console.error('Error fetching user data:', err);
               }
             } else {
               setHasLifetimeAccess(false);
@@ -323,6 +360,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     profilePictureUrl,
     username,
     refreshProfilePicture,
+    coverPhotoUrl,
+    coverColor,
+    refreshCoverPhoto,
   };
 
 

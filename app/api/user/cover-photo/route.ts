@@ -13,7 +13,7 @@ export async function OPTIONS() {
   });
 }
 
-// GET - Get current user's profile picture
+// GET - Get current user's cover photo
 export async function GET() {
   try {
     const supabase = await createClient();
@@ -25,37 +25,34 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Get user profile with picture URLs
+    // Get user cover photo
     const { data: userData, error: userError } = await supabase
       .from('users')
-      .select('profile_picture_url, avatar_url')
+      .select('cover_photo_url, cover_color')
       .eq('id', user.id)
       .single();
 
     if (userError) {
-      return NextResponse.json({ error: 'Failed to fetch profile picture' }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to fetch cover photo' }, { status: 500 });
     }
 
-    // Return custom profile picture if available, otherwise OAuth avatar
-    const profilePictureUrl = userData?.profile_picture_url || userData?.avatar_url;
-
     return NextResponse.json({ 
-      profilePictureUrl,
-      hasCustomPicture: !!userData?.profile_picture_url,
-      hasOAuthAvatar: !!userData?.avatar_url
+      coverPhotoUrl: userData?.cover_photo_url,
+      coverColor: userData?.cover_color || '#1DA1F2',
+      hasCoverPhoto: !!userData?.cover_photo_url
     });
   } catch (error) {
-    console.error('Error fetching profile picture:', error);
+    console.error('Error fetching cover photo:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-// POST - Upload new profile picture
+// POST - Upload new cover photo or update color
 export async function POST(request: Request) {
   try {
     const supabase = await createClient();
     
-    console.log('POST /api/user/profile-picture - Starting upload');
+    console.log('POST /api/user/cover-photo - Starting');
     
     // Get current user
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -63,7 +60,7 @@ export async function POST(request: Request) {
     console.log('Auth check:', { hasUser: !!user, authError: authError?.message });
     
     if (authError || !user) {
-      console.error('Auth error in profile picture upload:', authError);
+      console.error('Auth error in cover photo upload:', authError);
       return NextResponse.json({ error: 'Unauthorized', details: authError?.message }, { 
         status: 401,
         headers: {
@@ -74,13 +71,34 @@ export async function POST(request: Request) {
       });
     }
 
-    // Parse multipart form data
+    // Parse form data
     const formData = await request.formData();
-    const file = formData.get('file') as File;
+    const file = formData.get('file') as File | null;
+    const color = formData.get('color') as string | null;
 
+    // If color is provided, just update the color
+    if (color && !file) {
+      console.log('Updating cover color:', color);
+      
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ cover_color: color })
+        .eq('id', user.id);
+
+      if (updateError) {
+        console.error('Update error:', updateError);
+        return NextResponse.json({ error: 'Failed to update cover color' }, { status: 500 });
+      }
+
+      return NextResponse.json({ 
+        coverColor: color,
+        message: 'Cover color updated successfully' 
+      });
+    }
+
+    // If file is provided, upload it
     if (!file) {
-      console.error('No file provided in form data');
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+      return NextResponse.json({ error: 'No file or color provided' }, { status: 400 });
     }
 
     console.log('File received:', { name: file.name, type: file.type, size: file.size });
@@ -93,34 +111,34 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    // Validate file size (5MB max)
-    if (file.size > 5 * 1024 * 1024) {
+    // Validate file size (10MB max for cover photos)
+    if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json({ 
-        error: 'File size too large. Maximum 5MB allowed.' 
+        error: 'File size too large. Maximum 10MB allowed.' 
       }, { status: 400 });
     }
 
-    // Delete old profile picture if exists
+    // Delete old cover photo if exists
     const { data: oldUserData } = await supabase
       .from('users')
-      .select('profile_picture_url')
+      .select('cover_photo_url')
       .eq('id', user.id)
       .single();
 
-    if (oldUserData?.profile_picture_url) {
-      const oldPath = oldUserData.profile_picture_url.split('/').slice(-2).join('/');
+    if (oldUserData?.cover_photo_url) {
+      const oldPath = oldUserData.cover_photo_url.split('/').slice(-2).join('/');
       await supabase.storage.from('avatars').remove([oldPath]);
     }
 
     // Generate unique filename
     const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}/avatar-${Date.now()}.${fileExt}`;
+    const fileName = `${user.id}/cover-${Date.now()}.${fileExt}`;
 
     // Convert File to ArrayBuffer for upload
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
 
-    console.log('Uploading file to storage:', { fileName, size: buffer.length });
+    console.log('Uploading cover photo to storage:', { fileName, size: buffer.length });
 
     // Upload to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabase.storage
@@ -143,10 +161,10 @@ export async function POST(request: Request) {
       .from('avatars')
       .getPublicUrl(fileName);
 
-    // Update user profile with new picture URL
+    // Update user profile with new cover photo URL
     const { error: updateError } = await supabase
       .from('users')
-      .update({ profile_picture_url: publicUrl })
+      .update({ cover_photo_url: publicUrl })
       .eq('id', user.id);
 
     if (updateError) {
@@ -155,8 +173,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ 
-      profilePictureUrl: publicUrl,
-      message: 'Profile picture uploaded successfully' 
+      coverPhotoUrl: publicUrl,
+      message: 'Cover photo uploaded successfully' 
     }, {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -165,7 +183,7 @@ export async function POST(request: Request) {
       }
     });
   } catch (error) {
-    console.error('Error uploading profile picture:', error);
+    console.error('Error uploading cover photo:', error);
     return NextResponse.json({ 
       error: 'Internal server error',
       details: error instanceof Error ? error.message : 'Unknown error'
@@ -173,7 +191,7 @@ export async function POST(request: Request) {
   }
 }
 
-// DELETE - Remove profile picture
+// DELETE - Remove cover photo
 export async function DELETE() {
   try {
     const supabase = await createClient();
@@ -185,16 +203,16 @@ export async function DELETE() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Get current profile picture URL
+    // Get current cover photo URL
     const { data: userData } = await supabase
       .from('users')
-      .select('profile_picture_url')
+      .select('cover_photo_url')
       .eq('id', user.id)
       .single();
 
-    // Delete from storage if custom profile picture exists
-    if (userData?.profile_picture_url) {
-      const filePath = userData.profile_picture_url.split('/').slice(-2).join('/');
+    // Delete from storage if cover photo exists
+    if (userData?.cover_photo_url) {
+      const filePath = userData.cover_photo_url.split('/').slice(-2).join('/');
       const { error: deleteError } = await supabase.storage
         .from('avatars')
         .remove([filePath]);
@@ -205,10 +223,10 @@ export async function DELETE() {
       }
     }
 
-    // Clear profile_picture_url from database (keep avatar_url for OAuth)
+    // Clear cover_photo_url from database (keep cover_color)
     const { error: updateError } = await supabase
       .from('users')
-      .update({ profile_picture_url: null })
+      .update({ cover_photo_url: null })
       .eq('id', user.id);
 
     if (updateError) {
@@ -217,10 +235,10 @@ export async function DELETE() {
     }
 
     return NextResponse.json({ 
-      message: 'Profile picture removed successfully' 
+      message: 'Cover photo removed successfully' 
     });
   } catch (error) {
-    console.error('Error removing profile picture:', error);
+    console.error('Error removing cover photo:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
