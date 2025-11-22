@@ -5,12 +5,14 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Clock, Image, Share2, Lock } from 'lucide-react';
 import { AuthPaymentModal } from '@/components/AuthPaymentModal';
+import { useAuth } from '@/contexts/AuthContext';
 
 type ModalIntent = 'signup' | 'login' | 'payment';
 
 export default function LandingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useAuth();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIntent, setModalIntent] = useState<ModalIntent>('signup');
@@ -28,6 +30,25 @@ export default function LandingPage() {
   const openAuthModal = (intent: ModalIntent) => {
     setModalIntent(intent);
     setIsModalOpen(true);
+  };
+
+  const handleCtaClick = () => {
+    if (user) {
+      router.push('/dashboard');
+    } else {
+      openAuthModal('signup');
+    }
+  };
+
+  const handleGetLifetimeClick = () => {
+    if (user) {
+      // User is already authenticated, open payment modal directly
+      setModalIntent('payment');
+      setIsModalOpen(true);
+    } else {
+      // User needs to authenticate first
+      openAuthModal('payment');
+    }
   };
 
   return (
@@ -63,13 +84,13 @@ export default function LandingPage() {
             className="mt-landing-lg flex flex-col sm:flex-row items-center justify-center gap-3"
           >
             <button 
-              onClick={() => openAuthModal('signup')}
+              onClick={handleCtaClick}
               className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-landing-body font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
             >
-              Start for free
+              {user ? 'Go to Dashboard' : 'Start for free'}
             </button>
             <button 
-              onClick={() => openAuthModal('payment')}
+              onClick={handleGetLifetimeClick}
               className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-900 text-landing-body font-semibold rounded-lg border-2 border-slate-200 transition-all"
             >
               Get lifetime access
@@ -312,10 +333,10 @@ export default function LandingPage() {
               </p>
 
               <button 
-                onClick={() => openAuthModal('signup')}
+                onClick={handleCtaClick}
                 className="w-full px-6 py-3 bg-white hover:bg-slate-50 text-slate-900 font-semibold rounded-lg border-2 border-slate-300 transition-all"
               >
-                Start for free
+                {user ? 'Go to Dashboard' : 'Start for free'}
               </button>
             </motion.div>
 
@@ -390,7 +411,7 @@ export default function LandingPage() {
               </p>
 
               <button 
-                onClick={() => openAuthModal('payment')}
+                onClick={handleGetLifetimeClick}
                 className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
               >
                 Get lifetime access

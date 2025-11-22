@@ -28,8 +28,12 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
     if (isOpen && !user) {
       setWasUserNull(true);
       setShowPayment(false);
+    } else if (isOpen && user && intent === 'payment') {
+      // User is already authenticated and intent is payment, show payment directly
+      setShowPayment(true);
+      setWasUserNull(false);
     }
-  }, [isOpen, user]);
+  }, [isOpen, user, intent]);
 
   // Handle navigation after authentication based on intent
   useEffect(() => {
