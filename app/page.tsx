@@ -4,74 +4,13 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Clock, Image, Share2, Lock } from 'lucide-react';
-import { LoginModal } from '@/components/LoginModal';
 
 export default function LandingPage() {
   const router = useRouter();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  // Smooth scroll handler
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="fixed top-0 w-full z-50 pt-4 px-4">
-        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200">
-          <div className="px-6 py-3 flex items-center justify-between">
-            {/* Logo */}
-            <div className="text-xl font-bold text-slate-900">
-              Loged.in
-            </div>
-            
-            {/* Center Navigation */}
-            <nav className="hidden md:flex items-center space-x-6">
-              <button 
-                onClick={() => scrollToSection('features')}
-                className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                Features
-              </button>
-              <button 
-                onClick={() => scrollToSection('pricing')}
-                className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                Pricing
-              </button>
-            </nav>
-
-            {/* Right Navigation */}
-            <div className="hidden md:flex items-center space-x-4">
-              <button 
-                onClick={() => setIsLoginModalOpen(true)}
-                className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                Log in
-              </button>
-              <button 
-                onClick={() => router.push('/pay')}
-                className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-landing-small rounded-lg font-medium transition-all"
-              >
-                Get lifetime access
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="pt-24 pb-landing-xl px-4">
         <div className="max-w-4xl mx-auto">
@@ -103,7 +42,7 @@ export default function LandingPage() {
             className="mt-landing-lg flex flex-col sm:flex-row items-center justify-center gap-3"
           >
             <button 
-              onClick={() => setIsLoginModalOpen(true)}
+              onClick={() => router.push('/login')}
               className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-landing-body font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
             >
               Start for free
@@ -352,7 +291,7 @@ export default function LandingPage() {
               </p>
 
               <button 
-                onClick={() => setIsLoginModalOpen(true)}
+                onClick={() => router.push('/login')}
                 className="w-full px-6 py-3 bg-white hover:bg-slate-50 text-slate-900 font-semibold rounded-lg border-2 border-slate-300 transition-all"
               >
                 Start for free
@@ -445,25 +384,28 @@ export default function LandingPage() {
               © 2025 Loged.in — A DoddleSoft project
             </div>
             <div className="flex items-center space-x-6">
-              <button className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors">
+              <button 
+                onClick={() => router.push('/terms')}
+                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+              >
                 Terms
               </button>
-              <button className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors">
+              <button 
+                onClick={() => router.push('/privacy-policy')}
+                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+              >
                 Privacy
               </button>
-              <button className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors">
+              <a 
+                href="mailto:contact@doddle.software"
+                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+              >
                 Contact
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </footer>
-
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
-      />
     </div>
   );
 }
