@@ -35,6 +35,15 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
     }
   }, [isOpen, user, intent]);
 
+  // Reset state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setShowPayment(false);
+      setError('');
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
   // Handle navigation after authentication based on intent
   useEffect(() => {
     if (user && wasUserNull && isOpen) {
@@ -56,7 +65,6 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
-        setShowPayment(false);
       }
     };
 
@@ -102,7 +110,6 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
   const handleSkipPayment = () => {
     onClose();
     router.push('/dashboard');
-    setShowPayment(false);
   };
 
   if (!isOpen) return null;
