@@ -61,7 +61,7 @@ function ProfileContent() {
   // Add useEffect for auth check
   useEffect(() => {
     if (!user) {
-      router.push('/login');
+      router.push('/');
     }
   }, [user, router]);
 

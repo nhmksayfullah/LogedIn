@@ -67,10 +67,10 @@ function VerifyEmailContent() {
 
           <div className="text-center">
             <button
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/')}
               className="text-sm text-primary-darker hover:text-primary"
             >
-              ← Back to login
+              ← Back to home
             </button>
           </div>
         </div>

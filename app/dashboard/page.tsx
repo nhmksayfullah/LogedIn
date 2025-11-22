@@ -7,6 +7,7 @@ import { usePurchase } from '@/hooks/usePurchase';
 import { useJourneys } from '@/hooks/useJourneys';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, BookOpen, Calendar, Lock, Globe, X } from 'lucide-react';
+import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 
 const AUTH_TIMEOUT = 15000; // 15 seconds
 
@@ -25,6 +26,9 @@ export default function Dashboard() {
   const [isPublic, setIsPublic] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  
+  // Payment modal state
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   // Access check - Only redirect if no access AND initial check is complete
   // DISABLED: This was causing navigation issues. Users can manually visit profile anytime.
@@ -247,7 +251,7 @@ export default function Dashboard() {
             <p className="text-slate-700">
               You&apos;re on the <span className="font-semibold">Free Plan</span> (1 journey limit).{' '}
               <button
-                onClick={() => router.push('/pay')}
+                onClick={() => setIsPaymentModalOpen(true)}
                 className="text-blue-600 font-semibold hover:underline"
               >
                 Upgrade to Lifetime Pro
@@ -386,6 +390,13 @@ export default function Dashboard() {
           </>
         )}
       </AnimatePresence>
+      
+      {/* Payment Modal */}
+      <AuthPaymentModal 
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        intent="payment"
+      />
     </div>
   );
 }

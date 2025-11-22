@@ -14,8 +14,8 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   supabase: SupabaseClient;
-  signInWithGoogle: () => Promise<void>;
-  signInWithTwitter: () => Promise<void>;
+  signInWithGoogle: (redirectPath?: string) => Promise<void>;
+  signInWithTwitter: (redirectPath?: string) => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<{
     user: User | null;
     session: Session | null;
@@ -134,19 +134,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     session,
     isLoading,
     supabase,
-    signInWithGoogle: async () => {
+    signInWithGoogle: async (redirectPath = '/dashboard') => {
+      const redirectUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectPath)}`;
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: redirectUrl
         }
       });
     },
-    signInWithTwitter: async () => {
+    signInWithTwitter: async (redirectPath = '/dashboard') => {
+      const redirectUrl = `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectPath)}`;
       await supabase.auth.signInWithOAuth({
         provider: 'twitter',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`
+          redirectTo: redirectUrl
         }
       });
     },
@@ -192,8 +194,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Then perform the actual signout
         await supabase.auth.signOut();
         
-        // Force redirect to login
-        window.location.assign('/login');
+        // Only redirect if not already on landing page
+        if (window.location.pathname !== '/') {
+          window.location.assign('/');
+        }
       } catch (error) {
         console.error('Error signing out:', error);
       }

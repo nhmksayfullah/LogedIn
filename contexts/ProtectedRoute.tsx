@@ -7,9 +7,7 @@ import {usePathname } from 'next/navigation';
 
 // List of public routes that don't require authentication
 const PUBLIC_ROUTES = [
-  '/',  // Add landing page
-  '/login', 
-  '/signup', 
+  '/',  // Landing page
   '/verify-email', 
   '/reset-password', 
   '/update-password',
@@ -24,8 +22,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   useEffect(() => {
     if (!isLoading && !user && !PUBLIC_ROUTES.includes(pathname)) {
-      const redirectUrl = `/login?redirect=${encodeURIComponent(pathname)}`;
-      window.location.assign(redirectUrl);
+      // Redirect to home page where user can sign in via modal
+      window.location.assign('/');
     }
   }, [user, isLoading, pathname]);
 

@@ -6,8 +6,10 @@ import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { usePurchase } from '@/hooks/usePurchase';
 import { BuyMeCoffee } from './BuyMeCoffee';
-import { LoginModal } from './LoginModal';
+import { AuthPaymentModal } from './AuthPaymentModal';
 // import { supabase } from '@/utils/supabase';
+
+type ModalIntent = 'signup' | 'login' | 'payment';
 
 // TopBar component handles user profile display and navigation
 export default function TopBar() {
@@ -17,10 +19,16 @@ export default function TopBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { hasLifetimeAccess, isLoading: isLoadingPurchase } = usePurchase();
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIntent, setModalIntent] = useState<ModalIntent>('login');
 
   // State for tracking logout process
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const openAuthModal = (intent: ModalIntent) => {
+    setModalIntent(intent);
+    setIsModalOpen(true);
+  };
 
   // Handle click outside dropdown to close it
   useEffect(() => {
@@ -62,7 +70,7 @@ export default function TopBar() {
               <BuyMeCoffee />
               {/* Show login button for unauthenticated users */}
               <button
-                onClick={() => setIsLoginModalOpen(true)}
+                onClick={() => openAuthModal('login')}
                 className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
               >
                 Sign in
@@ -73,7 +81,7 @@ export default function TopBar() {
             <>
               {!isLoadingPurchase && !hasLifetimeAccess && (
                 <button
-                  onClick={() => router.push('/profile')}
+                  onClick={() => openAuthModal('payment')}
                   className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
                 >
                   Get Lifetime Pro
@@ -128,10 +136,11 @@ export default function TopBar() {
         </div>
       </div>
 
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+      {/* Auth/Payment Modal */}
+      <AuthPaymentModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        intent={modalIntent}
       />
     </div>
   );

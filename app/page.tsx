@@ -1,13 +1,34 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Clock, Image, Share2, Lock } from 'lucide-react';
+import { AuthPaymentModal } from '@/components/AuthPaymentModal';
+
+type ModalIntent = 'signup' | 'login' | 'payment';
 
 export default function LandingPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIntent, setModalIntent] = useState<ModalIntent>('signup');
+
+  // Check if we should open payment modal after OAuth redirect
+  useEffect(() => {
+    if (searchParams.get('show_payment') === 'true') {
+      setModalIntent('payment');
+      setIsModalOpen(true);
+      // Clean up the URL
+      window.history.replaceState({}, '', '/');
+    }
+  }, [searchParams]);
+
+  const openAuthModal = (intent: ModalIntent) => {
+    setModalIntent(intent);
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -42,13 +63,13 @@ export default function LandingPage() {
             className="mt-landing-lg flex flex-col sm:flex-row items-center justify-center gap-3"
           >
             <button 
-              onClick={() => router.push('/login')}
+              onClick={() => openAuthModal('signup')}
               className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-landing-body font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
             >
               Start for free
             </button>
             <button 
-              onClick={() => router.push('/pay')}
+              onClick={() => openAuthModal('payment')}
               className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-900 text-landing-body font-semibold rounded-lg border-2 border-slate-200 transition-all"
             >
               Get lifetime access
@@ -291,7 +312,7 @@ export default function LandingPage() {
               </p>
 
               <button 
-                onClick={() => router.push('/login')}
+                onClick={() => openAuthModal('signup')}
                 className="w-full px-6 py-3 bg-white hover:bg-slate-50 text-slate-900 font-semibold rounded-lg border-2 border-slate-300 transition-all"
               >
                 Start for free
@@ -369,7 +390,7 @@ export default function LandingPage() {
               </p>
 
               <button 
-                onClick={() => router.push('/pay')}
+                onClick={() => openAuthModal('payment')}
                 className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
               >
                 Get lifetime access
@@ -378,6 +399,13 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Auth/Payment Modal */}
+      <AuthPaymentModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        intent={modalIntent}
+      />
 
       {/* Footer */}
       <footer className="py-landing-lg px-4 bg-white border-t border-slate-200">

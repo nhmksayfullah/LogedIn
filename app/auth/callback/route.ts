@@ -15,19 +15,19 @@ export async function GET(request: Request) {
     
     if (error) {
       console.error('AuthCallback: Error:', error);
-      return NextResponse.redirect(new URL('/login?error=auth-failed', requestUrl.origin));
+      return NextResponse.redirect(new URL('/?error=auth-failed', requestUrl.origin));
     }
 
-    // Redirect to the next page if provided, otherwise go to home
+    // Redirect to the next page if provided, otherwise go to dashboard
     if (next) {
       console.log('AuthCallback: Redirecting to:', next);
       return NextResponse.redirect(new URL(next, requestUrl.origin));
     }
 
-    console.log('AuthCallback: Success, redirecting to home');
+    console.log('AuthCallback: Success, redirecting to dashboard');
     return NextResponse.redirect(new URL('/dashboard', requestUrl.origin));
   }
 
-  console.log('AuthCallback: No code present, redirecting to login');
-  return NextResponse.redirect(new URL('/login', requestUrl.origin));
+  console.log('AuthCallback: No code present, redirecting to home');
+  return NextResponse.redirect(new URL('/', requestUrl.origin));
 } 

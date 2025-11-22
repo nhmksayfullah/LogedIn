@@ -57,9 +57,9 @@ export default function UpdatePasswordPage() {
       if (error) throw error;
       
       setSuccess(true);
-      // Redirect to login after successful password update
+      // Redirect to dashboard after successful password update
       setTimeout(() => {
-        router.push('/login');
+        router.push('/dashboard');
       }, 2000);
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Failed to update password');

@@ -3,13 +3,16 @@
 import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { LoginModal } from './LoginModal';
+import { AuthPaymentModal } from './AuthPaymentModal';
+
+type ModalIntent = 'signup' | 'login' | 'payment';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const { user, signOut } = useAuth();
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalIntent, setModalIntent] = useState<ModalIntent>('login');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -32,6 +35,11 @@ export default function Header() {
     } catch (error) {
       console.error('Logout failed:', error);
     }
+  };
+
+  const openAuthModal = (intent: ModalIntent) => {
+    setModalIntent(intent);
+    setIsModalOpen(true);
   };
 
   const isLandingPage = pathname === '/';
@@ -97,13 +105,13 @@ export default function Header() {
               {!user ? (
                 <>
                   <button 
-                    onClick={() => setIsLoginModalOpen(true)}
+                    onClick={() => openAuthModal('login')}
                     className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
                   >
                     Log in
                   </button>
                   <button 
-                    onClick={() => handleNavigation('/pay')}
+                    onClick={() => openAuthModal('payment')}
                     className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-landing-small rounded-lg font-medium transition-all"
                   >
                     Get lifetime access
@@ -169,10 +177,11 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Login Modal */}
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+      {/* Auth/Payment Modal */}
+      <AuthPaymentModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        intent={modalIntent}
       />
     </>
   );
