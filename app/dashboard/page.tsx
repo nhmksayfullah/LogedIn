@@ -106,6 +106,7 @@ export default function Dashboard() {
       setIsCreating(true);
       setCreateError(null);
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const result = await createJourney({
         title: newJourneyTitle,
         description: newJourneyDescription,
@@ -203,6 +204,7 @@ export default function Dashboard() {
                 {/* Cover Image */}
                 <div className="h-40 bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center">
                   {journey.cover_image_url ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
                     <img 
                       src={journey.cover_image_url} 
                       alt={journey.title}
@@ -255,7 +257,7 @@ export default function Dashboard() {
             className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6 text-center"
           >
             <p className="text-slate-700">
-              You're on the <span className="font-semibold">Free Plan</span> (1 journey limit).{' '}
+              You&apos;re on the <span className="font-semibold">Free Plan</span> (1 journey limit).{' '}
               <button
                 onClick={() => router.push('/pay')}
                 className="text-blue-600 font-semibold hover:underline"

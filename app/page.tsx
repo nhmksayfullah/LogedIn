@@ -220,7 +220,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Timeline of your evolution</h3>
               <p className="text-landing-small text-slate-600 leading-relaxed">
-                Create versions of yourself over time — from "Day 1" to "Version 2.0". Add notes, photos, and milestones that show how far you've come.
+                Create versions of yourself over time — from &quot;Day 1&quot; to &quot;Version 2.0&quot;. Add notes, photos, and milestones that show how far you&apos;ve come.
               </p>
             </motion.div>
 
@@ -235,6 +235,7 @@ export default function LandingPage() {
               className="bg-white border border-slate-200 rounded-xl p-6 hover:shadow-xl transition-all cursor-pointer"
             >
               <div className={`w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-4 transition-all ${hoveredCard === 2 ? 'scale-110' : ''}`}>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image className="w-5 h-5 text-blue-500" />
               </div>
               <h3 className="text-landing-card-title font-bold text-slate-900 mb-2">Tell the story behind each change</h3>

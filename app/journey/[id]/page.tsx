@@ -6,7 +6,7 @@ import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Calendar, Hash, Tag, X, Edit2, Trash2, Globe, Lock } from 'lucide-react';
+import { ArrowLeft, Plus, Calendar, Hash, Tag, X, /* Edit2, */ Trash2, Globe, Lock } from 'lucide-react';
 
 interface Journey {
   id: string;
@@ -108,6 +108,7 @@ export default function JourneyPage() {
 
     try {
       await deleteVersion(versionId);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert('Failed to delete version');
     }
@@ -134,6 +135,7 @@ export default function JourneyPage() {
       if (error) throw error;
 
       setJourney({ ...journey, is_public: !journey.is_public });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert('Failed to update privacy setting');
     }
