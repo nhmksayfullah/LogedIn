@@ -13,52 +13,38 @@ import { useRouter } from 'next/navigation';
 
 const pricingTiers = [
   {
-    id: "pro",
-    name: "Pro",
-    price: "$19",
-    interval: "/month",
-    description: "Perfect for small teams and startups",
-    features: [
-      "All template features",
-      "Priority support",
-      "Custom branding",
-      "Analytics dashboard",
-      "Team collaboration"
-    ],
-    cta: "Get Started",
-    popular: false
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "$49",
-    interval: "/month",
-    description: "For larger organizations",
-    features: [
-      "Everything in Pro",
-      "Advanced security",
-      "Custom integrations",
-      "24/7 support",
-      "SLA guarantee"
-    ],
-    cta: "Start Trial",
-    popular: true
-  },
-  {
-    id: "custom",
-    name: "Custom",
-    price: "Custom",
+    id: "free",
+    name: "Free",
+    price: "$0",
     interval: "",
-    description: "Tailored to your needs",
+    description: "Get started with basic features",
     features: [
-      "Custom development",
-      "Dedicated support",
-      "Custom SLA",
-      "On-premise options",
-      "Training sessions"
+      "1 journey limit",
+      "Up to 10 versions",
+      "Loged.in watermark",
+      "Basic theme",
+      "48-hour trial for Pro features"
     ],
-    cta: "Contact Sales",
+    cta: "Current Plan",
     popular: false
+  },
+  {
+    id: "lifetime_pro",
+    name: "Lifetime Pro",
+    price: "$99.99",
+    interval: " one-time",
+    description: "Pay once, own forever",
+    features: [
+      "Unlimited journeys",
+      "Unlimited versions",
+      "No watermark",
+      "Custom themes",
+      "Before/after comparison",
+      "Priority support",
+      "All future updates included"
+    ],
+    cta: "Get Lifetime Access",
+    popular: true
   }
 ];
 
@@ -76,7 +62,7 @@ export function PricingSection() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
       {pricingTiers.map((tier, i) => (
         <motion.div
           key={tier.name}

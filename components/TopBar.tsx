@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useSubscription } from '@/hooks/useSubscription';
+import { usePurchase } from '@/hooks/usePurchase';
 import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { BuyMeCoffee } from './BuyMeCoffee';
 import { LoginModal } from './LoginModal';
@@ -17,7 +17,7 @@ export default function TopBar() {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { subscription, isLoading: isLoadingSubscription } = useSubscription();
+  const { hasLifetimeAccess, isLoading: isLoadingPurchase } = usePurchase();
   const { isInTrial } = useTrialStatus();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -73,22 +73,18 @@ export default function TopBar() {
           ) : (
             // Show subscription and profile for authenticated users
             <>
-              {!isLoadingSubscription && (!isInTrial) && (
-                !subscription || 
-                subscription.status === 'canceled' || 
-                (subscription.cancel_at_period_end && new Date(subscription.current_period_end) > new Date())
-              ) && (
+              {!isLoadingPurchase && !hasLifetimeAccess && !isInTrial && (
                 <button
                   onClick={() => router.push('/profile')}
                   className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
                 >
-                  View Subscription
+                  Get Lifetime Pro
                 </button>
               )}
               <BuyMeCoffee />
 
-              {!isLoadingSubscription && (
-                subscription || isInTrial
+              {!isLoadingPurchase && (
+                hasLifetimeAccess || isInTrial
               ) && pathname !== '/dashboard' && (
                 <button
                   onClick={() => router.push('/dashboard')}

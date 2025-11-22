@@ -28,12 +28,12 @@ interface AuthContextType {
   updatePassword: (newPassword: string) => Promise<void>;
   updateEmail: (newEmail: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
-  isSubscriber: boolean;
+  hasLifetimeAccess: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-interface SubscriptionPayload {
+interface PurchasePayload {
   new: {
     user_id: string;
     [key: string]: any;
@@ -44,36 +44,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubscriber, setIsSubscriber] = useState(false);
+  const [hasLifetimeAccess, setHasLifetimeAccess] = useState(false);
 
-  const checkSubscription = useCallback(async (userId: string) => {
+  const checkPurchase = useCallback(async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from('subscriptions')
+        .from('purchases')
         .select('*')
         .eq('user_id', userId)
-        .in('status', ['active', 'trialing'])
-        .order('created_at', { ascending: false })
+        .eq('status', 'active')
         .maybeSingle();
       
       if (error) {
-        console.error('Subscription check error:', error);
-        setIsSubscriber(false);
+        console.error('Purchase check error:', error);
+        setHasLifetimeAccess(false);
         return;
       }
 
-      // console.log("AuthContext - subscription data: ", data)
-
-      const isValid = data && 
-        ['active', 'trialing'].includes(data.status) && 
-        new Date(data.current_period_end) > new Date();
-      // console.log("AuthContext -  isValid: ", data)
-
-      setIsSubscriber(!!isValid);
-      console.log("AuthContext -  set isSubscriber: ", isSubscriber)
+      const hasAccess = data?.status === 'active' && data?.purchase_type === 'lifetime_pro';
+      setHasLifetimeAccess(!!hasAccess);
+      console.log("AuthContext - set hasLifetimeAccess:", hasAccess);
     } catch (error) {
-      console.error('Subscription check error:', error);
-      setIsSubscriber(false);
+      console.error('Purchase check error:', error);
+      setHasLifetimeAccess(false);
     }
   }, []);
 
@@ -100,7 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(currentUser);
 
         if (currentUser) {
-          await checkSubscription(currentUser.id);
+          await checkPurchase(currentUser.id);
         }
         
         // Then set up listener for future changes
@@ -113,9 +106,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(newUser);
             
             if (newUser) {
-              await checkSubscription(newUser.id);
+              await checkPurchase(newUser.id);
             } else {
-              setIsSubscriber(false);
+              setHasLifetimeAccess(false);
             }
           }
         );
@@ -134,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     initializeAuth();
-  }, [checkSubscription]);
+  }, [checkPurchase]);
 
   const value = {
     user,
@@ -243,13 +236,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       if (dataError) throw dataError;
 
-      // Then delete the user's subscription if it exists
-      const { error: subscriptionError } = await supabase
-        .from('subscriptions')
+      // Then delete the user's purchase if it exists
+      const { error: purchaseError } = await supabase
+        .from('purchases')
         .delete()
         .eq('user_id', user?.id);
 
-      if (subscriptionError) throw subscriptionError;
+      if (purchaseError) throw purchaseError;
 
       // Finally delete the user's auth account
       const { error: authError } = await supabase.auth.admin.deleteUser(
@@ -261,7 +254,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Sign out after successful deletion
       await supabase.auth.signOut();
     },
-    isSubscriber,
+    hasLifetimeAccess,
   };
 
 

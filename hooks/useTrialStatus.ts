@@ -18,15 +18,15 @@ export function useTrialStatus() {
       }
 
       try {
-        // First check if user has an active subscription
-        const { data: subscription } = await supabase
-          .from('subscriptions')
-          .select('status')
+        // First check if user has an active purchase
+        const { data: purchase } = await supabase
+          .from('purchases')
+          .select('status, purchase_type')
           .eq('user_id', user.id)
           .maybeSingle();
 
-        // If user has an active subscription, skip trial creation
-        if (subscription?.status === 'active' || subscription?.status === 'trialing') {
+        // If user has lifetime access, skip trial creation
+        if (purchase?.status === 'active' && purchase?.purchase_type === 'lifetime_pro') {
           setTrialStatus({
             isInTrial: false,
             trialEndTime: null

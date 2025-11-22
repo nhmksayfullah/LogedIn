@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useSubscription } from '@/hooks/useSubscription';
+import { usePurchase } from '@/hooks/usePurchase';
 import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { useJourneys } from '@/hooks/useJourneys';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,10 +12,10 @@ import { Plus, BookOpen, Calendar, Lock, Globe, X } from 'lucide-react';
 const AUTH_TIMEOUT = 15000; // 15 seconds
 
 export default function Dashboard() {
-  const { user, isSubscriber, isLoading: isAuthLoading } = useAuth();
+  const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
-  const { subscription, isLoading: isSubLoading, fetchSubscription } = useSubscription();
-  const [hasCheckedSubscription, setHasCheckedSubscription] = useState(false);
+  const { purchase, isLoading: isPurchaseLoading, refetch: refetchPurchase } = usePurchase();
+  const [hasCheckedPurchase, setHasCheckedPurchase] = useState(false);
   const { isInTrial, isLoading: isTrialLoading } = useTrialStatus();
   const [authTimeout, setAuthTimeout] = useState(false);
   const { journeys, isLoading: isLoadingJourneys, createJourney, refetch } = useJourneys();
@@ -28,41 +28,41 @@ export default function Dashboard() {
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
-  // First check - Subscription and trial check
+  // First check - Purchase and trial check
   useEffect(() => {
-    if (isSubLoading || isTrialLoading) return;
+    if (isPurchaseLoading || isTrialLoading) return;
     
-    const hasValidSubscription = ['active', 'trialing'].includes(subscription?.status || '');
+    const hasValidPurchase = purchase?.status === 'active' && purchase?.purchase_type === 'lifetime_pro';
     
-    if (!hasValidSubscription && !isInTrial) {
+    if (!hasValidPurchase && !isInTrial) {
       router.replace('/profile');
     }
-  }, [subscription, isSubLoading, isTrialLoading, router, isInTrial]);
+  }, [purchase, isPurchaseLoading, isTrialLoading, router, isInTrial]);
 
   // Second check - Auth check
   useEffect(() => {
     if (isAuthLoading || isTrialLoading) return;
 
-    if (!hasCheckedSubscription) {
-      setHasCheckedSubscription(true);
+    if (!hasCheckedPurchase) {
+      setHasCheckedPurchase(true);
       
-      if (!user || (!isSubscriber && !isInTrial && !isAuthLoading)) {
+      if (!user || (!hasLifetimeAccess && !isInTrial && !isAuthLoading)) {
         router.replace('/profile');
       }
     }
-  }, [isSubscriber, isAuthLoading, hasCheckedSubscription, router, user, isTrialLoading, isInTrial]);
+  }, [hasLifetimeAccess, isAuthLoading, hasCheckedPurchase, router, user, isTrialLoading, isInTrial]);
 
   // Add refresh effect
   useEffect(() => {
-    const refreshSubscription = async () => {
-      await fetchSubscription();
-      setHasCheckedSubscription(true);
+    const refreshPurchase = async () => {
+      await refetchPurchase();
+      setHasCheckedPurchase(true);
     };
     
     if (user?.id) {
-      refreshSubscription();
+      refreshPurchase();
     }
-  }, [user?.id, fetchSubscription]);
+  }, [user?.id, refetchPurchase]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -75,7 +75,7 @@ export default function Dashboard() {
   }, [user, isAuthLoading, isTrialLoading]);
 
   // Update the loading check
-  if (!user && (isAuthLoading || isTrialLoading) && !hasCheckedSubscription) {
+  if (!user && (isAuthLoading || isTrialLoading) && !hasCheckedPurchase) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -97,7 +97,7 @@ export default function Dashboard() {
     }
 
     // Check journey limit for free users
-    if (!isSubscriber && !isInTrial && journeys.length >= 1) {
+    if (!hasLifetimeAccess && !isInTrial && journeys.length >= 1) {
       setCreateError('Free plan allows only 1 journey. Upgrade to create more!');
       return;
     }
@@ -250,7 +250,7 @@ export default function Dashboard() {
         )}
 
         {/* Free Plan Notice */}
-        {!isSubscriber && !isInTrial && journeys.length > 0 && (
+        {!hasLifetimeAccess && !isInTrial && journeys.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
