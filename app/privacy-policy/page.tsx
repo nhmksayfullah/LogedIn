@@ -17,10 +17,10 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Introduction</h2>
             <p>
-              Loged.in ("we", "us", or "our") is a personal transformation journaling platform that allows users to document and share their journeys through timelines and versioned logs. We value your privacy and are committed to protecting your personal data.
+              Loged.in (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) is a personal transformation journaling platform that allows users to document and share their journeys through timelines and versioned logs. We value your privacy and are committed to protecting your personal data.
             </p>
             <p className="mt-4">
-              This Privacy Policy explains how we collect, use, store, share, and protect your information when you use Loged.in ("the Service").
+              This Privacy Policy explains how we collect, use, store, share, and protect your information when you use Loged.in (&quot;the Service&quot;).
             </p>
             <p className="mt-4">
               By accessing or using Loged.in, you agree to this Privacy Policy.
@@ -168,7 +168,7 @@ export default function PrivacyPolicy() {
               <li>Request a copy of your data</li>
               <li>Withdraw consent</li>
               <li>Object to processing</li>
-              <li>File a complaint with the ICO (Information Commissioner's Office)</li>
+              <li>File a complaint with the ICO (Information Commissioner&apos;s Office)</li>
             </ul>
             <p className="mt-4">
               You can access or delete your data directly from the app or by contacting us at{' '}
@@ -195,7 +195,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">9. Children's Privacy</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">9. Children&apos;s Privacy</h2>
             <p>
               Loged.in is not intended for anyone under 16.
               We do not knowingly collect personal data from children.
@@ -215,7 +215,7 @@ export default function PrivacyPolicy() {
             <p>We may update this Privacy Policy from time to time.</p>
             <p className="mt-4">When changes are made, we will:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-              <li>Update the "Last Updated" date</li>
+              <li>Update the &quot;Last Updated&quot; date</li>
               <li>Notify users if the changes are significant</li>
             </ul>
           </section>

@@ -17,11 +17,11 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Acceptance of Terms</h2>
             <p>
-              By accessing or using Loged.in ("the Service"), you agree to be bound by these Terms & Conditions ("Terms").
+              By accessing or using Loged.in (&quot;the Service&quot;), you agree to be bound by these Terms &amp; Conditions (&quot;Terms&quot;).
               If you do not agree, you must stop using the Service.
             </p>
             <p className="mt-4">
-              Loged.in is owned and operated by Doddle Software Limited ("we", "us", "our").
+              Loged.in is owned and operated by Doddle Software Limited (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;).
             </p>
           </section>
 
@@ -36,7 +36,7 @@ export default function TermsAndConditions() {
               <li>Upgrade to a Lifetime Pro plan for additional features</li>
             </ul>
             <p className="mt-4">
-              The Service is provided on an "as-is" and "as-available" basis.
+              The Service is provided on an &quot;as-is&quot; and &quot;as-available&quot; basis.
             </p>
           </section>
 
@@ -121,7 +121,7 @@ export default function TermsAndConditions() {
               <li>Illegal</li>
               <li>Harassing, threatening, or hateful</li>
               <li>Pornographic or sexually explicit</li>
-              <li>Violent or self-harm–encouraging</li>
+              <li>Violent or self-harm&ndash;encouraging</li>
               <li>Infringing intellectual property rights</li>
               <li>Malicious (malware, scripts, exploits)</li>
             </ul>
@@ -148,7 +148,7 @@ export default function TermsAndConditions() {
 
             <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.2 Payment Processing</h3>
             <p>
-              All payments are handled by Stripe and are subject to Stripe's Terms of Service and Privacy Policy.
+              All payments are handled by Stripe and are subject to Stripe&apos;s Terms of Service and Privacy Policy.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.3 Refund Policy</h3>
@@ -239,7 +239,7 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">11. Disclaimers</h2>
             <p>
-              The Service is provided "as is" with no warranties, express or implied.
+              The Service is provided &quot;as is&quot; with no warranties, express or implied.
             </p>
             <p className="mt-4">We do not guarantee:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -286,7 +286,7 @@ export default function TermsAndConditions() {
             <p>We may revise these Terms as needed.</p>
             <p className="mt-4">When updates occur, we will:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
-              <li>Update the "Last Updated" date</li>
+              <li>Update the &quot;Last Updated&quot; date</li>
               <li>Notify users of material changes</li>
             </ul>
             <p className="mt-4">
