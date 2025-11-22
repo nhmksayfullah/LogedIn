@@ -7,6 +7,7 @@ import TopBar from '../components/TopBar';
 import ProtectedRoute from '@/contexts/ProtectedRoute';
 import { Analytics } from "@vercel/analytics/react"
 import { usePathname } from 'next/navigation';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 // import { PostHogProvider } from '@/contexts/PostHogContext';
 // import { PostHogErrorBoundary } from '@/components/PostHogErrorBoundary';
 
@@ -34,6 +35,7 @@ export default function RootLayout({
             </AuthProvider>
           {/* </PostHogProvider>
         </PostHogErrorBoundary> */}
+        <SpeedInsights />
       </body>
     </html>
   );
