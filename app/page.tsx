@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePurchase } from '@/hooks/usePurchase';
 
 type ModalIntent = 'signup' | 'login' | 'payment';
 
@@ -12,6 +13,7 @@ export default function LandingPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
+  const { hasLifetimeAccess } = usePurchase();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIntent, setModalIntent] = useState<ModalIntent>('signup');
 
@@ -87,12 +89,14 @@ export default function LandingPage() {
             >
               {user ? 'Go to Dashboard' : 'Start for free'}
             </button>
-            <button 
-              onClick={handleGetLifetimeClick}
-              className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-900 text-landing-body font-semibold rounded-lg border-2 border-slate-200 transition-all"
-            >
-              Get lifetime access
-            </button>
+            {!hasLifetimeAccess && (
+              <button 
+                onClick={handleGetLifetimeClick}
+                className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-900 text-landing-body font-semibold rounded-lg border-2 border-slate-200 transition-all"
+              >
+                Get lifetime access
+              </button>
+            )}
           </motion.div>
 
           {/* Reassurance text */}
@@ -371,82 +375,157 @@ export default function LandingPage() {
             </motion.div>
 
             {/* Lifetime Pro Plan */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-blue-50 border-2 border-blue-500 rounded-xl p-6 relative"
-            >
-              <div className="absolute top-0 right-6 -translate-y-1/2">
-                <span className="px-3 py-1 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full">
-                  60% off · LAUNCHDEAL
-                </span>
-              </div>
-              
-              <div className="text-landing-small font-semibold text-blue-600 mb-2">Lifetime Pro</div>
-              <div className="flex items-baseline space-x-2 mb-1">
-                <span className="text-landing-body text-slate-400 line-through">$99.99</span>
-                <span className="text-landing-section font-bold text-slate-900">$39</span>
-              </div>
-              <div className="text-landing-small text-slate-600 mb-4">one-time payment</div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700 font-semibold">Unlimited journeys</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700 font-semibold">Unlimited versions</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700">No Loged.in watermark</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700">Custom themes & layouts</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700">Before/after comparison view</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700">Hide or show specific versions</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                  <span className="text-slate-700">Priority support</span>
-                </li>
-              </ul>
-
-              <p className="text-sm text-slate-600 mb-6">
-                Limited time launch offer. Use code <span className="font-semibold text-blue-600">LAUNCHDEAL</span> for 60% off.
-              </p>
-
-              <button 
-                onClick={handleGetLifetimeClick}
-                className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+            {!hasLifetimeAccess ? (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-blue-50 border-2 border-blue-500 rounded-xl p-6 relative"
               >
-                Get lifetime access
-              </button>
-            </motion.div>
+                <div className="absolute top-0 right-6 -translate-y-1/2">
+                  <span className="px-3 py-1 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full">
+                    60% off · LAUNCHDEAL
+                  </span>
+                </div>
+                
+                <div className="text-landing-small font-semibold text-blue-600 mb-2">Lifetime Pro</div>
+                <div className="flex items-baseline space-x-2 mb-1">
+                  <span className="text-landing-body text-slate-400 line-through">$99.99</span>
+                  <span className="text-landing-section font-bold text-slate-900">$39</span>
+                </div>
+                <div className="text-landing-small text-slate-600 mb-4">one-time payment</div>
+                
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700 font-semibold">Unlimited journeys</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700 font-semibold">Unlimited versions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">No Loged.in watermark</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Custom themes & layouts</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Before/after comparison view</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Hide or show specific versions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Priority support</span>
+                  </li>
+                </ul>
+
+                <p className="text-sm text-slate-600 mb-6">
+                  Limited time launch offer. Use code <span className="font-semibold text-blue-600">LAUNCHDEAL</span> for 60% off.
+                </p>
+
+                <button 
+                  onClick={handleGetLifetimeClick}
+                  className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+                >
+                  Get lifetime access
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="bg-green-50 border-2 border-green-500 rounded-xl p-6 relative"
+              >
+                <div className="absolute top-0 right-6 -translate-y-1/2">
+                  <span className="px-3 py-1 bg-green-500 text-white text-landing-tiny font-semibold rounded-full">
+                    ✓ ACTIVE
+                  </span>
+                </div>
+                
+                <div className="text-landing-small font-semibold text-green-600 mb-2">Lifetime Pro</div>
+                <div className="text-landing-section font-bold text-slate-900 mb-4">You&apos;re all set!</div>
+                
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700 font-semibold">Unlimited journeys</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700 font-semibold">Unlimited versions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">No Loged.in watermark</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Custom themes & layouts</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Before/after comparison view</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Hide or show specific versions</span>
+                  </li>
+                  <li className="flex items-start">
+                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="text-slate-700">Priority support</span>
+                  </li>
+                </ul>
+
+                <p className="text-sm text-green-600 font-medium mb-6">
+                  Thank you for your support! Enjoy lifetime access to all Pro features.
+                </p>
+
+                <button 
+                  onClick={() => router.push('/dashboard')}
+                  className="w-full px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+                >
+                  Go to Dashboard
+                </button>
+              </motion.div>
+            )}
           </div>
         </div>
       </section>
