@@ -9,9 +9,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { StripeBuyButton } from '@/components/StripeBuyButton';
-import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Sparkles, Crown, Clock, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Sparkles, Crown, ArrowRight } from 'lucide-react';
 
 function ProfileContent() {
   const { user } = useAuth();
@@ -20,7 +19,6 @@ function ProfileContent() {
   const searchParams = useSearchParams();
   const paymentStatus = searchParams.get('payment');
   const [error, setError] = useState<string | null>(null);
-  const { isInTrial, trialEndTime } = useTrialStatus();
 
   // Show payment success message if redirected from successful payment
   useEffect(() => {
@@ -258,27 +256,9 @@ function ProfileContent() {
                     </span>
                   </div>
                   
-                  {isInTrial ? (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 flex items-start space-x-3">
-                      <Clock className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-landing-small font-semibold text-yellow-900 mb-1">48-Hour Trial Active</p>
-                        <p className="text-landing-small text-yellow-700">
-                          Your trial will end on {trialEndTime ? new Date(trialEndTime).toLocaleDateString() : 'soon'}.
-                        </p>
-                      </div>
-                    </div>
-                  ) : trialEndTime ? (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                      <p className="text-landing-small text-red-700">
-                        Your trial period ended on {new Date(trialEndTime).toLocaleDateString()}.
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-landing-small text-slate-600">
-                      Limited to 1 journey with basic features.
-                    </p>
-                  )}
+                  <p className="text-landing-small text-slate-600">
+                    Limited to 1 journey with basic features.
+                  </p>
                 </div>
 
                 {/* Upgrade CTA Card */}

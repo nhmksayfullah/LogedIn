@@ -126,9 +126,6 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
         INSERT INTO public.user_preferences (user_id, has_completed_onboarding)
         VALUES (NEW.id, FALSE);
         
-        INSERT INTO public.user_trials (user_id, trial_start_time, trial_end_time)
-        VALUES (NEW.id, NOW(), NOW() + INTERVAL '48 hours');
-        
         RETURN NEW;
       END;
       $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -143,7 +140,6 @@ NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
    a. Create a live account and configure:
       - Create product in Product Catalog
       - Create promotional coupon codes
-      - Set up Payment Link with trial period
    
    b. Get required keys:
       - Publishable Key → NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -352,7 +348,6 @@ Authentication is handled through Supabase with support for:
 
 Stripe integration includes:
 - Subscription management
-- Trial periods
 - Webhook handling
 - Payment status tracking
 

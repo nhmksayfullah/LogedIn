@@ -21,18 +21,6 @@ create table public.user_preferences (
   constraint user_preferences_user_id_fkey foreign KEY (user_id) references auth.users (id) on delete CASCADE
 ) TABLESPACE pg_default;
 
-
-create table public.user_trials (
-  id uuid not null default extensions.uuid_generate_v4 (),
-  user_id uuid not null,
-  trial_start_time timestamp with time zone null default now(),
-  trial_end_time timestamp with time zone not null,
-  is_trial_used boolean null default false,
-  constraint user_trials_pkey primary key (id),
-  constraint user_trials_user_id_key unique (user_id),
-  constraint user_trials_user_id_fkey foreign KEY (user_id) references auth.users (id)
-) TABLESPACE pg_default;
-
 create table public.purchases (
   id uuid not null default gen_random_uuid (),
   user_id uuid null,
@@ -54,7 +42,6 @@ create table public.purchases (
 
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.user_trials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.purchases ENABLE ROW LEVEL SECURITY;
 
 -- Users table policies
@@ -78,19 +65,6 @@ CREATE POLICY "Users can insert their own preferences" ON public.user_preference
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
 CREATE POLICY "Service role full access to preferences" ON public.user_preferences
-  FOR ALL TO service_role USING (true);
-
--- User trials policies
-CREATE POLICY "Users can read their own trials" ON public.user_trials
-  FOR SELECT USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can update their own trials" ON public.user_trials
-  FOR UPDATE USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can insert their own trials" ON public.user_trials
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
-
-CREATE POLICY "Service role full access to trials" ON public.user_trials
   FOR ALL TO service_role USING (true);
 
 -- Purchases policies

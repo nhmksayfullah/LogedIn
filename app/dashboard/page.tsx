@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { usePurchase } from '@/hooks/usePurchase';
-import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { useJourneys } from '@/hooks/useJourneys';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, BookOpen, Calendar, Lock, Globe, X } from 'lucide-react';
@@ -16,7 +15,6 @@ export default function Dashboard() {
   const router = useRouter();
   const { refetch: refetchPurchase } = usePurchase();
   const [hasCheckedPurchase, setHasCheckedPurchase] = useState(false);
-  const { isInTrial, isLoading: isTrialLoading } = useTrialStatus();
   const [authTimeout, setAuthTimeout] = useState(false);
   const { journeys, isLoading: isLoadingJourneys, createJourney, refetch } = useJourneys();
   
@@ -56,16 +54,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!user && (isAuthLoading || isTrialLoading)) {
+      if (!user && isAuthLoading) {
         setAuthTimeout(true);
       }
     }, AUTH_TIMEOUT);
     
     return () => clearTimeout(timer);
-  }, [user, isAuthLoading, isTrialLoading]);
+  }, [user, isAuthLoading]);
 
   // Update the loading check
-  if (!user && (isAuthLoading || isTrialLoading) && !hasCheckedPurchase) {
+  if (!user && isAuthLoading && !hasCheckedPurchase) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -87,7 +85,7 @@ export default function Dashboard() {
     }
 
     // Check journey limit for free users
-    if (!hasLifetimeAccess && !isInTrial && journeys.length >= 1) {
+    if (!hasLifetimeAccess && journeys.length >= 1) {
       setCreateError('Free plan allows only 1 journey. Upgrade to create more!');
       return;
     }
@@ -240,7 +238,7 @@ export default function Dashboard() {
         )}
 
         {/* Free Plan Notice */}
-        {!hasLifetimeAccess && !isInTrial && journeys.length > 0 && (
+        {!hasLifetimeAccess && journeys.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

@@ -22,8 +22,7 @@ const pricingTiers = [
       "1 journey limit",
       "Up to 10 versions",
       "Loged.in watermark",
-      "Basic theme",
-      "48-hour trial for Pro features"
+      "Basic theme"
     ],
     cta: "Current Plan",
     popular: false

@@ -5,7 +5,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { usePurchase } from '@/hooks/usePurchase';
-import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { BuyMeCoffee } from './BuyMeCoffee';
 import { LoginModal } from './LoginModal';
 // import { supabase } from '@/utils/supabase';
@@ -18,7 +17,6 @@ export default function TopBar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { hasLifetimeAccess, isLoading: isLoadingPurchase } = usePurchase();
-  const { isInTrial } = useTrialStatus();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // State for tracking logout process
@@ -73,7 +71,7 @@ export default function TopBar() {
           ) : (
             // Show subscription and profile for authenticated users
             <>
-              {!isLoadingPurchase && !hasLifetimeAccess && !isInTrial && (
+              {!isLoadingPurchase && !hasLifetimeAccess && (
                 <button
                   onClick={() => router.push('/profile')}
                   className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
@@ -83,14 +81,12 @@ export default function TopBar() {
               )}
               <BuyMeCoffee />
 
-              {!isLoadingPurchase && (
-                hasLifetimeAccess || isInTrial
-              ) && pathname !== '/dashboard' && (
+              {!isLoadingPurchase && hasLifetimeAccess && pathname !== '/dashboard' && (
                 <button
                   onClick={() => router.push('/dashboard')}
                   className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
                 >
-                  {isInTrial ? "Start Free Trial" : "Start Building"}
+                  Start Building
                 </button>
               )}
               
