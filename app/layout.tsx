@@ -6,6 +6,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import TopBar from '../components/TopBar';
 import ProtectedRoute from '@/contexts/ProtectedRoute';
 import { Analytics } from "@vercel/analytics/react"
+import { usePathname } from 'next/navigation';
 // import { PostHogProvider } from '@/contexts/PostHogContext';
 // import { PostHogErrorBoundary } from '@/components/PostHogErrorBoundary';
 
@@ -16,6 +17,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isLandingPage = pathname === '/';
+  
   return (
     <html lang="en">
       <body className={geist.className}>
@@ -24,7 +28,7 @@ export default function RootLayout({
           <PostHogProvider> */}
             <AuthProvider>   
                 <ProtectedRoute>
-                  <TopBar />    
+                  {!isLandingPage && <TopBar />}
                   <main>{children}</main>
                 </ProtectedRoute>
             </AuthProvider>

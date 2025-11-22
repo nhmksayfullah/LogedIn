@@ -9,6 +9,27 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        // Landing page specific sizes (smaller scale)
+        'landing-hero': ['3rem', { lineHeight: '1.1', fontWeight: '600' }], // 48px - semibold
+        'landing-hero-lg': ['3.5rem', { lineHeight: '1.1', fontWeight: '600' }], // 56px - semibold
+        'landing-section': ['2rem', { lineHeight: '1.2', fontWeight: '700' }], // 32px
+        'landing-section-lg': ['2.5rem', { lineHeight: '1.2', fontWeight: '700' }], // 40px
+        'landing-card-title': ['1.125rem', { lineHeight: '1.4', fontWeight: '700' }], // 18px
+        'landing-body': ['1rem', { lineHeight: '1.6' }], // 16px
+        'landing-body-lg': ['1.125rem', { lineHeight: '1.6' }], // 18px
+        'landing-small': ['0.875rem', { lineHeight: '1.5' }], // 14px
+        'landing-tiny': ['0.75rem', { lineHeight: '1.5' }], // 12px
+      },
+      spacing: {
+        // Landing page specific spacing
+        'landing-xs': '0.5rem', // 8px
+        'landing-sm': '1rem', // 16px
+        'landing-md': '1.5rem', // 24px
+        'landing-lg': '2rem', // 32px
+        'landing-xl': '3rem', // 48px
+        'landing-2xl': '4rem', // 64px
+      },
       colors: {
         primary: {
           DEFAULT: '#A78BFA', // Violet-400: Soft lavender

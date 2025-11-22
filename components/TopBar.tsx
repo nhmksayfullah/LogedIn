@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useTrialStatus } from '@/hooks/useTrialStatus';
 import { BuyMeCoffee } from './BuyMeCoffee';
+import { LoginModal } from './LoginModal';
 // import { supabase } from '@/utils/supabase';
 
 // TopBar component handles user profile display and navigation
@@ -18,6 +19,7 @@ export default function TopBar() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { subscription, isLoading: isLoadingSubscription } = useSubscription();
   const { isInTrial } = useTrialStatus();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   // State for tracking logout process
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -61,12 +63,12 @@ export default function TopBar() {
             <>
               <BuyMeCoffee />
               {/* Show login button for unauthenticated users */}
-              <Link
-                href="/login"
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
                 className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
               >
                 Sign in
-              </Link>
+              </button>
             </>
           ) : (
             // Show subscription and profile for authenticated users
@@ -133,6 +135,12 @@ export default function TopBar() {
           )}
         </div>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
     </div>
   );
 } 

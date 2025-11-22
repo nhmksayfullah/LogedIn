@@ -1,31 +1,21 @@
 'use client';
 
 import { useState } from 'react';
-import { ForgotPasswordModal } from './ForgotPasswordModal';
 import Image from 'next/image';
 
 interface LoginFormProps {
-  onSubmit: (email: string, password: string, isSignUp: boolean) => Promise<void>;
   onGoogleSignIn: () => Promise<void>;
+  onTwitterSignIn: () => Promise<void>;
   isLoading: boolean;
   error?: string;
 }
 
 export function LoginForm({ 
-  onSubmit, 
-  onGoogleSignIn, 
+  onGoogleSignIn,
+  onTwitterSignIn,
   isLoading, 
   error 
 }: LoginFormProps) {
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await onSubmit(email, password, isSignUp);
-  };
 
   return (
     <div className="w-full space-y-8 p-8 bg-surface-light dark:bg-surface-dark rounded-2xl shadow-subtle border border-gray-200 dark:border-gray-700">
@@ -47,7 +37,8 @@ export function LoginForm({
       <div className="mt-6 space-y-4">
         <button
           onClick={onGoogleSignIn}
-          className="w-full py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-full shadow-subtle text-text dark:text-text-dark bg-surface-light dark:bg-surface-dark hover:bg-neutral dark:hover:bg-neutral-dark transition-all flex items-center justify-center"
+          disabled={isLoading}
+          className="w-full py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-full shadow-subtle text-text dark:text-text-dark bg-surface-light dark:bg-surface-dark hover:bg-neutral dark:hover:bg-neutral-dark transition-all flex items-center justify-center disabled:opacity-50"
         >
           <Image
             src="/Google-Logo.png"
@@ -59,70 +50,23 @@ export function LoginForm({
           Sign in with Google
         </button>
 
-        <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
-          <span className="mx-4 text-sm text-gray-500 dark:text-gray-400">OR</span>
-          <div className="flex-grow border-t border-gray-300 dark:border-gray-700"></div>
-        </div>
-      </div>
-
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {isSignUp ? 'Create an account' : 'Are you an Email User?'}
-        </h2>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="rounded-md shadow-sm space-y-4">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email address"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => setIsForgotPasswordOpen(true)}
-            className="text-sm text-primary hover:text-primary-dark transition-colors"
-          >
-            Forgot your password?
-          </button>
-        </div>
-
-        <ForgotPasswordModal 
-          isOpen={isForgotPasswordOpen}
-          onClose={() => setIsForgotPasswordOpen(false)}
-        />
-
-        <button 
-          type="submit" 
+        <button
+          onClick={onTwitterSignIn}
           disabled={isLoading}
-          className="w-full py-2.5 px-4 border border-transparent rounded-full shadow-sm text-white bg-primary hover:bg-primary-dark disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all"
+          className="w-full py-2.5 px-4 border border-gray-200 dark:border-gray-700 rounded-full shadow-subtle text-text dark:text-text-dark bg-surface-light dark:bg-surface-dark hover:bg-neutral dark:hover:bg-neutral-dark transition-all flex items-center justify-center disabled:opacity-50"
         >
-          {isSignUp ? 'Sign up' : 'Sign in'} with Email
-        </button>
-
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={() => setIsSignUp(!isSignUp)}
-            className="text-primary hover:text-primary-dark transition-colors"
+          <svg
+            className="mr-2"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
           >
-            {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
-          </button>
-        </div>
-      </form>
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+          Continue with X
+        </button>
+      </div>
     </div>
   );
 }
