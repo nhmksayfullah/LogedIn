@@ -26,7 +26,7 @@ export default function RootLayout({
             <AuthProvider>   
                 <ProtectedRoute>
                   <Header />
-                  <main>{children}</main>
+                  <main className="pt-24">{children}</main>
                 </ProtectedRoute>
             </AuthProvider>
           {/* </PostHogProvider>
