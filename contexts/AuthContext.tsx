@@ -29,6 +29,9 @@ interface AuthContextType {
   updateEmail: (newEmail: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   hasLifetimeAccess: boolean;
+  profilePictureUrl: string | null;
+  username: string | null;
+  refreshProfilePicture: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -45,6 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasLifetimeAccess, setHasLifetimeAccess] = useState(false);
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   const checkPurchase = useCallback(async (userId: string) => {
     try {
@@ -70,6 +75,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const refreshProfilePicture = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('profile_picture_url, avatar_url, username')
+        .eq('id', user?.id)
+        .single();
+
+      if (!error && data) {
+        const pictureUrl = data.profile_picture_url || data.avatar_url;
+        setProfilePictureUrl(pictureUrl);
+        setUsername(data.username);
+      }
+    } catch (error) {
+      console.error('Error fetching profile picture:', error);
+    }
+  }, [user?.id]);
+
   useEffect(() => {
     let mounted = true;
     console.log("AuthContext - mounted useEffect:", mounted);
@@ -94,6 +117,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (currentUser) {
           await checkPurchase(currentUser.id);
+          
+          // Fetch profile picture and username
+          const { data: userData } = await supabase
+            .from('users')
+            .select('profile_picture_url, avatar_url, username')
+            .eq('id', currentUser.id)
+            .single();
+
+          if (userData) {
+            const pictureUrl = userData.profile_picture_url || userData.avatar_url;
+            setProfilePictureUrl(pictureUrl);
+            setUsername(userData.username);
+          }
         }
         
         // Then set up listener for future changes
@@ -107,8 +143,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             
             if (newUser) {
               await checkPurchase(newUser.id);
+              
+              // Fetch profile picture and username
+              const { data: userData } = await supabase
+                .from('users')
+                .select('profile_picture_url, avatar_url, username')
+                .eq('id', newUser.id)
+                .single();
+
+              if (userData) {
+                const pictureUrl = userData.profile_picture_url || userData.avatar_url;
+                setProfilePictureUrl(pictureUrl);
+                setUsername(userData.username);
+              }
             } else {
               setHasLifetimeAccess(false);
+              setProfilePictureUrl(null);
+              setUsername(null);
             }
           }
         );
@@ -198,6 +249,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
         setSession(null);
         setHasLifetimeAccess(false);
+        setProfilePictureUrl(null);
+        setUsername(null);
         
         // Only redirect if not already on landing page
         if (window.location.pathname !== '/') {
@@ -267,6 +320,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await supabase.auth.signOut();
     },
     hasLifetimeAccess,
+    profilePictureUrl,
+    username,
+    refreshProfilePicture,
   };
 
 

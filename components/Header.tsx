@@ -10,7 +10,7 @@ type ModalIntent = 'signup' | 'login' | 'payment';
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user, signOut, profilePictureUrl } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIntent, setModalIntent] = useState<ModalIntent>('login');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -122,8 +122,17 @@ export default function Header() {
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                       className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"
                     >
-                      <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white text-sm font-medium">
-                        {user.email?.[0].toUpperCase()}
+                      <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white text-sm font-medium overflow-hidden">
+                        {profilePictureUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img 
+                            src={profilePictureUrl} 
+                            alt="Profile" 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          user.email?.[0].toUpperCase()
+                        )}
                       </div>
                     </button>
 

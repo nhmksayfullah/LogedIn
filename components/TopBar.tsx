@@ -13,7 +13,7 @@ type ModalIntent = 'signup' | 'login' | 'payment';
 
 // TopBar component handles user profile display and navigation
 export default function TopBar() {
-  const { user, signOut } = useAuth();
+  const { user, signOut, profilePictureUrl } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -103,8 +103,17 @@ export default function TopBar() {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center gap-2 hover:bg-neutral-darker/10 dark:hover:bg-neutral-darker/50 px-3 py-2 rounded-full transition-colors"
                 >
-                  <div className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary dark:text-primary-light">
-                    {user.email?.[0].toUpperCase()}
+                  <div className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary dark:text-primary-light overflow-hidden">
+                    {profilePictureUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img 
+                        src={profilePictureUrl} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      user.email?.[0].toUpperCase()
+                    )}
                   </div>
                 </button>
                 

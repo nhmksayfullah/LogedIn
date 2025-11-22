@@ -6,7 +6,8 @@ import { supabase } from '@/utils/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Calendar, Hash, Tag, X, /* Edit2, */ Trash2, Globe, Lock } from 'lucide-react';
+import { ArrowLeft, Plus, Calendar, Hash, Tag, X, Trash2, Globe, Lock, Settings } from 'lucide-react';
+import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 
 interface Journey {
   id: string;
@@ -27,6 +28,9 @@ export default function JourneyPage() {
   const journeyId = params.id as string;
   
   const { versions, isLoading: isLoadingVersions, createVersion, deleteVersion, refetch } = useVersions(journeyId);
+  
+  // Journey edit modal state
+  const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
   
   // Version modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +64,36 @@ export default function JourneyPage() {
 
     fetchJourney();
   }, [journeyId, user?.id]);
+
+  const handleEditJourney = async (data: JourneyFormData) => {
+    if (!journey) return;
+    
+    try {
+      const { error } = await supabase
+        .from('journeys')
+        .update({
+          title: data.title,
+          description: data.description || null,
+          is_public: data.is_public,
+        })
+        .eq('id', journey.id);
+
+      if (error) throw error;
+
+      // Update local state
+      setJourney({
+        ...journey,
+        title: data.title,
+        description: data.description || null,
+        is_public: data.is_public,
+      });
+      
+      setIsJourneyModalOpen(false);
+    } catch (err) {
+      console.error('Failed to update journey:', err);
+      throw err;
+    }
+  };
 
   const handleCreateVersion = async () => {
     if (!newVersionTitle.trim()) {
@@ -123,27 +157,27 @@ export default function JourneyPage() {
     });
   };
 
-  const togglePublic = async () => {
-    if (!journey) return;
+  // const togglePublic = async () => {
+  //   if (!journey) return;
 
-    try {
-      const { error } = await supabase
-        .from('journeys')
-        .update({ is_public: !journey.is_public })
-        .eq('id', journey.id);
+  //   try {
+  //     const { error } = await supabase
+  //       .from('journeys')
+  //       .update({ is_public: !journey.is_public })
+  //       .eq('id', journey.id);
 
-      if (error) throw error;
+  //     if (error) throw error;
 
-      setJourney({ ...journey, is_public: !journey.is_public });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
-      alert('Failed to update privacy setting');
-    }
-  };
+  //     setJourney({ ...journey, is_public: !journey.is_public });
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   } catch (err) {
+  //     alert('Failed to update privacy setting');
+  //   }
+  // };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -151,7 +185,7 @@ export default function JourneyPage() {
 
   if (!journey) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Journey not found</h2>
           <button
@@ -166,7 +200,7 @@ export default function JourneyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Back Button */}
         <button
@@ -178,50 +212,76 @@ export default function JourneyPage() {
         </button>
 
         {/* Journey Header */}
-        <div className="bg-white rounded-xl border border-slate-200 p-8 mb-8">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold text-slate-900 mb-4">
-                {journey.title}
-              </h1>
-              {journey.description && (
-                <p className="text-lg text-slate-600">
-                  {journey.description}
-                </p>
-              )}
-            </div>
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm mb-8">
+          {/* Cover Section */}
+          <div className="h-48 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-t-xl flex items-center justify-center relative">
+            {journey.cover_image_url ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img 
+                src={journey.cover_image_url} 
+                alt={journey.title}
+                className="w-full h-full object-cover rounded-t-xl"
+              />
+            ) : (
+              <div className="text-center">
+                <div className="w-20 h-20 bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3">
+                  <Hash className="w-10 h-10 text-blue-500" />
+                </div>
+              </div>
+            )}
             
-            {/* Privacy Toggle */}
+            {/* Settings Button */}
             <button
-              onClick={togglePublic}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-colors ${
-                journey.is_public
-                  ? 'bg-blue-50 border-blue-200 text-blue-700'
-                  : 'bg-slate-50 border-slate-200 text-slate-700'
-              }`}
+              onClick={() => setIsJourneyModalOpen(true)}
+              className="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-lg shadow-lg transition-all backdrop-blur-sm"
             >
-              {journey.is_public ? (
-                <>
-                  <Globe className="w-4 h-4" />
-                  <span>Public</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4" />
-                  <span>Private</span>
-                </>
-              )}
+              <Settings className="w-5 h-5 text-slate-700" />
             </button>
           </div>
 
-          {/* Add Version Button */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
-          >
-            <Plus className="w-5 h-5" />
-            <span>Add Version</span>
-          </button>
+          {/* Content Section */}
+          <div className="p-8">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex-1">
+                <h1 className="text-4xl font-bold text-slate-900 mb-3">
+                  {journey.title}
+                </h1>
+                {journey.description && (
+                  <p className="text-lg text-slate-600">
+                    {journey.description}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Meta Info */}
+            <div className="flex items-center space-x-4 text-sm text-slate-500 mb-6">
+              <div className="flex items-center space-x-2">
+                {journey.is_public ? (
+                  <>
+                    <Globe className="w-4 h-4 text-blue-500" />
+                    <span className="text-blue-600 font-medium">Public</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4" />
+                    <span>Private</span>
+                  </>
+                )}
+              </div>
+              <span>•</span>
+              <span>Created {formatDate(journey.created_at)}</span>
+            </div>
+
+            {/* Add Version Button */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add Version</span>
+            </button>
+          </div>
         </div>
 
         {/* Versions Timeline */}
@@ -258,7 +318,7 @@ export default function JourneyPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all"
+                className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-all relative group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
@@ -295,10 +355,11 @@ export default function JourneyPage() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleDeleteVersion(version.id)}
                       className="p-2 hover:bg-red-50 text-red-500 rounded-lg transition-colors"
+                      title="Delete version"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -309,6 +370,19 @@ export default function JourneyPage() {
           )}
         </div>
       </div>
+
+      {/* Edit Journey Modal */}
+      <JourneyModal
+        isOpen={isJourneyModalOpen}
+        onClose={() => setIsJourneyModalOpen(false)}
+        onSave={handleEditJourney}
+        initialData={{
+          title: journey?.title || '',
+          description: journey?.description || '',
+          is_public: journey?.is_public || false,
+        }}
+        mode="edit"
+      />
 
       {/* Create Version Modal */}
       <AnimatePresence>
