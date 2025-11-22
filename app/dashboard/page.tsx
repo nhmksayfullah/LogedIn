@@ -14,7 +14,7 @@ const AUTH_TIMEOUT = 15000; // 15 seconds
 export default function Dashboard() {
   const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
-  const { purchase, isLoading: isPurchaseLoading, refetch: refetchPurchase } = usePurchase();
+  const { refetch: refetchPurchase } = usePurchase();
   const [hasCheckedPurchase, setHasCheckedPurchase] = useState(false);
   const { isInTrial, isLoading: isTrialLoading } = useTrialStatus();
   const [authTimeout, setAuthTimeout] = useState(false);
