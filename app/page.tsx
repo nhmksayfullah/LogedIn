@@ -308,13 +308,16 @@ export default function LandingPage() {
             >
               <div className="absolute top-0 right-6 -translate-y-1/2">
                 <span className="px-3 py-1 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full">
-                  One-time payment · Lifetime access
+                  60% off · LAUNCHDEAL
                 </span>
               </div>
               
               <div className="text-landing-small font-semibold text-blue-600 mb-2">Lifetime Pro</div>
-              <div className="text-landing-section font-bold text-slate-900 mb-1">£39</div>
-              <div className="text-landing-small text-slate-600 mb-4">one-time</div>
+              <div className="flex items-baseline space-x-2 mb-1">
+                <span className="text-landing-body text-slate-400 line-through">$99.99</span>
+                <span className="text-landing-section font-bold text-slate-900">$39</span>
+              </div>
+              <div className="text-landing-small text-slate-600 mb-4">one-time payment</div>
               
               <ul className="space-y-4 mb-8">
                 <li className="flex items-start">
@@ -362,7 +365,7 @@ export default function LandingPage() {
               </ul>
 
               <p className="text-sm text-slate-600 mb-6">
-                Early bird launch price. Prices may increase in the future.
+                Limited time launch offer. Use code <span className="font-semibold text-blue-600">LAUNCHDEAL</span> for 60% off.
               </p>
 
               <button 

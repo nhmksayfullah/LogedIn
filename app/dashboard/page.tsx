@@ -28,29 +28,19 @@ export default function Dashboard() {
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
 
-  // First check - Purchase and trial check
-  useEffect(() => {
-    if (isPurchaseLoading || isTrialLoading) return;
-    
-    const hasValidPurchase = purchase?.status === 'active' && purchase?.purchase_type === 'lifetime_pro';
-    
-    if (!hasValidPurchase && !isInTrial) {
-      router.replace('/profile');
-    }
-  }, [purchase, isPurchaseLoading, isTrialLoading, router, isInTrial]);
-
-  // Second check - Auth check
-  useEffect(() => {
-    if (isAuthLoading || isTrialLoading) return;
-
-    if (!hasCheckedPurchase) {
-      setHasCheckedPurchase(true);
-      
-      if (!user || (!hasLifetimeAccess && !isInTrial && !isAuthLoading)) {
-        router.replace('/profile');
-      }
-    }
-  }, [hasLifetimeAccess, isAuthLoading, hasCheckedPurchase, router, user, isTrialLoading, isInTrial]);
+  // Access check - Only redirect if no access AND initial check is complete
+  // DISABLED: This was causing navigation issues. Users can manually visit profile anytime.
+  // The profile page itself will show upgrade options if needed.
+  // useEffect(() => {
+  //   if (isPurchaseLoading || isTrialLoading || isAuthLoading) return;
+  //   
+  //   const hasValidPurchase = purchase?.status === 'active' && purchase?.purchase_type === 'lifetime_pro';
+  //   
+  //   // Only redirect if we've checked everything and user has no access
+  //   if (hasCheckedPurchase && !hasValidPurchase && !isInTrial && !hasLifetimeAccess) {
+  //     router.replace('/profile');
+  //   }
+  // }, [purchase, isPurchaseLoading, isTrialLoading, isAuthLoading, router, isInTrial, hasLifetimeAccess, hasCheckedPurchase]);
 
   // Add refresh effect
   useEffect(() => {
@@ -144,7 +134,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 py-12 mt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>

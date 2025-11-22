@@ -10,14 +10,16 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [initialUserState] = useState(user);
 
   useEffect(() => {
-    if (user) {
+    // Only redirect if user wasn't logged in initially and now is
+    if (user && !initialUserState) {
       router.replace('/dashboard');
     } else {
       setIsLoading(false);
     }
-  }, [user, router]);
+  }, [user, router, initialUserState]);
 
   const handleGoogleSignIn = async () => {
     setError('');

@@ -16,13 +16,23 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [wasUserNull, setWasUserNull] = useState(!user);
 
+  // Track if user was null when modal opened
   useEffect(() => {
-    if (user) {
+    if (isOpen && !user) {
+      setWasUserNull(true);
+    }
+  }, [isOpen, user]);
+
+  // Only redirect if user just logged in (wasUserNull is true and now user exists)
+  useEffect(() => {
+    if (user && wasUserNull && isOpen) {
       onClose();
       router.push('/dashboard');
+      setWasUserNull(false);
     }
-  }, [user, router, onClose]);
+  }, [user, wasUserNull, isOpen, router, onClose]);
 
   useEffect(() => {
     // Close modal on escape key press

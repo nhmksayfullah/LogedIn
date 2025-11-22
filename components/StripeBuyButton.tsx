@@ -8,9 +8,10 @@ interface StripeBuyButtonProps {
   buyButtonId: string;
   publishableKey: string;
   className?: string;
+  promoCode?: string;
 }
 
-export function StripeBuyButton({ buyButtonId, publishableKey, className }: StripeBuyButtonProps) {
+export function StripeBuyButton({ buyButtonId, publishableKey, className, promoCode }: StripeBuyButtonProps) {
   const { user } = useAuth();
   const router = useRouter();
 
