@@ -204,12 +204,15 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
 
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <span className="text-3xl">🎬</span>
-            <h2 className="text-2xl font-bold text-slate-900">
-              {intent === 'payment' ? 'Sign in to purchase' : 'Welcome to Loged.in'}
+          {intent === 'payment' ? (
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Sign in to purchase
             </h2>
-          </div>
+          ) : (
+            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+              Welcome to loged<span className="text-blue-500">in</span>
+            </h2>
+          )}
           <p className="text-slate-600">
             {intent === 'payment' 
               ? 'Create an account or sign in to get lifetime access'

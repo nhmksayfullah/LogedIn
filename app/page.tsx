@@ -41,6 +41,14 @@ export default function LandingPage() {
   };
 
   const handleGetLifetimeClick = () => {
+    // Scroll to pricing section
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handlePurchaseClick = () => {
     if (user) {
       // User is already authenticated, open payment modal directly
       setModalIntent('payment');
@@ -137,7 +145,7 @@ export default function LandingPage() {
                     <div className="text-[8px] text-slate-600 w-12 text-right pt-1 shrink-0">Jan 2024</div>
                     <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
                       <div className="text-[8px] font-bold text-slate-900 mb-1">Started the journey</div>
-                      <div className="text-[6px] text-slate-600 leading-tight">Taking the first step towards my goal. Excited for what's ahead!</div>
+                      <div className="text-[6px] text-slate-600 leading-tight">Taking the first step towards my goal. Excited for what&apos;s ahead!</div>
                     </div>
                   </div>
 
@@ -247,7 +255,7 @@ export default function LandingPage() {
                       <div className="text-[6px] text-slate-600 w-12 text-right pt-1">Jun 2024</div>
                       <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
                         <div className="text-[7px] font-bold text-slate-900 mb-0.5">Half marathon</div>
-                        <div className="text-[5px] text-slate-600 leading-tight">21km done! Never imagined I'd come this far. The journey continues.</div>
+                        <div className="text-[5px] text-slate-600 leading-tight">21km done! Never imagined I&apos;d come this far. The journey continues.</div>
                       </div>
                     </div>
                   </div>
@@ -270,7 +278,7 @@ export default function LandingPage() {
                 {/* Header */}
                 <div className="mb-4">
                   <div className="text-sm font-bold text-slate-900 mb-1">Analytics</div>
-                  <div className="text-[8px] text-slate-500">Track your journey's impact</div>
+                  <div className="text-[8px] text-slate-500">Track your journey&apos;s impact</div>
                 </div>
 
                 {/* Analytics Cards */}
@@ -596,7 +604,7 @@ export default function LandingPage() {
                 </p>
 
                 <button 
-                  onClick={handleGetLifetimeClick}
+                  onClick={handlePurchaseClick}
                   className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
                 >
                   Get lifetime access
@@ -692,7 +700,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-slate-600 text-landing-small mb-4 md:mb-0">
-              © 2025 Loged.in — A DoddleSoft project
+              © 2025 loged<span className="text-blue-500">in</span> — a doddlesoft product
             </div>
             <div className="flex items-center space-x-6">
               <button 
@@ -708,7 +716,7 @@ export default function LandingPage() {
                 Privacy
               </button>
               <a 
-                href="mailto:contact@doddle.software"
+                href="mailto:connect@doddle.software"
                 className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
               >
                 Contact
