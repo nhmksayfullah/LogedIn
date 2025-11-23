@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function TermsAndConditions() {
   return (
     <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
@@ -180,9 +182,9 @@ export default function TermsAndConditions() {
             <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">7. Data Protection & Privacy</h2>
             <p>
               Your use of the Service is also governed by our{' '}
-              <a href="/privacy-policy" className="text-blue-600 hover:underline">
+              <Link href="/privacy-policy" className="text-blue-600 hover:underline">
                 Privacy Policy
-              </a>
+              </Link>
               .
               By using Loged.in, you consent to the collection and storage of data as described there.
             </p>
