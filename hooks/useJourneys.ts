@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { generateSlug, ensureUniqueSlug } from '@/utils/slug';
 
 export interface Journey {
   id: string;
@@ -71,15 +72,16 @@ export function useJourneys() {
     title: string;
     description?: string;
     is_public?: boolean;
+    slug?: string;
   }) => {
     if (!user?.id) throw new Error('User not authenticated');
 
     try {
-      // Generate slug from title
-      const slug = journeyData.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+      // Generate slug from title if not provided
+      let slug = journeyData.slug || generateSlug(journeyData.title);
+      
+      // Ensure slug is unique for this user
+      slug = await ensureUniqueSlug(slug, user.id, supabase);
 
       const insertData = {
         user_id: user.id,

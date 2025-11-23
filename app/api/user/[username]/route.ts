@@ -41,6 +41,21 @@ export async function GET(
       console.error('Error fetching journeys:', journeysError);
     }
 
+    // Fetch version counts for each journey
+    const journeysWithCount = await Promise.all(
+      (journeys || []).map(async (journey: any) => {
+        const { count } = await supabase
+          .from('versions')
+          .select('*', { count: 'exact', head: true })
+          .eq('journey_id', journey.id);
+        
+        return {
+          ...journey,
+          version_count: count || 0,
+        };
+      })
+    );
+
     return NextResponse.json({
       profile: {
         username: userData.username,
@@ -49,7 +64,7 @@ export async function GET(
         coverPhotoUrl: userData.cover_photo_url,
         coverColor: userData.cover_color || '#1DA1F2',
       },
-      journeys: journeys || [],
+      journeys: journeysWithCount,
     });
   } catch (error) {
     console.error('Error fetching public profile:', error);

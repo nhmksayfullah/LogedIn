@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthPaymentModal } from './AuthPaymentModal';
+import Image from 'next/image';
 
 type ModalIntent = 'signup' | 'login' | 'payment';
 
@@ -89,9 +90,15 @@ export default function Header() {
             {/* Logo */}
             <button 
               onClick={() => router.push('/')}
-              className="text-xl font-bold text-slate-900 hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 transition-opacity"
             >
-              Loged.in
+              <Image
+                src="/logedin_logo.svg"
+                alt="Loged.in"
+                width={78}
+                height={32}
+                priority
+              />
             </button>
             
             {/* Center Navigation - Only show on landing page */}

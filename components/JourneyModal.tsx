@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Globe, Lock, Upload, Image as ImageIcon, Palette } from 'lucide-react';
+import { X, Globe, Lock, Upload, Image as ImageIcon, Palette, Link2 } from 'lucide-react';
+import { generateSlug, isValidSlug } from '@/utils/slug';
 
 interface JourneyModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export interface JourneyFormData {
   is_public: boolean;
   cover_image_url?: string | null;
   cover_color?: string | null;
+  slug?: string;
 }
 
 export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journeyId }: JourneyModalProps) {
@@ -27,6 +29,11 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
   const [isPublic, setIsPublic] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Slug state
+  const [slug, setSlug] = useState('');
+  const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
+  const [slugError, setSlugError] = useState<string | null>(null);
   
   // Cover photo/color states
   const [coverType, setCoverType] = useState<'color' | 'photo'>('color');
@@ -41,17 +48,55 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
       setTitle(initialData?.title || '');
       setDescription(initialData?.description || '');
       setIsPublic(initialData?.is_public || false);
+      setSlug(initialData?.slug || '');
+      setIsSlugManuallyEdited(false);
       setCoverColor(initialData?.cover_color || '#3B82F6');
       setCoverPhotoPreview(initialData?.cover_image_url || null);
       setCoverType(initialData?.cover_image_url ? 'photo' : 'color');
       setCoverPhoto(null);
       setError(null);
+      setSlugError(null);
     }
   }, [isOpen, initialData]);
+
+  // Auto-generate slug from title if not manually edited
+  useEffect(() => {
+    if (!isSlugManuallyEdited && title) {
+      const generatedSlug = generateSlug(title);
+      setSlug(generatedSlug);
+      setSlugError(null);
+    }
+  }, [title, isSlugManuallyEdited]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSlug = e.target.value.toLowerCase();
+    setSlug(newSlug);
+    setIsSlugManuallyEdited(true);
+    
+    if (newSlug && !isValidSlug(newSlug)) {
+      setSlugError('Slug can only contain lowercase letters, numbers, and hyphens');
+    } else {
+      setSlugError(null);
+    }
+  };
 
   const handleSave = async () => {
     if (!title.trim()) {
       setError('Please enter a journey title');
+      return;
+    }
+
+    if (!slug.trim()) {
+      setError('Please enter a journey URL');
+      return;
+    }
+
+    if (!isValidSlug(slug)) {
+      setError('Journey URL can only contain lowercase letters, numbers, and hyphens');
       return;
     }
 
@@ -112,6 +157,7 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
         is_public: isPublic,
         cover_image_url: coverImageUrl,
         cover_color: finalCoverColor,
+        slug: slug.trim(),
       });
       onClose();
     } catch (err) {
@@ -310,12 +356,38 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
                   <input
                     type="text"
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={handleTitleChange}
                     placeholder="e.g., Body Transformation 2025"
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     maxLength={100}
                     disabled={isSaving}
                   />
+                </div>
+
+                {/* Slug Input */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center space-x-2">
+                    <Link2 className="w-4 h-4" />
+                    <span>Journey URL *</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={slug}
+                      onChange={handleSlugChange}
+                      placeholder="my-journey"
+                      className={`w-full px-4 py-3 border ${slugError ? 'border-red-500' : 'border-slate-300'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all`}
+                      maxLength={100}
+                      disabled={isSaving}
+                    />
+                  </div>
+                  {slugError ? (
+                    <p className="text-xs text-red-600 mt-1">{slugError}</p>
+                  ) : (
+                    <p className="text-xs text-slate-500 mt-1">
+                      Your journey will be accessible at: {isPublic ? `/{'{username}'}/${slug || 'your-journey'}` : `/journey/${slug || 'your-journey'}`}
+                    </p>
+                  )}
                 </div>
 
                 {/* Description Input */}
@@ -390,7 +462,7 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
                 </button>
                 <button
                   onClick={handleSave}
-                  disabled={isSaving || isUploadingCover || !title.trim()}
+                  disabled={isSaving || isUploadingCover || !title.trim() || !slug.trim() || !!slugError}
                   className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isUploadingCover ? 'Uploading...' : isSaving ? 'Saving...' : mode === 'create' ? 'Create Journey' : 'Save Changes'}

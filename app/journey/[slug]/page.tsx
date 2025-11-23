@@ -27,9 +27,9 @@ export default function JourneyPage() {
   const supabase = createClient();
   const [journey, setJourney] = useState<Journey | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const journeyId = params.id as string;
+  const journeySlug = params.slug as string;
   
-  const { versions, isLoading: isLoadingVersions, createVersion, deleteVersion, refetch } = useVersions(journeyId);
+  const { versions, isLoading: isLoadingVersions, createVersion, deleteVersion, refetch } = useVersions(journey?.id || '');
   
   // Journey edit modal state
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
@@ -48,13 +48,13 @@ export default function JourneyPage() {
 
   useEffect(() => {
     const fetchJourney = async () => {
-      if (!journeyId || !user?.id) return;
+      if (!journeySlug || !user?.id) return;
 
       try {
         const { data, error } = await supabase
           .from('journeys')
           .select('*')
-          .eq('id', journeyId)
+          .eq('slug', journeySlug)
           .eq('user_id', user.id)
           .single();
 
@@ -69,7 +69,7 @@ export default function JourneyPage() {
 
     fetchJourney();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [journeyId, user?.id]);
+  }, [journeySlug, user?.id]);
 
   const handleEditJourney = async (data: JourneyFormData) => {
     if (!journey) return;
@@ -81,6 +81,7 @@ export default function JourneyPage() {
           title: data.title,
           description: data.description || null,
           is_public: data.is_public,
+          slug: data.slug,
           cover_image_url: data.cover_image_url !== undefined ? data.cover_image_url : journey.cover_image_url,
           cover_color: data.cover_color || journey.cover_color,
         })
@@ -89,14 +90,21 @@ export default function JourneyPage() {
       if (error) throw error;
 
       // Update local state
-      setJourney({
+      const updatedJourney = {
         ...journey,
         title: data.title,
         description: data.description || null,
         is_public: data.is_public,
+        slug: data.slug || journey.slug,
         cover_image_url: data.cover_image_url !== undefined ? data.cover_image_url : journey.cover_image_url,
         cover_color: data.cover_color || journey.cover_color,
-      });
+      };
+      setJourney(updatedJourney);
+      
+      // If slug changed, redirect to new URL
+      if (data.slug && data.slug !== journey.slug) {
+        router.push(`/journey/${data.slug}`);
+      }
       
       setIsJourneyModalOpen(false);
     } catch (err) {
@@ -122,7 +130,7 @@ export default function JourneyPage() {
         setIsUploadingPhoto(true);
         const photoFormData = new FormData();
         photoFormData.append('file', newVersionCoverPhoto);
-        photoFormData.append('journeyId', journeyId);
+        photoFormData.append('journeyId', journey.id);
 
         const uploadResponse = await fetch('/api/version/cover-photo', {
           method: 'POST',
@@ -458,6 +466,7 @@ export default function JourneyPage() {
           title: journey?.title || '',
           description: journey?.description || '',
           is_public: journey?.is_public || false,
+          slug: journey?.slug || '',
           cover_image_url: journey?.cover_image_url,
           cover_color: journey?.cover_color,
         }}

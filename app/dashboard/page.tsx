@@ -140,7 +140,7 @@ export default function Dashboard() {
                 key={journey.id}
                 journey={journey}
                 index={index}
-                onClick={() => router.push(`/journey/${journey.id}`)}
+                onClick={() => router.push(`/journey/${journey.slug}`)}
                 onEdit={() => openEditModal(journey)}
                 onDelete={() => handleDeleteJourney(journey.id)}
               />
@@ -179,6 +179,7 @@ export default function Dashboard() {
           title: editingJourney.title,
           description: editingJourney.description || '',
           is_public: editingJourney.is_public,
+          slug: editingJourney.slug || '',
           cover_image_url: editingJourney.cover_image_url,
           cover_color: editingJourney.cover_color,
         } : undefined}

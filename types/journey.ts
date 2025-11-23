@@ -28,6 +28,7 @@ export interface CreateJourneyInput {
   title: string;
   description?: string;
   is_public?: boolean;
+  slug?: string;
 }
 
 export interface CreateVersionInput {

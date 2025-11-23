@@ -31,14 +31,50 @@ export async function middleware(request: NextRequest) {
   // This ensures the session is always fresh
   const { data: { user } } = await supabase.auth.getUser()
 
-  // If no user and trying to access protected routes, redirect to home
+  const pathname = request.nextUrl.pathname
+
+  // Protected routes that always require authentication
   const protectedPaths = ['/dashboard', '/profile', '/journey']
-  const isProtectedPath = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path))
+  const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path))
   
+  // Public routes that should never be protected (even without auth)
+  const publicPaths = [
+    '/',
+    '/auth',
+    '/api',
+    '/privacy-policy',
+    '/terms',
+    '/reset-password',
+    '/update-password',
+    '/verify-email',
+  ]
+  const isPublicPath = publicPaths.some(path => pathname === path || pathname.startsWith(path + '/'))
+  
+  // If it's a protected path and user is not authenticated, redirect to home
   if (!user && isProtectedPath) {
+    console.log('[Middleware] Redirecting protected path:', pathname)
     return NextResponse.redirect(new URL('/', request.url))
   }
+  
+  // If it's a public path, allow access
+  if (isPublicPath) {
+    return supabaseResponse
+  }
+  
+  // If it matches username/journeyId pattern, it's a public profile/journey
+  // Pattern: /{username} or /{username}/{journeyId}
+  // JourneyId is typically a UUID format (lowercase with hyphens)
+  const usernamePattern = /^\/[a-z0-9_-]+$/i
+  const usernameJourneyPattern = /^\/[a-z0-9_-]+\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
+  const isPublicProfileOrJourney = (usernamePattern.test(pathname) || usernameJourneyPattern.test(pathname)) && !isProtectedPath && !isPublicPath
+  
+  // Allow public profile/journey pages
+  if (isPublicProfileOrJourney) {
+    console.log('[Middleware] Allowing public profile/journey:', pathname)
+    return supabaseResponse
+  }
 
+  console.log('[Middleware] Default allow for:', pathname)
   return supabaseResponse
 }
 

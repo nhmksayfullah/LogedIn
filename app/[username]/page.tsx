@@ -123,27 +123,33 @@ export default async function PublicProfilePage({ params }: Props) {
             {journeys.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {journeys.map((journey: Journey) => (
-                  <div
+                  <Link
                     key={journey.id}
-                    className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-all overflow-hidden"
+                    href={`/${username}/${journey.slug}`}
+                    className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-all overflow-hidden cursor-pointer group"
                   >
                     {/* Cover Image */}
-                    <div className="h-40 bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center relative">
-                      {journey.cover_image_url ? (
+                    <div 
+                      className="h-40 relative"
+                      style={{
+                        background: journey.cover_image_url 
+                          ? 'none' 
+                          : `linear-gradient(135deg, ${journey.cover_color || '#3B82F6'} 0%, ${journey.cover_color ? `${journey.cover_color}dd` : '#2563EB'} 100%)`
+                      }}
+                    >
+                      {journey.cover_image_url && (
                         <Image
                           src={journey.cover_image_url}
                           alt={journey.title}
                           fill
                           className="object-cover"
                         />
-                      ) : (
-                        <BookOpen className="w-12 h-12 text-slate-300" />
                       )}
                     </div>
 
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-900 mb-2 line-clamp-2">
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-500 transition-colors mb-2 line-clamp-2">
                         {journey.title}
                       </h3>
                       
@@ -155,7 +161,7 @@ export default async function PublicProfilePage({ params }: Props) {
 
                       <div className="flex items-center justify-between text-sm text-slate-500">
                         <span className="font-medium">
-                          {journey.version_count || 0} versions
+                          {journey.version_count || 0} milestones
                         </span>
                         <span>
                           {new Date(journey.updated_at).toLocaleDateString('en-US', {
@@ -166,7 +172,7 @@ export default async function PublicProfilePage({ params }: Props) {
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             ) : (
