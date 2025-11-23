@@ -130,28 +130,45 @@ export default function LandingPage() {
                   </div>
                 </div>
                 
-                {/* Profile Header */}
-                <div className="flex items-center mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mr-3"></div>
-                  <div>
-                    <div className="h-3 w-24 bg-slate-200 rounded mb-1"></div>
-                    <div className="h-2 w-16 bg-slate-100 rounded"></div>
+                {/* Milestones List */}
+                <div className="flex-1 space-y-3 overflow-hidden">
+                  {/* Milestone 1 */}
+                  <div className="flex gap-2">
+                    <div className="text-[8px] text-slate-600 w-12 text-right pt-1 shrink-0">Jan 2024</div>
+                    <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
+                      <div className="text-[8px] font-bold text-slate-900 mb-1">Started the journey</div>
+                      <div className="text-[6px] text-slate-600 leading-tight">Taking the first step towards my goal. Excited for what's ahead!</div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Timeline */}
-                <div className="flex-1 space-y-3">
-                  <div className="bg-slate-50 rounded-xl p-3">
-                    <div className="h-2 w-20 bg-slate-300 rounded mb-2"></div>
-                    <div className="h-2 w-full bg-slate-200 rounded"></div>
+                  {/* Milestone 2 with Image */}
+                  <div className="flex gap-2">
+                    <div className="text-[8px] text-slate-600 w-12 text-right pt-1 shrink-0">Feb 2024</div>
+                    <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg overflow-hidden">
+                      <div className="h-16 bg-gradient-to-br from-blue-300 to-blue-400"></div>
+                      <div className="p-2">
+                        <div className="text-[8px] font-bold text-slate-900 mb-1">Major breakthrough</div>
+                        <div className="text-[6px] text-slate-600 leading-tight">Achieved my first major milestone. The progress feels real now.</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="bg-blue-50 rounded-xl p-3">
-                    <div className="h-2 w-20 bg-blue-300 rounded mb-2"></div>
-                    <div className="h-2 w-full bg-blue-200 rounded"></div>
+
+                  {/* Milestone 3 */}
+                  <div className="flex gap-2">
+                    <div className="text-[8px] text-slate-600 w-12 text-right pt-1 shrink-0">Mar 2024</div>
+                    <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
+                      <div className="text-[8px] font-bold text-slate-900 mb-1">Staying consistent</div>
+                      <div className="text-[6px] text-slate-600 leading-tight">Building momentum. Small steps every day are adding up.</div>
+                    </div>
                   </div>
-                  <div className="bg-blue-100 rounded-xl p-3">
-                    <div className="h-2 w-20 bg-blue-400 rounded mb-2"></div>
-                    <div className="h-2 w-full bg-blue-300 rounded"></div>
+
+                  {/* Milestone 4 */}
+                  <div className="flex gap-2">
+                    <div className="text-[8px] text-slate-600 w-12 text-right pt-1 shrink-0">Apr 2024</div>
+                    <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
+                      <div className="text-[8px] font-bold text-slate-900 mb-1">New level unlocked</div>
+                      <div className="text-[6px] text-slate-600 leading-tight">Reached a point I never thought possible. This journey is transforming me.</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -159,35 +176,79 @@ export default function LandingPage() {
 
             {/* Desktop Mockup - Center */}
             <div className="w-[500px] md:w-[700px] h-[320px] md:h-[440px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-3 border-4 border-slate-700 relative z-10 translate-y-[32px] md:translate-y-[44px]">
-              <div className="bg-white rounded-xl h-full p-6 flex flex-col overflow-hidden">
+              <div className="bg-white rounded-xl h-full flex flex-col overflow-hidden">
                 {/* Browser Chrome */}
-                <div className="flex items-center mb-4 pb-3 border-b border-slate-200">
+                <div className="flex items-center px-4 py-2 border-b border-slate-200">
                   <div className="flex gap-2 mr-4">
                     <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                     <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                     <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                   </div>
-                  <div className="flex-1 h-6 bg-slate-100 rounded-lg flex items-center px-3">
-                    <div className="h-2 w-32 bg-slate-300 rounded"></div>
+                  <div className="flex-1 h-5 bg-slate-100 rounded flex items-center px-2">
+                    <div className="text-[6px] text-slate-400">loged.in/@username/my-journey</div>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 grid grid-cols-3 gap-4">
-                  {/* Sidebar */}
-                  <div className="space-y-2">
-                    <div className="h-8 bg-blue-100 rounded"></div>
-                    <div className="h-6 bg-slate-100 rounded"></div>
-                    <div className="h-6 bg-slate-100 rounded"></div>
-                    <div className="h-6 bg-slate-100 rounded"></div>
+                {/* Journey Page Content */}
+                <div className="flex-1 overflow-y-auto">
+                  {/* Cover Photo and Profile Section */}
+                  <div className="relative">
+                    {/* Cover Photo */}
+                    <div className="w-full bg-gradient-to-br from-blue-400 to-purple-500 h-16"></div>
+
+                    {/* Profile Section - Centered, overlapping cover */}
+                    <div className="absolute left-0 right-0 top-10 flex flex-col items-center px-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-2 border-white mb-2"></div>
+                      <div className="text-[9px] font-bold text-slate-900 mb-1">My Fitness Journey</div>
+                      <div className="text-[6px] text-slate-500 mb-1">From zero to marathon runner</div>
+                      <div className="flex gap-1 text-[5px] text-slate-400">
+                        <span>By @alex</span>
+                        <span>•</span>
+                        <span>12 milestones</span>
+                        <span>•</span>
+                        <span>Updated Nov 2024</span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Main Content */}
-                  <div className="col-span-2 space-y-3">
-                    <div className="h-12 bg-slate-100 rounded-lg"></div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="aspect-square bg-blue-100 rounded-lg"></div>
-                      <div className="aspect-square bg-blue-200 rounded-lg"></div>
+                  {/* Spacer for profile overlap */}
+                  <div className="h-16"></div>
+
+                  {/* Timeline Title */}
+                  <div className="px-4 mt-2 mb-2">
+                    <div className="text-[8px] font-bold text-slate-900 text-center">Timeline</div>
+                  </div>
+
+                  {/* Timeline Items */}
+                  <div className="px-4 space-y-2">
+                    {/* Timeline Item 1 */}
+                    <div className="flex gap-2">
+                      <div className="text-[6px] text-slate-600 w-12 text-right pt-1">Jan 2024</div>
+                      <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
+                        <div className="text-[7px] font-bold text-slate-900 mb-0.5">Day One</div>
+                        <div className="text-[5px] text-slate-600 leading-tight">Started running. Could barely do 1km. This is the beginning.</div>
+                      </div>
+                    </div>
+
+                    {/* Timeline Item 2 with Image */}
+                    <div className="flex gap-2">
+                      <div className="text-[6px] text-slate-600 w-12 text-right pt-1">Mar 2024</div>
+                      <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg overflow-hidden">
+                        <div className="h-8 bg-gradient-to-br from-blue-300 to-blue-400"></div>
+                        <div className="p-2">
+                          <div className="text-[7px] font-bold text-slate-900 mb-0.5">First 5K complete!</div>
+                          <div className="text-[5px] text-slate-600 leading-tight">Ran my first 5K race. Felt amazing crossing the finish line.</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Timeline Item 3 */}
+                    <div className="flex gap-2">
+                      <div className="text-[6px] text-slate-600 w-12 text-right pt-1">Jun 2024</div>
+                      <div className="flex-1 bg-gradient-to-br from-blue-50 to-white border border-slate-200 rounded-lg p-2">
+                        <div className="text-[7px] font-bold text-slate-900 mb-0.5">Half marathon</div>
+                        <div className="text-[5px] text-slate-600 leading-tight">21km done! Never imagined I'd come this far. The journey continues.</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -208,18 +269,53 @@ export default function LandingPage() {
 
                 {/* Header */}
                 <div className="mb-4">
-                  <div className="h-4 w-32 bg-slate-200 rounded mb-2"></div>
-                  <div className="h-2 w-24 bg-slate-100 rounded"></div>
+                  <div className="text-sm font-bold text-slate-900 mb-1">Analytics</div>
+                  <div className="text-[8px] text-slate-500">Track your journey's impact</div>
                 </div>
 
-                {/* Grid of Milestones */}
-                <div className="grid grid-cols-2 gap-3 flex-1">
-                  <div className="aspect-square bg-slate-100 rounded-lg"></div>
-                  <div className="aspect-square bg-blue-100 rounded-lg"></div>
-                  <div className="aspect-square bg-blue-200 rounded-lg"></div>
-                  <div className="aspect-square bg-slate-100 rounded-lg"></div>
-                  <div className="aspect-square bg-blue-300 rounded-lg"></div>
-                  <div className="aspect-square bg-slate-100 rounded-lg"></div>
+                {/* Analytics Cards */}
+                <div className="flex-1 space-y-3">
+                  {/* Total Views Card */}
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-3 border border-blue-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] text-blue-600 font-medium">Total Views</div>
+                      <div className="w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center text-[8px]">👁️</div>
+                    </div>
+                    <div className="text-lg font-bold text-blue-900 mb-1">1,234</div>
+                    <div className="text-[7px] text-blue-600">+12% this week</div>
+                  </div>
+
+                  {/* Total Reactions Card */}
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-3 border border-purple-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] text-purple-600 font-medium">Reactions</div>
+                      <div className="w-5 h-5 bg-purple-400 rounded-full flex items-center justify-center">
+                        <div className="text-[6px]">❤️</div>
+                      </div>
+                    </div>
+                    <div className="text-lg font-bold text-purple-900 mb-1">456</div>
+                    <div className="text-[7px] text-purple-600">+8% this week</div>
+                  </div>
+
+                  {/* Shares Card */}
+                  <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-3 border border-green-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] text-green-600 font-medium">Shares</div>
+                      <div className="w-5 h-5 bg-green-400 rounded-full flex items-center justify-center text-[8px]">↗️</div>
+                    </div>
+                    <div className="text-lg font-bold text-green-900 mb-1">89</div>
+                    <div className="text-[7px] text-green-600">+15% this week</div>
+                  </div>
+
+                  {/* Followers Card */}
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-3 border border-orange-200">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] text-orange-600 font-medium">Followers</div>
+                      <div className="w-5 h-5 bg-orange-400 rounded-full flex items-center justify-center text-[8px]">👥</div>
+                    </div>
+                    <div className="text-lg font-bold text-orange-900 mb-1">342</div>
+                    <div className="text-[7px] text-orange-600">+5% this week</div>
+                  </div>
                 </div>
               </div>
             </div>
