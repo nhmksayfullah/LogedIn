@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, Globe } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 
 type Props = {
   params: Promise<{ username: string; journeySlug: string }>;
@@ -48,7 +48,7 @@ async function getPublicJourney(username: string, journeySlug: string) {
     console.log('[getPublicJourney] Found journeys:', data.journeys?.length);
     
     // Find the specific journey by slug
-    const journey = data.journeys.find((j: any) => j.slug === journeySlug);
+    const journey = data.journeys.find((j: { slug: string; is_public: boolean }) => j.slug === journeySlug);
     
     console.log('[getPublicJourney] Journey found:', !!journey, 'is_public:', journey?.is_public);
     
@@ -201,7 +201,14 @@ export default async function PublicJourneyPage({ params }: Props) {
               </div>
             ) : (
               <div className="space-y-8">
-                {versions.map((version: any) => (
+                {versions.map((version: { 
+                  id: string; 
+                  date: string; 
+                  title: string; 
+                  description: string; 
+                  cover_photo_url?: string;
+                  tags?: string[];
+                }) => (
                   <div
                     key={version.id}
                     className="flex flex-col sm:flex-row gap-4 sm:gap-6"

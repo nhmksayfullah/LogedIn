@@ -105,7 +105,7 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
       setError(null);
 
       let coverImageUrl = initialData?.cover_image_url || null;
-      let finalCoverColor = coverColor;
+      const finalCoverColor = coverColor;
 
       // Handle cover photo/color upload for edit mode
       if (mode === 'edit' && journeyId) {

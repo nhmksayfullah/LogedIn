@@ -43,7 +43,7 @@ export async function GET(
 
     // Fetch version counts for each journey
     const journeysWithCount = await Promise.all(
-      (journeys || []).map(async (journey: any) => {
+      (journeys || []).map(async (journey: { id: string }) => {
         const { count } = await supabase
           .from('versions')
           .select('*', { count: 'exact', head: true })

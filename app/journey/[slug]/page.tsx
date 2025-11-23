@@ -6,7 +6,7 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Plus, Calendar, Hash, Tag, X, Trash2, Globe, Lock, Settings, Upload, Image as ImageIcon } from 'lucide-react';
+import { Plus, Hash, X, Trash2, Globe, Lock, Settings, Upload } from 'lucide-react';
 import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 
 interface Journey {

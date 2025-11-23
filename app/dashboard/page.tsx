@@ -15,7 +15,7 @@ export default function Dashboard() {
   const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const { refetch: refetchPurchase } = usePurchase();
-  const { journeys, isLoading: isLoadingJourneys, createJourney, updateJourney, deleteJourney, refetch } = useJourneys();
+  const { journeys, isLoading: isLoadingJourneys, createJourney, updateJourney, deleteJourney } = useJourneys();
   
   // Journey modal state
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);

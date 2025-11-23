@@ -69,6 +69,7 @@ export async function POST(request: Request) {
         .eq('id', versionId)
         .single();
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (!version || (version as any).journeys.user_id !== user.id) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
       }
@@ -210,6 +211,7 @@ export async function DELETE(request: Request) {
       .eq('id', versionId)
       .single();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!version || (version as any).journeys.user_id !== user.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
     }

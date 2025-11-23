@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Calendar, Globe, Lock, Edit2, Trash2, MoreVertical } from 'lucide-react';
+import { Calendar, Globe, Lock, Edit2, Trash2, MoreVertical } from 'lucide-react';
 import { Journey } from '@/hooks/useJourneys';
 
 interface JourneyCardProps {
