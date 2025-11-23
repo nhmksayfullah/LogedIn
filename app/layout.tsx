@@ -25,8 +25,10 @@ export default function RootLayout({
           <PostHogProvider> */}
             <AuthProvider>   
                 <ProtectedRoute>
-                  <Header />
-                  <main>{children}</main>
+                  <div className="flex flex-col min-h-screen">
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                  </div>
                 </ProtectedRoute>
             </AuthProvider>
           {/* </PostHogProvider>

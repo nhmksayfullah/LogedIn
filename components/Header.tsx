@@ -81,6 +81,8 @@ export default function Header() {
 
   return (
     <>
+      {/* Spacer div to push content down when header is fixed */}
+      <div className="h-20" />
       <header className="fixed top-0 w-full z-50 pt-4 px-4">
         <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200">
           <div className="px-6 py-3 flex items-center justify-between">
