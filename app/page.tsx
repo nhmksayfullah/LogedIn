@@ -71,7 +71,7 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             className="text-landing-hero md:text-landing-hero-lg font-semibold text-center text-slate-900 leading-tight"
           >
-            Log every <span className="text-blue-500">version</span> of yourself.
+            log every <span className="text-blue-500">version</span> of yourself
           </motion.h1>
 
           {/* Subheading */}
@@ -356,11 +356,35 @@ export default function LandingPage() {
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-56 h-72 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl transform -rotate-3 scale-90 group-hover:scale-95 transition-transform">
-                    <div className="p-4 h-full flex flex-col">
-                      <div className="w-full h-12 bg-blue-500/20 rounded-lg mb-3"></div>
-                      <div className="flex-1 bg-slate-700/30 rounded-lg"></div>
+                <div className="flex gap-4">
+                  {/* Private Mode */}
+                  <div className="w-32 h-40 bg-white rounded-xl shadow-lg p-3 group-hover:scale-105 transition-transform">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] font-semibold text-slate-700">My Journey</div>
+                      <div className="w-5 h-5 bg-slate-200 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">🔒</span>
+                      </div>
+                    </div>
+                    <div className="text-[6px] text-slate-500 mb-2">Private</div>
+                    <div className="space-y-1.5">
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                      <div className="h-2 bg-slate-100 rounded"></div>
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                    </div>
+                  </div>
+                  {/* Public Mode */}
+                  <div className="w-32 h-40 bg-white rounded-xl shadow-lg p-3 group-hover:scale-105 transition-transform">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[8px] font-semibold text-slate-700">My Journey</div>
+                      <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-[10px]">🌐</span>
+                      </div>
+                    </div>
+                    <div className="text-[6px] text-blue-600 mb-2">Public</div>
+                    <div className="space-y-1.5">
+                      <div className="h-2 bg-blue-200 rounded"></div>
+                      <div className="h-2 bg-blue-100 rounded"></div>
+                      <div className="h-2 bg-blue-200 rounded"></div>
                     </div>
                   </div>
                 </div>
@@ -379,16 +403,32 @@ export default function LandingPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
-              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center">
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform"></div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-75"></div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-red-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-100"></div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-150"></div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full shadow-lg group-hover:rotate-180 transition-transform delay-200 flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center p-4">
+                <div className="w-full max-w-xs space-y-3">
+                  {/* Milestone 1 */}
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform">
+                    <div className="w-12 h-12 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jan</div>
+                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
+                      <div className="h-2 w-16 bg-slate-800 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
+                    </div>
                   </div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-75"></div>
+                  {/* Milestone 2 */}
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-75">
+                    <div className="w-12 h-12 bg-purple-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Mar</div>
+                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
+                      <div className="h-2 w-20 bg-slate-800 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
+                    </div>
+                  </div>
+                  {/* Milestone 3 */}
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-150">
+                    <div className="w-12 h-12 bg-green-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jun</div>
+                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
+                      <div className="h-2 w-14 bg-slate-800 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">Capture the Milestones That Changed You</h3>
@@ -406,16 +446,28 @@ export default function LandingPage() {
               className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
-                <div className="w-full max-w-xs bg-white rounded-2xl shadow-xl p-6 group-hover:scale-105 transition-transform">
-                  <div className="flex flex-col items-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-slate-700 to-slate-900 rounded-full mb-3"></div>
-                    <div className="h-3 w-32 bg-slate-200 rounded mb-2"></div>
-                    <div className="h-2 w-24 bg-slate-100 rounded mb-4"></div>
-                    <div className="flex gap-2 mb-3">
-                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
-                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
-                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
-                      <div className="w-6 h-6 bg-slate-200 rounded"></div>
+                <div className="w-full max-w-xs bg-white rounded-2xl shadow-xl overflow-hidden group-hover:scale-105 transition-transform">
+                  {/* Cover Photo */}
+                  <div className="h-16 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                  {/* Profile Section */}
+                  <div className="px-4 pb-4 -mt-8">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-white mb-2"></div>
+                    <div className="h-3 w-28 bg-slate-800 rounded mb-2"></div>
+                    <div className="h-2 w-20 bg-slate-300 rounded mb-3"></div>
+                    {/* Timeline Preview */}
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <div className="text-[6px] text-slate-600 w-8">Jan</div>
+                        <div className="flex-1 bg-blue-50 rounded p-1.5">
+                          <div className="h-1 w-12 bg-blue-400 rounded"></div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <div className="text-[6px] text-slate-600 w-8">Mar</div>
+                        <div className="flex-1 bg-blue-50 rounded p-1.5">
+                          <div className="h-1 w-16 bg-blue-400 rounded"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -436,16 +488,27 @@ export default function LandingPage() {
             >
               <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center p-6">
                 <div className="w-full h-full bg-white rounded-xl shadow-lg p-4 group-hover:scale-105 transition-transform">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="h-2 w-20 bg-slate-200 rounded"></div>
-                    <div className="h-4 w-12 bg-slate-900 rounded"></div>
+                  <div className="flex justify-between items-center mb-3">
+                    <div className="text-[10px] font-bold text-slate-900">Your Growth</div>
+                    <div className="text-[8px] text-green-600 font-semibold">↗ +24%</div>
                   </div>
-                  <div className="h-2 w-16 bg-slate-100 rounded mb-4"></div>
-                  <div className="flex items-end justify-between h-24 gap-2">
-                    <div className="w-full bg-blue-200 rounded-t" style={{ height: '60%' }}></div>
-                    <div className="w-full bg-blue-300 rounded-t" style={{ height: '45%' }}></div>
-                    <div className="w-full bg-blue-300 rounded-t" style={{ height: '50%' }}></div>
-                    <div className="w-full bg-blue-400 rounded-t" style={{ height: '75%' }}></div>
+                  {/* Growth curve */}
+                  <div className="relative h-28">
+                    <svg className="w-full h-full" viewBox="0 0 200 100" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="growthGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" style={{stopColor: '#3b82f6', stopOpacity: 0.3}} />
+                          <stop offset="100%" style={{stopColor: '#3b82f6', stopOpacity: 0.05}} />
+                        </linearGradient>
+                      </defs>
+                      <path d="M 0 80 Q 50 60, 100 40 T 200 10" fill="none" stroke="#3b82f6" strokeWidth="3" className="group-hover:stroke-[4] transition-all"/>
+                      <path d="M 0 80 Q 50 60, 100 40 T 200 10 L 200 100 L 0 100 Z" fill="url(#growthGradient)"/>
+                    </svg>
+                    {/* Milestone markers */}
+                    <div className="absolute bottom-1 left-0 w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="absolute bottom-5 left-1/4 w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="absolute bottom-12 left-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
+                    <div className="absolute bottom-20 right-0 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
                   </div>
                 </div>
               </div>
@@ -489,39 +552,45 @@ export default function LandingPage() {
               
               <ul className="space-y-3 mb-6">
                 <li className="flex items-start">
-                  <svg className="w-4 h-4 text-blue-500 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-landing-small text-slate-700">1 transformation journey</span>
+                  <span className="text-slate-700">1 transformation journey</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Up to 10 versions</span>
+                  <span className="text-slate-700">Unlimited milestones</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Add photos & notes</span>
+                  <span className="text-slate-700">Limited media storage</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Basic public page</span>
+                  <span className="text-slate-700">Basic public pages</span>
                 </li>
-                <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                <li className="flex items-start opacity-50">
+                  <svg className="w-5 h-5 text-slate-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Loged.in branding</span>
+                  <span className="text-slate-500">Verified badge</span>
+                </li>
+                <li className="flex items-start opacity-50">
+                  <svg className="w-5 h-5 text-slate-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
+                  </svg>
+                  <span className="text-slate-500">Hide or show specific milestones</span>
                 </li>
               </ul>
 
               <p className="text-sm text-slate-500 mb-6">
-                Best for trying Loged.in or logging a single transformation.
+                Perfect for getting started with your first journey.
               </p>
 
               <button 
@@ -559,19 +628,19 @@ export default function LandingPage() {
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited journeys</span>
+                    <span className="text-slate-700 font-semibold">Unlimited transformation journeys</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited versions</span>
+                    <span className="text-slate-700 font-semibold">Unlimited milestones</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">No Loged.in watermark</span>
+                    <span className="text-slate-700">Extended media storage</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -583,19 +652,13 @@ export default function LandingPage() {
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Before/after comparison view</span>
+                    <span className="text-slate-700">Verified badge</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Hide or show specific versions</span>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                    <span className="text-slate-700">Priority support</span>
+                    <span className="text-slate-700">Hide or show specific milestones</span>
                   </li>
                 </ul>
 
@@ -632,19 +695,19 @@ export default function LandingPage() {
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited journeys</span>
+                    <span className="text-slate-700 font-semibold">Unlimited transformation journeys</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited versions</span>
+                    <span className="text-slate-700 font-semibold">Unlimited milestones</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">No Loged.in watermark</span>
+                    <span className="text-slate-700">Extended media storage</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -656,19 +719,13 @@ export default function LandingPage() {
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Before/after comparison view</span>
+                    <span className="text-slate-700">Verified badge</span>
                   </li>
                   <li className="flex items-start">
                     <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Hide or show specific versions</span>
-                  </li>
-                  <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                    <span className="text-slate-700">Priority support</span>
+                    <span className="text-slate-700">Hide or show specific milestones</span>
                   </li>
                 </ul>
 
