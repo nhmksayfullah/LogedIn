@@ -5,6 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
+
 function ResetPasswordContent() {
   const { supabase } = useAuth();
   const searchParams = useSearchParams();

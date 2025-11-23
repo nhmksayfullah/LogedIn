@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Hash, X, Trash2, Globe, Lock, Settings, Upload } from 'lucide-react';

@@ -5,6 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePurchase } from '@/hooks/usePurchase';
 import { AccountManagement } from '@/components/AccountManagement';
+
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Suspense } from 'react';
 import LoadingSpinner from '@/components/LoadingSpinner';

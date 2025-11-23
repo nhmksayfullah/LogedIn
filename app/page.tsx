@@ -7,6 +7,9 @@ import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePurchase } from '@/hooks/usePurchase';
 
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
+
 type ModalIntent = 'signup' | 'login' | 'payment';
 
 export default function LandingPage() {

@@ -179,6 +179,124 @@ CREATE INDEX IF NOT EXISTS idx_journeys_is_public ON public.journeys(is_public);
 CREATE INDEX IF NOT EXISTS idx_versions_journey_id ON public.versions(journey_id);
 CREATE INDEX IF NOT EXISTS idx_versions_date ON public.versions(date DESC);
 
+-- Database trigger function to handle new user creation
+-- This automatically creates user records with OAuth data when auth.users is inserted
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $$
+DECLARE
+  v_avatar_url TEXT;
+  v_username TEXT;
+  v_name TEXT;
+  v_provider TEXT;
+BEGIN
+  -- Extract OAuth provider and metadata
+  v_provider := NEW.raw_app_meta_data->>'provider';
+  
+  -- Extract OAuth data based on provider
+  IF v_provider = 'google' THEN
+    v_avatar_url := NEW.raw_user_meta_data->>'avatar_url';
+    v_name := COALESCE(
+      NEW.raw_user_meta_data->>'full_name',
+      NEW.raw_user_meta_data->>'name'
+    );
+    -- Extract username from email
+    IF NEW.email IS NOT NULL THEN
+      v_username := split_part(NEW.email, '@', 1);
+    END IF;
+  ELSIF v_provider = 'twitter' THEN
+    v_avatar_url := NEW.raw_user_meta_data->>'avatar_url';
+    v_name := COALESCE(
+      NEW.raw_user_meta_data->>'full_name',
+      NEW.raw_user_meta_data->>'name'
+    );
+    -- Extract Twitter handle
+    v_username := COALESCE(
+      NEW.raw_user_meta_data->>'user_name',
+      NEW.raw_user_meta_data->>'preferred_username'
+    );
+    -- Remove @ symbol if present
+    IF v_username IS NOT NULL AND v_username LIKE '@%' THEN
+      v_username := substring(v_username from 2);
+    END IF;
+  END IF;
+  
+  -- Make username unique if it exists
+  IF v_username IS NOT NULL THEN
+    DECLARE
+      v_final_username TEXT := v_username;
+      v_suffix INTEGER := 1;
+      v_exists BOOLEAN;
+    BEGIN
+      LOOP
+        -- Check if username exists for a different user
+        SELECT EXISTS(
+          SELECT 1 FROM public.users 
+          WHERE username = v_final_username 
+          AND id != NEW.id
+        ) INTO v_exists;
+        
+        EXIT WHEN NOT v_exists;
+        
+        v_final_username := v_username || v_suffix;
+        v_suffix := v_suffix + 1;
+        
+        -- Safety limit
+        IF v_suffix > 100 THEN
+          v_final_username := v_username || extract(epoch from NOW())::bigint;
+          EXIT;
+        END IF;
+      END LOOP;
+      
+      v_username := v_final_username;
+    END;
+  END IF;
+  
+  -- Insert user with OAuth data
+  INSERT INTO public.users (
+    id, 
+    email, 
+    avatar_url, 
+    username, 
+    name, 
+    created_at, 
+    updated_at, 
+    is_deleted
+  )
+  VALUES (
+    NEW.id, 
+    NEW.email, 
+    v_avatar_url, 
+    v_username, 
+    v_name, 
+    NOW(), 
+    NOW(), 
+    FALSE
+  );
+  
+  -- Insert user preferences
+  INSERT INTO public.user_preferences (user_id, has_completed_onboarding)
+  VALUES (NEW.id, FALSE);
+  
+  RETURN NEW;
+EXCEPTION
+  WHEN OTHERS THEN
+    -- Log the error and re-raise it
+    RAISE WARNING 'Error in handle_new_user: %', SQLERRM;
+    RAISE;
+END;
+$$;
+
+-- Create trigger on auth.users to automatically create user records
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_new_user();
+
 -- Create a function to handle OAuth user data insertion/update
 -- This function runs with elevated privileges to bypass RLS during OAuth callback
 CREATE OR REPLACE FUNCTION public.handle_oauth_user(

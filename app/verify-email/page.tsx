@@ -5,6 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
+
 function VerifyEmailContent() {
   const { user } = useAuth();
   const router = useRouter();

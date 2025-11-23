@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
+
 export default function UpdatePasswordPage() {
   const { supabase } = useAuth();
   const router = useRouter();

@@ -11,6 +11,9 @@ import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 import { JourneyCard } from '@/components/JourneyCard';
 
+// Force dynamic rendering - this page cannot be statically generated
+export const dynamic = 'force-dynamic';
+
 export default function Dashboard() {
   const { user, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
