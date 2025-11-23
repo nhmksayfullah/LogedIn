@@ -104,50 +104,28 @@ export async function GET(request: Request) {
         username = finalUsername;
       }
       
-      // Build update object with available data
-      const updateData: { avatar_url?: string; username?: string; name?: string } = {};
-      if (avatarUrl) updateData.avatar_url = avatarUrl;
-      if (username) updateData.username = username;
-      if (name) updateData.name = name;
-      
       // Store data in users table if available
-      if (Object.keys(updateData).length > 0) {
-        console.log('AuthCallback: Storing OAuth data:', updateData);
+      if (avatarUrl || username || name) {
+        console.log('AuthCallback: Storing OAuth data:', { avatarUrl, username, name });
         
-        // First, check if user exists in users table
-        const { data: existingUserData } = await supabase
-          .from('users')
-          .select('id')
-          .eq('id', user.id)
-          .maybeSingle();
+        // Use the handle_oauth_user function to insert/update user data
+        // This function has SECURITY DEFINER and bypasses RLS issues during OAuth
+        const { error: upsertError } = await supabase.rpc('handle_oauth_user', {
+          p_user_id: user.id,
+          p_email: user.email,
+          p_avatar_url: avatarUrl,
+          p_username: username,
+          p_name: name
+        });
         
-        if (existingUserData) {
-          // User exists, update the record
-          const { error: updateError } = await supabase
-            .from('users')
-            .update(updateData)
-            .eq('id', user.id);
-          
-          if (updateError) {
-            console.error('AuthCallback: Error updating user data:', updateError);
-          } else {
-            console.log('AuthCallback: Successfully updated OAuth data');
-          }
+        if (upsertError) {
+          console.error('AuthCallback: Error storing user data:', upsertError);
+          // Redirect to home with error instead of continuing
+          return NextResponse.redirect(
+            new URL(`/?error=server_error&error_code=user_save_failed&error_description=${encodeURIComponent('Failed to save user profile data')}`, requestUrl.origin)
+          );
         } else {
-          // User doesn't exist, insert new record
-          const { error: insertError } = await supabase
-            .from('users')
-            .insert({
-              id: user.id,
-              email: user.email,
-              ...updateData
-            });
-          
-          if (insertError) {
-            console.error('AuthCallback: Error inserting user data:', insertError);
-          } else {
-            console.log('AuthCallback: Successfully inserted OAuth data');
-          }
+          console.log('AuthCallback: Successfully stored OAuth data');
         }
       }
     }

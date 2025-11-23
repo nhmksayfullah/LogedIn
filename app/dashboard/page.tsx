@@ -15,7 +15,7 @@ export default function Dashboard() {
   const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const { refetch: refetchPurchase } = usePurchase();
-  const { journeys, isLoading: isLoadingJourneys, createJourney, updateJourney, deleteJourney } = useJourneys();
+  const { journeys, isLoading: isLoadingJourneys, journeyLimits, createJourney, updateJourney, deleteJourney } = useJourneys();
   
   // Journey modal state
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
@@ -51,13 +51,9 @@ export default function Dashboard() {
   }
 
   const handleCreateJourney = async (data: JourneyFormData) => {
-    // Check journey limit for free users
-    if (!hasLifetimeAccess && journeys.length >= 1) {
-      throw new Error('Free plan allows only 1 journey. Upgrade to create more!');
-    }
-
+    // The limit check is now handled in the useJourneys hook
+    // Just call createJourney and let it handle the validation
     await createJourney(data);
-    // No need to refetch - createJourney already refreshes the list
   };
 
   const handleEditJourney = async (data: JourneyFormData) => {
@@ -73,6 +69,13 @@ export default function Dashboard() {
   };
 
   const openCreateModal = () => {
+    // Check if user can create more journeys
+    if (journeyLimits && !journeyLimits.canCreate) {
+      // Show upgrade prompt instead
+      setIsPaymentModalOpen(true);
+      return;
+    }
+    
     setModalMode('create');
     setEditingJourney(null);
     setIsJourneyModalOpen(true);
@@ -149,22 +152,43 @@ export default function Dashboard() {
         )}
 
         {/* Free Plan Notice */}
-        {!hasLifetimeAccess && journeys.length > 0 && (
+        {journeyLimits && !journeyLimits.isLifetimePro && journeys.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6 text-center"
           >
             <p className="text-slate-700">
-              You&apos;re on the <span className="font-semibold">Free Plan</span> (1 journey limit).{' '}
+              You&apos;re on the <span className="font-semibold">Free Plan</span> ({journeyLimits.currentCount}/{journeyLimits.limit} journey used).{' '}
               <button
                 onClick={() => setIsPaymentModalOpen(true)}
                 className="text-blue-600 font-semibold hover:underline"
               >
                 Upgrade to Lifetime Pro
               </button>{' '}
-              for unlimited journeys.
+              for unlimited journeys and more features.
             </p>
+          </motion.div>
+        )}
+        
+        {/* Upgrade Banner when limit reached */}
+        {journeyLimits && !journeyLimits.canCreate && !journeyLimits.isLifetimePro && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl p-8 text-center shadow-lg"
+          >
+            <h3 className="text-2xl font-bold mb-2">Journey Limit Reached</h3>
+            <p className="mb-6 text-blue-50">
+              You&apos;ve reached your limit of {journeyLimits.limit} journey on the Free plan. 
+              Upgrade to Lifetime Pro for unlimited journeys, custom themes, and more!
+            </p>
+            <button
+              onClick={() => setIsPaymentModalOpen(true)}
+              className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+            >
+              Upgrade to Lifetime Pro - $39 (60% off)
+            </button>
           </motion.div>
         )}
       </div>

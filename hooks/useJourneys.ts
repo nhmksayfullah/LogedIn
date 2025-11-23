@@ -17,12 +17,38 @@ export interface Journey {
   version_count?: number;
 }
 
+export interface JourneyLimits {
+  canCreate: boolean;
+  currentCount: number;
+  limit: number;
+  isLifetimePro: boolean;
+  message: string;
+  limits?: {
+    canHideMilestones: boolean;
+    hasVerifiedBadge: boolean;
+    hasCustomThemes: boolean;
+  };
+}
+
 export function useJourneys() {
   const { user } = useAuth();
   const supabase = createClient(); // Create client instance
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [journeyLimits, setJourneyLimits] = useState<JourneyLimits | null>(null);
+
+  const fetchJourneyLimits = async () => {
+    try {
+      const response = await fetch('/api/journey/check-limit');
+      if (response.ok) {
+        const data = await response.json();
+        setJourneyLimits(data);
+      }
+    } catch (err) {
+      console.error('Error fetching journey limits:', err);
+    }
+  };
 
   const fetchJourneys = async () => {
     if (!user?.id) {
@@ -60,6 +86,9 @@ export function useJourneys() {
       );
 
       setJourneys(journeysWithCount);
+      
+      // Also fetch limits whenever journeys are fetched
+      await fetchJourneyLimits();
     } catch (err) {
       console.error('Error fetching journeys:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch journeys');
@@ -75,6 +104,15 @@ export function useJourneys() {
     slug?: string;
   }) => {
     if (!user?.id) throw new Error('User not authenticated');
+
+    // Check limits before attempting to create
+    const limitsResponse = await fetch('/api/journey/check-limit');
+    if (limitsResponse.ok) {
+      const limitsData = await limitsResponse.json();
+      if (!limitsData.canCreate) {
+        throw new Error(limitsData.message || 'Journey limit reached. Please upgrade to create more journeys.');
+      }
+    }
 
     try {
       // Generate slug from title if not provided
@@ -99,6 +137,10 @@ export function useJourneys() {
 
       if (insertError) {
         console.error('Insert error details:', insertError);
+        // Check if it's a policy violation (limit exceeded)
+        if (insertError.code === '42501' || insertError.message?.includes('policy')) {
+          throw new Error('Journey limit reached. Please upgrade to create more journeys.');
+        }
         throw insertError;
       }
 
@@ -167,6 +209,7 @@ export function useJourneys() {
     journeys,
     isLoading,
     error,
+    journeyLimits,
     createJourney,
     updateJourney,
     deleteJourney,

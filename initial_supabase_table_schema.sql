@@ -178,3 +178,41 @@ CREATE INDEX IF NOT EXISTS idx_journeys_user_id ON public.journeys(user_id);
 CREATE INDEX IF NOT EXISTS idx_journeys_is_public ON public.journeys(is_public);
 CREATE INDEX IF NOT EXISTS idx_versions_journey_id ON public.versions(journey_id);
 CREATE INDEX IF NOT EXISTS idx_versions_date ON public.versions(date DESC);
+
+-- Create a function to handle OAuth user data insertion/update
+-- This function runs with elevated privileges to bypass RLS during OAuth callback
+CREATE OR REPLACE FUNCTION public.handle_oauth_user(
+  p_user_id UUID,
+  p_email TEXT,
+  p_avatar_url TEXT DEFAULT NULL,
+  p_username TEXT DEFAULT NULL,
+  p_name TEXT DEFAULT NULL
+)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  INSERT INTO public.users (id, email, avatar_url, username, name, created_at, updated_at)
+  VALUES (
+    p_user_id,
+    p_email,
+    p_avatar_url,
+    p_username,
+    p_name,
+    NOW(),
+    NOW()
+  )
+  ON CONFLICT (id) 
+  DO UPDATE SET
+    avatar_url = COALESCE(EXCLUDED.avatar_url, users.avatar_url),
+    username = COALESCE(EXCLUDED.username, users.username),
+    name = COALESCE(EXCLUDED.name, users.name),
+    email = COALESCE(EXCLUDED.email, users.email),
+    updated_at = NOW();
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.handle_oauth_user(UUID, TEXT, TEXT, TEXT, TEXT) TO authenticated;
+GRANT EXECUTE ON FUNCTION public.handle_oauth_user(UUID, TEXT, TEXT, TEXT, TEXT) TO anon;
