@@ -102,11 +102,11 @@ export default async function PublicJourneyPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Container with same width as header */}
-      <div className="max-w-6xl mx-auto bg-white">
+      <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
-        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600" style={{ paddingTop: '16.13%' }}>
+        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-b-xl overflow-hidden" style={{ paddingTop: '16.13%' }}>
           {journey.cover_image_url ? (
             <Image
               src={journey.cover_image_url}
@@ -200,60 +200,63 @@ export default async function PublicJourneyPage({ params }: Props) {
                 </p>
               </div>
             ) : (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {versions.map((version: any) => (
                   <div
                     key={version.id}
-                    className="bg-gradient-to-br from-slate-50 to-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                    className="flex flex-col sm:flex-row gap-4 sm:gap-6"
                   >
-                    {/* Cover Photo */}
-                    {version.cover_photo_url && (
-                      <div className="relative w-full h-64 overflow-hidden">
-                        <Image
-                          src={version.cover_photo_url}
-                          alt={version.title}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                      </div>
-                    )}
+                    {/* Date - Left side */}
+                    <div className="flex-shrink-0 sm:w-32 sm:text-right">
+                      <time className="text-sm sm:text-base font-medium text-gray-900">
+                        {formatDate(version.date)}
+                      </time>
+                    </div>
 
-                    {/* Content */}
-                    <div className="p-8">
-                      {/* Date at the top left */}
-                      <div className="mb-4">
-                        <time className="text-sm font-medium text-slate-500">
-                          {formatDate(version.date)}
-                        </time>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight">
-                        {version.title}
-                      </h3>
-
-                      {/* Description with rich text styling */}
-                      {version.description && (
-                        <div 
-                          className="prose prose-slate max-w-none mb-4"
-                          dangerouslySetInnerHTML={{ __html: version.description }}
-                        />
-                      )}
-
-                      {/* Tags */}
-                      {version.tags && version.tags.length > 0 && (
-                        <div className="flex items-center flex-wrap gap-2 mt-6 pt-6 border-t border-slate-200">
-                          {version.tags.map((tag: string, i: number) => (
-                            <span
-                              key={i}
-                              className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                    {/* Card - Right side */}
+                    <div className="flex-1 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                      {/* Cover Photo */}
+                      {version.cover_photo_url && (
+                        <div className="relative w-full h-48 overflow-hidden">
+                          <Image
+                            src={version.cover_photo_url}
+                            alt={version.title}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
                         </div>
                       )}
+
+                      {/* Content */}
+                      <div className="p-6">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight">
+                          {version.title}
+                        </h3>
+
+                        {/* Description with rich text styling */}
+                        {version.description && (
+                          <div 
+                            className="prose prose-sm prose-slate max-w-none mb-4 text-gray-700"
+                            dangerouslySetInnerHTML={{ __html: version.description }}
+                          />
+                        )}
+
+                        {/* Tags */}
+                        {version.tags && version.tags.length > 0 && (
+                          <div className="flex items-center flex-wrap gap-2 mt-4 pt-4 border-t border-gray-200">
+                            {version.tags.map((tag: string, i: number) => (
+                              <span
+                                key={i}
+                                className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -263,7 +266,7 @@ export default async function PublicJourneyPage({ params }: Props) {
         </div>
 
         {/* Footer CTA */}
-        <footer className="border-t border-gray-200 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <footer className="border-t border-gray-200 py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-4">
               <Image

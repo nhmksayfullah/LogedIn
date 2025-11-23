@@ -47,11 +47,11 @@ export default async function PublicProfilePage({ params }: Props) {
   const { profile, journeys } = data;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Container with same width as header */}
-      <div className="max-w-6xl mx-auto bg-white">
+      <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
-        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600" style={{ paddingTop: '16.13%' }}>
+        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-b-xl overflow-hidden" style={{ paddingTop: '16.13%' }}>
           {profile.coverPhotoUrl ? (
             <Image
               src={profile.coverPhotoUrl}
@@ -238,7 +238,7 @@ export default async function PublicProfilePage({ params }: Props) {
         </div>
 
         {/* Footer */}
-        <footer className="border-t border-gray-200 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <footer className="border-t border-gray-200 py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex justify-center mb-4">
               <Image
