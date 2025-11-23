@@ -106,60 +106,114 @@ export default function LandingPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-4 text-landing-small text-slate-500 text-center"
           >
-            No credit card needed · Your journey stays private until you choose to share it
+            Your journey stays private until you choose to share it
           </motion.p>
         </div>
 
-        {/* Hero Visual - Phone Mockups */}
+        {/* Hero Visual - Device Mockups */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-landing-xl max-w-5xl mx-auto"
+          className="mt-landing-xl max-w-6xl mx-auto relative"
         >
-          <div className="flex items-end justify-center gap-3 md:gap-4">
-            {/* Left Phone */}
-            <div className="w-48 md:w-64 h-[360px] md:h-[440px] bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-2xl p-4 border border-slate-200">
-              <div className="bg-white rounded-2xl h-full p-4 flex flex-col">
-                <div className="text-sm font-semibold text-slate-700 mb-4">Progress</div>
-                <div className="flex-1 flex flex-col justify-center space-y-3">
-                  <div className="h-8 bg-blue-100 rounded" style={{ width: '80%' }}></div>
-                  <div className="h-8 bg-blue-200 rounded" style={{ width: '60%' }}></div>
-                  <div className="h-8 bg-blue-300 rounded" style={{ width: '90%' }}></div>
-                  <div className="h-8 bg-blue-400 rounded" style={{ width: '70%' }}></div>
+          <div className="flex items-end justify-center gap-4 md:gap-6 relative">
+            {/* Left Mobile */}
+            <div className="w-52 md:w-72 h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-3 border-4 border-slate-700 relative z-20 translate-y-[168px] md:translate-y-[224px] translate-x-[40px] md:translate-x-[60px]">
+              <div className="bg-white rounded-2xl h-full p-4 flex flex-col overflow-hidden">
+                {/* Status Bar */}
+                <div className="flex justify-between items-center mb-4">
+                  <div className="text-xs font-semibold text-slate-900">9:41</div>
+                  <div className="flex gap-1">
+                    <div className="w-4 h-4 bg-slate-300 rounded-sm"></div>
+                    <div className="w-4 h-4 bg-slate-300 rounded-sm"></div>
+                  </div>
                 </div>
-                <div className="text-xs text-slate-500 mt-4">Your evolution over time</div>
-              </div>
-            </div>
+                
+                {/* Profile Header */}
+                <div className="flex items-center mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mr-3"></div>
+                  <div>
+                    <div className="h-3 w-24 bg-slate-200 rounded mb-1"></div>
+                    <div className="h-2 w-16 bg-slate-100 rounded"></div>
+                  </div>
+                </div>
 
-            {/* Middle Phone - Elevated */}
-            <div className="w-56 md:w-80 h-[400px] md:h-[480px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl shadow-2xl p-4 border border-blue-200 -mb-3">
-              <div className="bg-white rounded-2xl h-full p-6 flex flex-col items-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full mb-4"></div>
-                <div className="text-lg font-bold text-slate-900 mb-1">Your Journey</div>
-                <div className="text-sm text-slate-500 mb-6">Version 2.0</div>
-                <div className="w-full space-y-3">
+                {/* Timeline */}
+                <div className="flex-1 space-y-3">
                   <div className="bg-slate-50 rounded-xl p-3">
-                    <div className="text-xs font-semibold text-slate-600 mb-1">Day 1</div>
-                    <div className="h-2 bg-slate-200 rounded"></div>
+                    <div className="h-2 w-20 bg-slate-300 rounded mb-2"></div>
+                    <div className="h-2 w-full bg-slate-200 rounded"></div>
                   </div>
                   <div className="bg-blue-50 rounded-xl p-3">
-                    <div className="text-xs font-semibold text-blue-600 mb-1">Month 3</div>
-                    <div className="h-2 bg-blue-300 rounded"></div>
+                    <div className="h-2 w-20 bg-blue-300 rounded mb-2"></div>
+                    <div className="h-2 w-full bg-blue-200 rounded"></div>
                   </div>
                   <div className="bg-blue-100 rounded-xl p-3">
-                    <div className="text-xs font-semibold text-blue-700 mb-1">Today</div>
-                    <div className="h-2 bg-blue-400 rounded"></div>
+                    <div className="h-2 w-20 bg-blue-400 rounded mb-2"></div>
+                    <div className="h-2 w-full bg-blue-300 rounded"></div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Phone */}
-            <div className="w-48 md:w-64 h-[360px] md:h-[440px] bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-2xl p-4 border border-slate-200">
-              <div className="bg-white rounded-2xl h-full p-4">
-                <div className="text-sm font-semibold text-slate-700 mb-4">Milestones</div>
-                <div className="grid grid-cols-2 gap-3">
+            {/* Desktop Mockup - Center */}
+            <div className="w-[500px] md:w-[700px] h-[320px] md:h-[440px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-3 border-4 border-slate-700 relative z-10 translate-y-[32px] md:translate-y-[44px]">
+              <div className="bg-white rounded-xl h-full p-6 flex flex-col overflow-hidden">
+                {/* Browser Chrome */}
+                <div className="flex items-center mb-4 pb-3 border-b border-slate-200">
+                  <div className="flex gap-2 mr-4">
+                    <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                    <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  </div>
+                  <div className="flex-1 h-6 bg-slate-100 rounded-lg flex items-center px-3">
+                    <div className="h-2 w-32 bg-slate-300 rounded"></div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 grid grid-cols-3 gap-4">
+                  {/* Sidebar */}
+                  <div className="space-y-2">
+                    <div className="h-8 bg-blue-100 rounded"></div>
+                    <div className="h-6 bg-slate-100 rounded"></div>
+                    <div className="h-6 bg-slate-100 rounded"></div>
+                    <div className="h-6 bg-slate-100 rounded"></div>
+                  </div>
+
+                  {/* Main Content */}
+                  <div className="col-span-2 space-y-3">
+                    <div className="h-12 bg-slate-100 rounded-lg"></div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="aspect-square bg-blue-100 rounded-lg"></div>
+                      <div className="aspect-square bg-blue-200 rounded-lg"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Mobile */}
+            <div className="w-52 md:w-72 h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-3 border-4 border-slate-700 relative z-20 translate-y-[168px] md:translate-y-[224px] -translate-x-[40px] md:-translate-x-[60px]">
+              <div className="bg-white rounded-2xl h-full p-4 flex flex-col overflow-hidden">
+                {/* Status Bar */}
+                <div className="flex justify-between items-center mb-4">
+                  <div className="text-xs font-semibold text-slate-900">9:41</div>
+                  <div className="flex gap-1">
+                    <div className="w-4 h-4 bg-slate-300 rounded-sm"></div>
+                    <div className="w-4 h-4 bg-slate-300 rounded-sm"></div>
+                  </div>
+                </div>
+
+                {/* Header */}
+                <div className="mb-4">
+                  <div className="h-4 w-32 bg-slate-200 rounded mb-2"></div>
+                  <div className="h-2 w-24 bg-slate-100 rounded"></div>
+                </div>
+
+                {/* Grid of Milestones */}
+                <div className="grid grid-cols-2 gap-3 flex-1">
                   <div className="aspect-square bg-slate-100 rounded-lg"></div>
                   <div className="aspect-square bg-blue-100 rounded-lg"></div>
                   <div className="aspect-square bg-blue-200 rounded-lg"></div>
@@ -174,7 +228,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative -mt-[84px] md:-mt-[112px] pt-[124px] md:pt-[152px] z-30">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -184,7 +238,7 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              It&apos;s time to take your <span className="text-blue-600">journey portfolio</span> to the next level
+              Become the person your <span className="text-blue-600">future self</span> will thank you for.
             </h2>
           </motion.div>
 
@@ -207,9 +261,9 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Showcase Your Best Apps</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Transform in Private — or Inspire the World</h3>
               <p className="text-slate-600 leading-relaxed">
-                Easily feature your most popular apps, set your favorites and hide apps from your portfolio
+                Grow quietly or share boldly. Keep your journey private, or publish it when you&apos;re ready to inspire someone who needs your story.
               </p>
             </motion.div>
 
@@ -233,9 +287,9 @@ export default function LandingPage() {
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl shadow-lg group-hover:scale-110 transition-transform delay-75"></div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Automatic Updates</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Capture the Milestones That Changed You</h3>
               <p className="text-slate-600 leading-relaxed">
-                Never waste time updating your portfolio again! Your new portfolio automatically updates from the App Store
+                Record every meaningful step — big or small. Your milestones become a timeline of who you were, who you are, and who you&apos;re becoming.
               </p>
             </motion.div>
 
@@ -262,9 +316,9 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Customize Your Profile</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Turn Your Journey Into a Story</h3>
               <p className="text-slate-600 leading-relaxed">
-                Make your portfolio part of your personal branding with customizable bio, profile photo, banner and links
+                Not just before-and-after. Create a beautiful, shareable timeline that shows the real moments behind your transformation.
               </p>
             </motion.div>
 
@@ -291,9 +345,9 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Track How It&apos;s Going</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Built for Long-Term Growth</h3>
               <p className="text-slate-600 leading-relaxed">
-                Get real-time insights into the popularity of your apps. Track user interactions and referral sites
+                Come back anytime. Your milestones stay organized, safe, and waiting for your next breakthrough.
               </p>
             </motion.div>
           </div>
