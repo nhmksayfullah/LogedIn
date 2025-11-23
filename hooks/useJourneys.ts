@@ -8,6 +8,7 @@ export interface Journey {
   title: string;
   description: string | null;
   cover_image_url: string | null;
+  cover_color: string | null;
   is_public: boolean;
   slug: string | null;
   created_at: string;

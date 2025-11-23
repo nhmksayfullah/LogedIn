@@ -7,20 +7,11 @@ export interface Version {
   journey_id: string;
   title: string;
   description: string | null;
-  version_number: string;
+  cover_photo_url: string | null;
   date: string;
   tags: string[] | null;
   created_at: string;
   updated_at: string;
-  photos?: Photo[];
-}
-
-export interface Photo {
-  id: string;
-  version_id: string;
-  url: string;
-  caption: string | null;
-  created_at: string;
 }
 
 export function useVersions(journeyId: string | null) {
@@ -53,13 +44,10 @@ export function useVersions(journeyId: string | null) {
         throw new Error('Journey not found or access denied');
       }
 
-      // Fetch versions with photos
+      // Fetch versions (no photos join needed anymore)
       const { data: versionsData, error: fetchError } = await supabase
         .from('versions')
-        .select(`
-          *,
-          photos (*)
-        `)
+        .select('*')
         .eq('journey_id', journeyId)
         .order('date', { ascending: false });
 
@@ -77,28 +65,20 @@ export function useVersions(journeyId: string | null) {
   const createVersion = async (versionData: {
     title: string;
     description?: string;
+    cover_photo_url?: string;
     date?: string;
     tags?: string[];
   }) => {
     if (!journeyId || !user?.id) throw new Error('Invalid journey or user');
 
     try {
-      // Get the current version count for this journey
-      const { count } = await supabase
-        .from('versions')
-        .select('*', { count: 'exact', head: true })
-        .eq('journey_id', journeyId);
-
-      // Generate version number (v1.0, v1.1, v1.2, etc.)
-      const versionNumber = `v1.${(count || 0)}`;
-
       const { data, error: insertError } = await supabase
         .from('versions')
         .insert({
           journey_id: journeyId,
           title: versionData.title,
           description: versionData.description || null,
-          version_number: versionNumber,
+          cover_photo_url: versionData.cover_photo_url || null,
           date: versionData.date || new Date().toISOString(),
           tags: versionData.tags || null,
         })

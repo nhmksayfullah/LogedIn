@@ -174,10 +174,13 @@ export default function Dashboard() {
         isOpen={isJourneyModalOpen}
         onClose={() => setIsJourneyModalOpen(false)}
         onSave={modalMode === 'create' ? handleCreateJourney : handleEditJourney}
+        journeyId={editingJourney?.id}
         initialData={editingJourney ? {
           title: editingJourney.title,
           description: editingJourney.description || '',
-          is_public: editingJourney.is_public
+          is_public: editingJourney.is_public,
+          cover_image_url: editingJourney.cover_image_url,
+          cover_color: editingJourney.cover_color,
         } : undefined}
         mode={modalMode}
       />

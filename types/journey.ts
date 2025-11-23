@@ -4,6 +4,7 @@ export interface Journey {
   title: string;
   description: string | null;
   cover_image_url: string | null;
+  cover_color: string | null;
   is_public: boolean;
   slug: string | null;
   created_at: string;
@@ -16,19 +17,11 @@ export interface Version {
   journey_id: string;
   title: string;
   description: string | null;
-  version_number: string;
+  cover_photo_url: string | null;
   date: string;
   tags: string[] | null;
   created_at: string;
   updated_at: string;
-}
-
-export interface Photo {
-  id: string;
-  version_id: string;
-  url: string;
-  caption: string | null;
-  created_at: string;
 }
 
 export interface CreateJourneyInput {
@@ -41,7 +34,7 @@ export interface CreateVersionInput {
   journey_id: string;
   title: string;
   description?: string;
-  version_number: string;
+  cover_photo_url?: string;
   date?: string;
   tags?: string[];
 }

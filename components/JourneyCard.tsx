@@ -59,16 +59,21 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
         onClick={onClick}
       >
         {/* Cover Image */}
-        <div className="h-40 bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center relative">
-          {journey.cover_image_url ? (
+        <div 
+          className="h-40 flex items-center justify-center relative"
+          style={{
+            background: journey.cover_image_url 
+              ? 'none' 
+              : `linear-gradient(135deg, ${journey.cover_color || '#3B82F6'} 0%, ${journey.cover_color ? `${journey.cover_color}dd` : '#2563EB'} 100%)`
+          }}
+        >
+          {journey.cover_image_url && (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img 
               src={journey.cover_image_url} 
               alt={journey.title}
               className="w-full h-full object-cover"
             />
-          ) : (
-            <BookOpen className="w-12 h-12 text-slate-300 group-hover:text-blue-400 transition-colors" />
           )}
           
           {/* Action Menu Button */}

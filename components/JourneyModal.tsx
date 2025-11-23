@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Globe, Lock } from 'lucide-react';
+import { X, Globe, Lock, Upload, Image as ImageIcon, Palette } from 'lucide-react';
 
 interface JourneyModalProps {
   isOpen: boolean;
@@ -10,20 +10,30 @@ interface JourneyModalProps {
   onSave: (data: JourneyFormData) => Promise<void>;
   initialData?: JourneyFormData;
   mode: 'create' | 'edit';
+  journeyId?: string; // For editing existing journeys
 }
 
 export interface JourneyFormData {
   title: string;
   description: string;
   is_public: boolean;
+  cover_image_url?: string | null;
+  cover_color?: string | null;
 }
 
-export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: JourneyModalProps) {
+export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journeyId }: JourneyModalProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Cover photo/color states
+  const [coverType, setCoverType] = useState<'color' | 'photo'>('color');
+  const [coverColor, setCoverColor] = useState('#3B82F6');
+  const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
+  const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(null);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
 
   // Reset form when modal opens/closes or initialData changes
   useEffect(() => {
@@ -31,6 +41,10 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: Jou
       setTitle(initialData?.title || '');
       setDescription(initialData?.description || '');
       setIsPublic(initialData?.is_public || false);
+      setCoverColor(initialData?.cover_color || '#3B82F6');
+      setCoverPhotoPreview(initialData?.cover_image_url || null);
+      setCoverType(initialData?.cover_image_url ? 'photo' : 'color');
+      setCoverPhoto(null);
       setError(null);
     }
   }, [isOpen, initialData]);
@@ -44,10 +58,60 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: Jou
     try {
       setIsSaving(true);
       setError(null);
+
+      let coverImageUrl = initialData?.cover_image_url || null;
+      let finalCoverColor = coverColor;
+
+      // Handle cover photo/color upload for edit mode
+      if (mode === 'edit' && journeyId) {
+        if (coverType === 'photo' && coverPhoto) {
+          // Upload new cover photo
+          setIsUploadingCover(true);
+          const photoFormData = new FormData();
+          photoFormData.append('file', coverPhoto);
+          photoFormData.append('journeyId', journeyId);
+
+          const uploadResponse = await fetch('/api/journey/cover-photo', {
+            method: 'POST',
+            body: photoFormData,
+          });
+
+          if (!uploadResponse.ok) {
+            throw new Error('Failed to upload cover photo');
+          }
+
+          const uploadData = await uploadResponse.json();
+          coverImageUrl = uploadData.coverPhotoUrl;
+          setIsUploadingCover(false);
+        } else if (coverType === 'color') {
+          // Update color and remove photo if exists
+          const colorFormData = new FormData();
+          colorFormData.append('color', coverColor);
+          colorFormData.append('journeyId', journeyId);
+
+          await fetch('/api/journey/cover-photo', {
+            method: 'POST',
+            body: colorFormData,
+          });
+
+          if (initialData?.cover_image_url) {
+            // Remove old photo
+            await fetch('/api/journey/cover-photo', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ journeyId }),
+            });
+            coverImageUrl = null;
+          }
+        }
+      }
+
       await onSave({
         title: title.trim(),
         description: description.trim(),
         is_public: isPublic,
+        cover_image_url: coverImageUrl,
+        cover_color: finalCoverColor,
       });
       onClose();
     } catch (err) {
@@ -55,7 +119,41 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: Jou
       setError(err instanceof Error ? err.message : 'Failed to save journey');
     } finally {
       setIsSaving(false);
+      setIsUploadingCover(false);
     }
+  };
+
+  const handleCoverPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+      if (!allowedTypes.includes(file.type)) {
+        setError('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.');
+        return;
+      }
+
+      // Validate file size (10MB max)
+      if (file.size > 10 * 1024 * 1024) {
+        setError('File size too large. Maximum 10MB allowed.');
+        return;
+      }
+
+      setCoverPhoto(file);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCoverPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+      setError(null);
+    }
+  };
+
+  const handleRemoveCoverPhoto = () => {
+    setCoverPhoto(null);
+    setCoverPhotoPreview(null);
   };
 
   const handleClose = () => {
@@ -101,6 +199,109 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: Jou
 
               {/* Modal Content */}
               <div className="p-6 space-y-5">
+                {/* Cover Type Selection (only in edit mode) */}
+                {mode === 'edit' && (
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-3">
+                      Journey Cover
+                    </label>
+                    <div className="flex space-x-3 mb-4">
+                      <button
+                        type="button"
+                        onClick={() => setCoverType('color')}
+                        className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                          coverType === 'color'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                            : 'border-slate-300 hover:border-slate-400 text-slate-600'
+                        }`}
+                        disabled={isSaving}
+                      >
+                        <Palette className="w-4 h-4" />
+                        <span className="font-medium">Color</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCoverType('photo')}
+                        className={`flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                          coverType === 'photo'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                            : 'border-slate-300 hover:border-slate-400 text-slate-600'
+                        }`}
+                        disabled={isSaving}
+                      >
+                        <ImageIcon className="w-4 h-4" />
+                        <span className="font-medium">Photo</span>
+                      </button>
+                    </div>
+
+                    {/* Color Picker */}
+                    {coverType === 'color' && (
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3">
+                          <input
+                            type="color"
+                            value={coverColor}
+                            onChange={(e) => setCoverColor(e.target.value)}
+                            className="w-16 h-16 rounded-lg border-2 border-slate-300 cursor-pointer"
+                            disabled={isSaving}
+                          />
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-slate-700">Selected Color</p>
+                            <p className="text-xs text-slate-500 font-mono">{coverColor}</p>
+                          </div>
+                        </div>
+                        <div 
+                          className="w-full h-32 rounded-lg border border-slate-300"
+                          style={{ backgroundColor: coverColor }}
+                        />
+                      </div>
+                    )}
+
+                    {/* Photo Upload */}
+                    {coverType === 'photo' && (
+                      <div>
+                        {coverPhotoPreview ? (
+                          <div className="relative">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img 
+                              src={coverPhotoPreview} 
+                              alt="Cover preview" 
+                              className="w-full h-48 object-cover rounded-lg border border-slate-300"
+                            />
+                            <button
+                              type="button"
+                              onClick={handleRemoveCoverPhoto}
+                              disabled={isSaving}
+                              className="absolute top-2 right-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow-lg transition-colors disabled:opacity-50"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <Upload className="w-10 h-10 text-slate-400 mb-3" />
+                              <p className="mb-2 text-sm text-slate-600">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-slate-500">
+                                PNG, JPG, WebP or GIF (max 10MB)
+                              </p>
+                            </div>
+                            <input 
+                              type="file" 
+                              className="hidden" 
+                              accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                              onChange={handleCoverPhotoChange}
+                              disabled={isSaving}
+                            />
+                          </label>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Title Input */}
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -189,10 +390,10 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode }: Jou
                 </button>
                 <button
                   onClick={handleSave}
-                  disabled={isSaving || !title.trim()}
+                  disabled={isSaving || isUploadingCover || !title.trim()}
                   className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSaving ? 'Saving...' : mode === 'create' ? 'Create Journey' : 'Save Changes'}
+                  {isUploadingCover ? 'Uploading...' : isSaving ? 'Saving...' : mode === 'create' ? 'Create Journey' : 'Save Changes'}
                 </button>
               </div>
             </motion.div>
