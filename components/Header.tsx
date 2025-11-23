@@ -17,9 +17,10 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Don't show header on public profile pages
-  const isPublicProfilePage = pathname.startsWith('/') && 
-    pathname.split('/').length === 2 && 
+  // Don't show header on public profile or journey pages
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const isPublicProfileOrJourneyPage = pathname.startsWith('/') && 
+    (pathSegments.length === 1 || pathSegments.length === 2) &&
     pathname !== '/' &&
     !pathname.startsWith('/api/') &&
     !pathname.startsWith('/dashboard') &&
@@ -75,8 +76,8 @@ export default function Header() {
     }
   };
 
-  // Don't render header on public profile pages
-  if (isPublicProfilePage) {
+  // Don't render header on public profile or journey pages
+  if (isPublicProfileOrJourneyPage) {
     return null;
   }
 

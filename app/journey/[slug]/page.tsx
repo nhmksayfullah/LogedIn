@@ -12,6 +12,7 @@ import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 interface Journey {
   id: string;
   title: string;
+  slug: string;
   description: string | null;
   cover_image_url: string | null;
   cover_color: string | null;
@@ -116,6 +117,11 @@ export default function JourneyPage() {
   const handleCreateVersion = async () => {
     if (!newVersionTitle.trim()) {
       setCreateError('Please enter a version title');
+      return;
+    }
+
+    if (!journey) {
+      setCreateError('Journey not found');
       return;
     }
 

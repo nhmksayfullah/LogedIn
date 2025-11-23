@@ -20,9 +20,11 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   // const router = useRouter();
   const pathname = usePathname();
 
-  // Check if current path is a public profile page (format: /username)
-  const isPublicProfilePage = pathname.startsWith('/') && 
-    pathname.split('/').length === 2 && 
+  // Check if current path is a public profile or journey page
+  // Format: /username (profile) or /username/journeyslug (journey)
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const isPublicProfileOrJourneyPage = pathname.startsWith('/') && 
+    (pathSegments.length === 1 || pathSegments.length === 2) &&
     pathname !== '/' &&
     !pathname.startsWith('/api/') &&
     !pathname.startsWith('/dashboard') &&
@@ -32,11 +34,11 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     !PUBLIC_ROUTES.includes(pathname);
 
   useEffect(() => {
-    if (!isLoading && !user && !PUBLIC_ROUTES.includes(pathname) && !isPublicProfilePage) {
+    if (!isLoading && !user && !PUBLIC_ROUTES.includes(pathname) && !isPublicProfileOrJourneyPage) {
       // Redirect to home page where user can sign in via modal
       window.location.assign('/');
     }
-  }, [user, isLoading, pathname, isPublicProfilePage]);
+  }, [user, isLoading, pathname, isPublicProfileOrJourneyPage]);
 
   // Show loading state only if actually loading
   if (isLoading) {
@@ -49,7 +51,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }
 
   // Only render children if we're on a public route or user is authenticated
-  if (PUBLIC_ROUTES.includes(pathname) || isPublicProfilePage || user) {
+  if (PUBLIC_ROUTES.includes(pathname) || isPublicProfileOrJourneyPage || user) {
     return <>{children}</>;
   }
 

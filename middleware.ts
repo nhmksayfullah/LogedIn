@@ -61,11 +61,11 @@ export async function middleware(request: NextRequest) {
     return supabaseResponse
   }
   
-  // If it matches username/journeyId pattern, it's a public profile/journey
-  // Pattern: /{username} or /{username}/{journeyId}
-  // JourneyId is typically a UUID format (lowercase with hyphens)
+  // If it matches username/journeySlug pattern, it's a public profile/journey
+  // Pattern: /{username} or /{username}/{journeySlug}
+  // JourneySlug can be any slug format (alphanumeric with hyphens)
   const usernamePattern = /^\/[a-z0-9_-]+$/i
-  const usernameJourneyPattern = /^\/[a-z0-9_-]+\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
+  const usernameJourneyPattern = /^\/[a-z0-9_-]+\/[a-z0-9_-]+$/i
   const isPublicProfileOrJourney = (usernamePattern.test(pathname) || usernameJourneyPattern.test(pathname)) && !isProtectedPath && !isPublicPath
   
   // Allow public profile/journey pages
