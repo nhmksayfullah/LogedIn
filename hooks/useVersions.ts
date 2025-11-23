@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 export interface Version {
@@ -25,6 +25,7 @@ export interface Photo {
 
 export function useVersions(journeyId: string | null) {
   const { user } = useAuth();
+  const supabase = createClient(); // Create client instance
   const [versions, setVersions] = useState<Version[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -159,6 +160,7 @@ export function useVersions(journeyId: string | null) {
 
   useEffect(() => {
     fetchVersions();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [journeyId, user?.id]);
 
   return {

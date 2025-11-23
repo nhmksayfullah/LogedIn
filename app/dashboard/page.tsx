@@ -11,14 +11,10 @@ import { AuthPaymentModal } from '@/components/AuthPaymentModal';
 import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 import { JourneyCard } from '@/components/JourneyCard';
 
-const AUTH_TIMEOUT = 15000; // 15 seconds
-
 export default function Dashboard() {
   const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const { refetch: refetchPurchase } = usePurchase();
-  const [hasCheckedPurchase, setHasCheckedPurchase] = useState(false);
-  const [authTimeout, setAuthTimeout] = useState(false);
   const { journeys, isLoading: isLoadingJourneys, createJourney, updateJourney, deleteJourney, refetch } = useJourneys();
   
   // Journey modal state
@@ -29,56 +25,29 @@ export default function Dashboard() {
   // Payment modal state
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  // Access check - Only redirect if no access AND initial check is complete
-  // DISABLED: This was causing navigation issues. Users can manually visit profile anytime.
-  // The profile page itself will show upgrade options if needed.
-  // useEffect(() => {
-  //   if (isPurchaseLoading || isTrialLoading || isAuthLoading) return;
-  //   
-  //   const hasValidPurchase = purchase?.status === 'active' && purchase?.purchase_type === 'lifetime_pro';
-  //   
-  //   // Only redirect if we've checked everything and user has no access
-  //   if (hasCheckedPurchase && !hasValidPurchase && !isInTrial && !hasLifetimeAccess) {
-  //     router.replace('/profile');
-  //   }
-  // }, [purchase, isPurchaseLoading, isTrialLoading, isAuthLoading, router, isInTrial, hasLifetimeAccess, hasCheckedPurchase]);
-
-  // Add refresh effect
+  // Refresh purchase data when user changes
   useEffect(() => {
-    const refreshPurchase = async () => {
-      await refetchPurchase();
-      setHasCheckedPurchase(true);
-    };
-    
     if (user?.id) {
-      refreshPurchase();
+      refetchPurchase();
     }
   }, [user?.id, refetchPurchase]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (!user && isAuthLoading) {
-        setAuthTimeout(true);
-      }
-    }, AUTH_TIMEOUT);
-    
-    return () => clearTimeout(timer);
-  }, [user, isAuthLoading]);
-
   // Update the loading check
-  if (!user && isAuthLoading && !hasCheckedPurchase) {
+  if (isAuthLoading && !user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground mb-4 mx-auto"></div>
-          <p className="text-foreground">
-            {authTimeout ? 
-              "Taking longer than usual? Try refreshing the page 😊." :
-              "Verifying access..."}
-          </p>
+          <p className="text-foreground">Loading...</p>
         </div>
       </div>
     );
+  }
+
+  // If not authenticated after loading completes, redirect
+  if (!isAuthLoading && !user) {
+    router.replace('/');
+    return null;
   }
 
   const handleCreateJourney = async (data: JourneyFormData) => {

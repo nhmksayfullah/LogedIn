@@ -124,50 +124,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    console.log("AuthContext - mounted useEffect:", mounted);
+    let authSubscription: any = null;
     
     const initializeAuth = async () => {
       try {
-        setIsLoading(true);
-        console.log("AuthContext - Starting Try in InitializeAuth!");
-
-        // // First, get initial session
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error || !mounted) {
-          setIsLoading(false);
-          return;
-        }
-
-        // Update initial state
-        setSession(session);
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-
-        if (currentUser) {
-          await checkPurchase(currentUser.id);
-          
-          // Fetch profile picture and username
-          try {
-            const { data: userData } = await supabase
-              .from('users')
-              .select('profile_picture_url, avatar_url, username')
-              .eq('id', currentUser.id)
-              .maybeSingle();
-
-            if (userData) {
-              const pictureUrl = userData.profile_picture_url || userData.avatar_url;
-              setProfilePictureUrl(pictureUrl);
-              setUsername(userData.username);
-            }
-          } catch (err) {
-            console.error('Error fetching user data:', err);
-          }
-        }
-        
-        // Then set up listener for future changes
+        // First, set up the auth state change listener
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (_event, newSession) => {
+          async (event, newSession) => {
             if (!mounted) return;
             
             const newUser = newSession?.user ?? null;
@@ -175,47 +138,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(newUser);
             
             if (newUser) {
-              await checkPurchase(newUser.id);
+              // Check purchase status
+              checkPurchase(newUser.id).catch(err => {
+                console.error('Error checking purchase:', err);
+              });
               
-              // Fetch profile picture and username
-              try {
-                const { data: userData } = await supabase
-                  .from('users')
-                  .select('profile_picture_url, avatar_url, username')
-                  .eq('id', newUser.id)
-                  .maybeSingle();
-
-                if (userData) {
-                  const pictureUrl = userData.profile_picture_url || userData.avatar_url;
-                  setProfilePictureUrl(pictureUrl);
-                  setUsername(userData.username);
+              // Fetch profile data - don't await to avoid blocking
+              (async () => {
+                try {
+                  const { data: userData } = await supabase
+                    .from('users')
+                    .select('profile_picture_url, avatar_url, username, cover_photo_url, cover_color')
+                    .eq('id', newUser.id)
+                    .maybeSingle();
+                  
+                  if (userData && mounted) {
+                    const pictureUrl = userData.profile_picture_url || userData.avatar_url;
+                    setProfilePictureUrl(pictureUrl);
+                    setUsername(userData.username);
+                    setCoverPhotoUrl(userData.cover_photo_url);
+                    setCoverColor(userData.cover_color || '#1DA1F2');
+                  }
+                } catch (err) {
+                  console.error('Error fetching user data:', err);
                 }
-              } catch (err) {
-                console.error('Error fetching user data:', err);
-              }
+              })();
             } else {
               setHasLifetimeAccess(false);
               setProfilePictureUrl(null);
               setUsername(null);
+              setCoverPhotoUrl(null);
             }
           }
         );
 
-        // Only set loading to false after everything is initialized
-        if (mounted) setIsLoading(false);
+        authSubscription = subscription;
+
+        // Then get initial session - this will trigger the listener above
+        const { data: { session } } = await supabase.auth.getSession();
         
-        return () => {
-          mounted = false;
-          subscription.unsubscribe();
-        };
+        // If we have a session but the listener hasn't fired yet, set initial state
+        if (session && mounted) {
+          setSession(session);
+          setUser(session.user);
+        }
+
+        // Always set loading to false after initialization
+        if (mounted) {
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error("Auth initialization error:", error);
-        if (mounted) setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     initializeAuth();
-  }, [checkPurchase]);
+
+    return () => {
+      mounted = false;
+      authSubscription?.unsubscribe();
+    };
+  }, [supabase, checkPurchase]);
 
   const value = {
     user,

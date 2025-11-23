@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect, useMemo } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 
 interface OnboardingTourProps {
   isFirstTime: boolean;
@@ -67,6 +67,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
 
   useEffect(() => {
     const checkOnboardingStatus = async () => {
+      const supabase = createClient();
       const user = (await supabase.auth.getUser()).data.user;
       
       if (!user) {
@@ -114,6 +115,7 @@ export function OnboardingTour({ isFirstTime, onComplete }: OnboardingTourProps)
   const handleComplete = async () => {
     setIsOpen(false);
     
+    const supabase = createClient();
     const user = (await supabase.auth.getUser()).data.user;
     
     if (!user) {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,6 +23,7 @@ export default function JourneyPage() {
   const params = useParams();
   const router = useRouter();
   const { user } = useAuth();
+  const supabase = createClient();
   const [journey, setJourney] = useState<Journey | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const journeyId = params.id as string;
@@ -63,6 +64,7 @@ export default function JourneyPage() {
     };
 
     fetchJourney();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [journeyId, user?.id]);
 
   const handleEditJourney = async (data: JourneyFormData) => {

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 import { Journey } from '@/types/journey';
 
@@ -203,12 +204,12 @@ export default async function PublicProfilePage({ params }: Props) {
             <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
               Every journey deserves to be shared. Start documenting your story today.
             </p>
-            <a
+            <Link
               href="/"
               className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
             >
               Share Your Story
-            </a>
+            </Link>
           </div>
         </footer>
       </div>

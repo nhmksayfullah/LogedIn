@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
 export interface Journey {
@@ -17,6 +17,7 @@ export interface Journey {
 
 export function useJourneys() {
   const { user } = useAuth();
+  const supabase = createClient(); // Create client instance
   const [journeys, setJourneys] = useState<Journey[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -156,6 +157,7 @@ export function useJourneys() {
 
   useEffect(() => {
     fetchJourneys();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.id]);
 
   return {
