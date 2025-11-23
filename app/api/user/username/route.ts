@@ -16,7 +16,7 @@ export async function GET() {
     // Get user profile with username
     const { data: userData, error: userError } = await supabase
       .from('users')
-      .select('username, is_public, bio')
+      .select('username, name, is_public, bio')
       .eq('id', user.id)
       .single();
 
@@ -26,6 +26,7 @@ export async function GET() {
 
     return NextResponse.json({ 
       username: userData?.username || null,
+      name: userData?.name || '',
       isPublic: userData?.is_public || false,
       bio: userData?.bio || ''
     });

@@ -13,6 +13,7 @@ export function AccountManagement() {
   const [isUploadingPicture, setIsUploadingPicture] = useState(false);
   const [hasCustomPicture, setHasCustomPicture] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [name, setName] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Cover photo states
@@ -85,6 +86,7 @@ export function AccountManagement() {
           const data = await response.json();
           setIsPublic(data.isPublic || false);
           setBio(data.bio || '');
+          setName(data.name || '');
         }
       } catch (error) {
         console.error('Error fetching profile settings:', error);
@@ -373,6 +375,31 @@ export function AccountManagement() {
     }
   };
 
+  const handleNameSave = async () => {
+    setIsUpdatingSettings(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/user/profile-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to update name');
+      }
+    } catch (error) {
+      console.error('Update name error:', error);
+      setError(error instanceof Error ? error.message : 'Failed to update name');
+    } finally {
+      setIsUpdatingSettings(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg overflow-hidden">
       {/* Cover Photo Section - YouTube ratio 6.2:1 (1546x423) */}
@@ -562,6 +589,33 @@ export function AccountManagement() {
               </label>
             </div>
             
+            {/* Name Editor */}
+            <div className="mt-3">
+              <label className="block text-landing-small font-medium text-slate-700 mb-1.5">
+                Display Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                maxLength={100}
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-landing-small focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Your name..."
+              />
+              <div className="flex items-center justify-between mt-1.5">
+                <span className="text-landing-tiny text-slate-500">
+                  {name.length}/100 characters
+                </span>
+                <button
+                  onClick={handleNameSave}
+                  disabled={isUpdatingSettings}
+                  className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isUpdatingSettings ? 'Saving...' : 'Save Name'}
+                </button>
+              </div>
+            </div>
+
             {/* Bio Editor */}
             <div className="mt-3">
               <label className="block text-landing-small font-medium text-slate-700 mb-1.5">

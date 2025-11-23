@@ -22,13 +22,20 @@ export async function GET(request: Request) {
       const user = sessionData.user;
       const provider = user.app_metadata?.provider;
       
-      // Extract avatar URL and username from OAuth providers
+      // Extract avatar URL, username, and name from OAuth providers
       let avatarUrl = null;
       let username = null;
+      let name = null;
       
       if (provider === 'google') {
         if (user.user_metadata?.avatar_url) {
           avatarUrl = user.user_metadata.avatar_url;
+        }
+        // Extract name from Google profile
+        if (user.user_metadata?.full_name) {
+          name = user.user_metadata.full_name;
+        } else if (user.user_metadata?.name) {
+          name = user.user_metadata.name;
         }
         // Extract username from Gmail address (part before @)
         if (user.email) {
@@ -40,6 +47,12 @@ export async function GET(request: Request) {
       } else if (provider === 'twitter') {
         if (user.user_metadata?.avatar_url) {
           avatarUrl = user.user_metadata.avatar_url;
+        }
+        // Extract name from Twitter profile
+        if (user.user_metadata?.full_name) {
+          name = user.user_metadata.full_name;
+        } else if (user.user_metadata?.name) {
+          name = user.user_metadata.name;
         }
         // Extract Twitter/X handle (username)
         if (user.user_metadata?.user_name || user.user_metadata?.preferred_username) {
@@ -92,9 +105,10 @@ export async function GET(request: Request) {
       }
       
       // Build update object with available data
-      const updateData: { avatar_url?: string; username?: string } = {};
+      const updateData: { avatar_url?: string; username?: string; name?: string } = {};
       if (avatarUrl) updateData.avatar_url = avatarUrl;
       if (username) updateData.username = username;
+      if (name) updateData.name = name;
       
       // Store data in users table if available
       if (Object.keys(updateData).length > 0) {

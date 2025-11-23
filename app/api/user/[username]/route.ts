@@ -16,7 +16,7 @@ export async function GET(
     // Fetch user profile data
     const { data: userData, error: userError } = await supabase
       .from('users')
-      .select('id, username, bio, profile_picture_url, avatar_url, cover_photo_url, cover_color, is_public')
+      .select('id, username, name, bio, profile_picture_url, avatar_url, cover_photo_url, cover_color, is_public, twitter_url, website_url')
       .eq('username', username)
       .eq('is_public', true)
       .single();
@@ -59,10 +59,13 @@ export async function GET(
     return NextResponse.json({
       profile: {
         username: userData.username,
+        name: userData.name,
         bio: userData.bio,
         profilePictureUrl: userData.profile_picture_url || userData.avatar_url,
         coverPhotoUrl: userData.cover_photo_url,
         coverColor: userData.cover_color || '#1DA1F2',
+        twitterUrl: userData.twitter_url,
+        websiteUrl: userData.website_url,
       },
       journeys: journeysWithCount,
     });

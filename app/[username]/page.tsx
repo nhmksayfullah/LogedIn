@@ -70,44 +70,78 @@ export default async function PublicProfilePage({ params }: Props) {
 
         {/* Profile Content */}
         <div className="px-4 sm:px-6 lg:px-8">
-          {/* Profile Header */}
-          <div className="relative -mt-16 mb-4">
-            <div className="flex items-end space-x-5">
-              {/* Profile Picture */}
-              <div className="flex-shrink-0">
-                <div className="relative w-32 h-32 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden">
-                  {profile.profilePictureUrl ? (
-                    <Image
-                      src={profile.profilePictureUrl}
-                      alt={profile.username}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold">
-                      {profile.username.charAt(0).toUpperCase()}
-                    </div>
+          {/* Profile Header - Centered */}
+          <div className="relative -mt-16 mb-8">
+            <div className="flex flex-col items-center">
+              {/* Profile Picture - Centered */}
+              <div className="relative w-32 h-32 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden mb-4">
+                {profile.profilePictureUrl ? (
+                  <Image
+                    src={profile.profilePictureUrl}
+                    alt={profile.name || profile.username}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold">
+                    {(profile.name || profile.username).charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
+
+              {/* Name and Username - Centered */}
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                  {profile.name || profile.username}
+                </h1>
+                {profile.name && (
+                  <p className="text-sm text-gray-500 mb-3">
+                    @{profile.username}
+                  </p>
+                )}
+              </div>
+
+              {/* Bio - Centered */}
+              {profile.bio && (
+                <p className="text-gray-700 text-center max-w-2xl whitespace-pre-wrap mt-2">
+                  {profile.bio}
+                </p>
+              )}
+
+              {/* Social Links - Centered */}
+              {(profile.twitterUrl || profile.websiteUrl) && (
+                <div className="flex items-center justify-center gap-4 mt-4">
+                  {profile.twitterUrl && (
+                    <a
+                      href={profile.twitterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-gray-900"
+                      aria-label="Twitter"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                      </svg>
+                    </a>
+                  )}
+                  {profile.websiteUrl && (
+                    <a
+                      href={profile.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-gray-900"
+                      aria-label="Website"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                      </svg>
+                    </a>
                   )}
                 </div>
-              </div>
-
-              {/* Username */}
-              <div className="flex-1 min-w-0 pb-2">
-                <h1 className="text-3xl font-bold text-gray-900 truncate">
-                  @{profile.username}
-                </h1>
-              </div>
+              )}
             </div>
           </div>
-
-          {/* Bio Section */}
-          {profile.bio && (
-            <div className="bg-gray-50 rounded-lg p-6 mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">About</h2>
-              <p className="text-gray-700 whitespace-pre-wrap">{profile.bio}</p>
-            </div>
-          )}
 
           {/* Journeys Section */}
           <div className="pb-12">

@@ -14,12 +14,12 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { isPublic, bio } = body;
+    const { isPublic, bio, name } = body;
 
     // Validate inputs
-    if (typeof isPublic !== 'boolean' && bio === undefined) {
+    if (typeof isPublic !== 'boolean' && bio === undefined && name === undefined) {
       return NextResponse.json(
-        { error: 'isPublic (boolean) or bio (string) is required' },
+        { error: 'isPublic (boolean), bio (string), or name (string) is required' },
         { status: 400 }
       );
     }
@@ -34,13 +34,26 @@ export async function POST(request: Request) {
       }
     }
 
+    // Validate name length if provided
+    if (name !== undefined && name !== null) {
+      if (typeof name !== 'string') {
+        return NextResponse.json({ error: 'Name must be a string' }, { status: 400 });
+      }
+      if (name.length > 100) {
+        return NextResponse.json({ error: 'Name must be 100 characters or less' }, { status: 400 });
+      }
+    }
+
     // Build update object
-    const updates: { is_public?: boolean; bio?: string } = {};
+    const updates: { is_public?: boolean; bio?: string; name?: string } = {};
     if (typeof isPublic === 'boolean') {
       updates.is_public = isPublic;
     }
     if (bio !== undefined) {
       updates.bio = bio;
+    }
+    if (name !== undefined) {
+      updates.name = name;
     }
 
     // Update user profile
