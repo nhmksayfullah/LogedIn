@@ -16,6 +16,21 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  // Don't show header on public profile pages
+  const isPublicProfilePage = pathname.startsWith('/') && 
+    pathname.split('/').length === 2 && 
+    pathname !== '/' &&
+    !pathname.startsWith('/api/') &&
+    !pathname.startsWith('/dashboard') &&
+    !pathname.startsWith('/profile') &&
+    !pathname.startsWith('/journey/') &&
+    !pathname.startsWith('/auth/') &&
+    !pathname.startsWith('/terms') &&
+    !pathname.startsWith('/privacy-policy') &&
+    !pathname.startsWith('/reset-password') &&
+    !pathname.startsWith('/update-password') &&
+    !pathname.startsWith('/verify-email');
+
   // Close user menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -58,6 +73,11 @@ export default function Header() {
       });
     }
   };
+
+  // Don't render header on public profile pages
+  if (isPublicProfilePage) {
+    return null;
+  }
 
   return (
     <>

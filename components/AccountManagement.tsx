@@ -375,8 +375,8 @@ export function AccountManagement() {
 
   return (
     <div className="bg-white rounded-lg overflow-hidden">
-      {/* Cover Photo Section - Twitter ratio 3:1 (1500x500) */}
-      <div className="relative w-full" style={{ paddingTop: '33.33%' }}>
+      {/* Cover Photo Section - YouTube ratio 6.2:1 (1546x423) */}
+      <div className="relative w-full" style={{ paddingTop: '16.13%' }}>
         {/* Cover background */}
         <div 
           className="absolute inset-0"

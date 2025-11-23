@@ -50,7 +50,7 @@ export default async function PublicProfilePage({ params }: Props) {
       {/* Container with same width as header */}
       <div className="max-w-6xl mx-auto bg-white">
         {/* Cover Photo Section */}
-        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600" style={{ paddingTop: '33.33%' }}>
+        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600" style={{ paddingTop: '16.13%' }}>
           {profile.coverPhotoUrl ? (
             <Image
               src={profile.coverPhotoUrl}
@@ -195,6 +195,22 @@ export default async function PublicProfilePage({ params }: Props) {
             )}
           </div>
         </div>
+
+        {/* Footer */}
+        <footer className="border-t border-gray-200 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Loged.in</h2>
+            <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+              Every journey deserves to be shared. Start documenting your story today.
+            </p>
+            <a
+              href="/"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Share Your Story
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );
