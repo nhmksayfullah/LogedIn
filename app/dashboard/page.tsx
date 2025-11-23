@@ -57,31 +57,19 @@ export default function Dashboard() {
     }
 
     await createJourney(data);
-    
-    // Manually trigger a refetch after a short delay
-    setTimeout(() => {
-      refetch();
-    }, 500);
+    // No need to refetch - createJourney already refreshes the list
   };
 
   const handleEditJourney = async (data: JourneyFormData) => {
     if (!editingJourney) return;
     
     await updateJourney(editingJourney.id, data);
-    
-    // Refresh the journeys list
-    setTimeout(() => {
-      refetch();
-    }, 500);
+    // No need to refetch - updateJourney already refreshes the list
   };
 
   const handleDeleteJourney = async (journeyId: string) => {
     await deleteJourney(journeyId);
-    
-    // Refresh the journeys list
-    setTimeout(() => {
-      refetch();
-    }, 500);
+    // No need to refetch - deleteJourney already refreshes the list
   };
 
   const openCreateModal = () => {
@@ -99,7 +87,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-12 mt-4">
+      <div className="max-w-6xl mx-auto px-6 py-12 mt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -113,7 +101,7 @@ export default function Dashboard() {
             className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
           >
             <Plus className="w-5 h-5" />
-            <span>New Journey</span>
+            <span>Start New Journey</span>
           </button>
         </div>
 
@@ -142,7 +130,7 @@ export default function Dashboard() {
               className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all"
             >
               <Plus className="w-5 h-5" />
-              <span>Create Journey</span>
+              <span>Start New Journey</span>
             </button>
           </motion.div>
         ) : (

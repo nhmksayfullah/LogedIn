@@ -203,16 +203,7 @@ export default function JourneyPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        {/* Back Button */}
-        <button
-          onClick={() => router.push('/dashboard')}
-          className="flex items-center space-x-2 text-slate-600 hover:text-slate-900 mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Journeys</span>
-        </button>
-
+      <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Journey Header */}
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm mb-8">
           {/* Cover Section */}
