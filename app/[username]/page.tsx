@@ -240,7 +240,15 @@ export default async function PublicProfilePage({ params }: Props) {
         {/* Footer */}
         <footer className="border-t border-gray-200 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-3">Loged.in</h2>
+            <div className="flex justify-center mb-4">
+              <Image
+                src="/logedin_logo.svg"
+                alt="Loged.in"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+              />
+            </div>
             <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
               Every journey deserves to be shared. Start documenting your story today.
             </p>
