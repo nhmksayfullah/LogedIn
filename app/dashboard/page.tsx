@@ -12,7 +12,7 @@ import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 import { JourneyCard } from '@/components/JourneyCard';
 
 export default function Dashboard() {
-  const { user, hasLifetimeAccess, isLoading: isAuthLoading } = useAuth();
+  const { user, isLoading: isAuthLoading } = useAuth();
   const router = useRouter();
   const { refetch: refetchPurchase } = usePurchase();
   const { journeys, isLoading: isLoadingJourneys, journeyLimits, createJourney, updateJourney, deleteJourney } = useJourneys();
