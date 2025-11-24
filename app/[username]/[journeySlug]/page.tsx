@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar } from 'lucide-react';
+import { getPublicJourneyBySlug, getVersionsByJourneyId } from '@/utils/publicProfile';
 
 type Props = {
   params: Promise<{ username: string; journeySlug: string }>;
@@ -10,7 +11,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username, journeySlug } = await params;
-  const data = await getPublicJourney(username, journeySlug);
+  const data = await getPublicJourneyBySlug(username, journeySlug);
   
   if (!data) {
     return {
@@ -24,73 +25,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-async function getPublicJourney(username: string, journeySlug: string) {
-  // Use relative URLs on the server side for internal API calls
-  const baseUrl = typeof window === 'undefined' 
-    ? (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000')
-    : '';
-  
-  console.log('[getPublicJourney] Fetching for:', { username, journeySlug, baseUrl, isServer: typeof window === 'undefined' });
-  
-  try {
-    const response = await fetch(`${baseUrl}/api/user/${username}`, {
-      cache: 'no-store',
-    });
-
-    console.log('[getPublicJourney] User API response status:', response.status);
-
-    if (!response.ok) {
-      console.log('[getPublicJourney] User API failed');
-      return null;
-    }
-
-    const data = await response.json();
-    console.log('[getPublicJourney] Found journeys:', data.journeys?.length);
-    
-    // Find the specific journey by slug
-    const journey = data.journeys.find((j: { slug: string; is_public: boolean }) => j.slug === journeySlug);
-    
-    console.log('[getPublicJourney] Journey found:', !!journey, 'is_public:', journey?.is_public);
-    
-    if (!journey || !journey.is_public) {
-      console.log('[getPublicJourney] Journey not found or not public');
-      return null;
-    }
-
-    // Fetch versions for this journey
-    const versionsResponse = await fetch(
-      `${baseUrl}/api/journey/${journey.id}/versions`,
-      { cache: 'no-store' }
-    );
-
-    console.log('[getPublicJourney] Versions API response status:', versionsResponse.status);
-
-    let versions = [];
-    if (versionsResponse.ok) {
-      versions = await versionsResponse.json();
-      console.log('[getPublicJourney] Versions count:', versions.length);
-    }
-
-    return {
-      profile: data.profile,
-      journey,
-      versions,
-    };
-  } catch (error) {
-    console.error('[getPublicJourney] Error fetching public journey:', error);
-    return null;
-  }
-}
-
 export default async function PublicJourneyPage({ params }: Props) {
   const { username, journeySlug } = await params;
-  const data = await getPublicJourney(username, journeySlug);
+  
+  // Fetch journey data directly from Supabase
+  const data = await getPublicJourneyBySlug(username, journeySlug);
 
   if (!data) {
     notFound();
   }
 
-  const { profile, journey, versions } = data;
+  const { profile, journey } = data;
+  
+  // Fetch versions for this journey
+  const versions = await getVersionsByJourneyId(journey.id);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -201,14 +149,7 @@ export default async function PublicJourneyPage({ params }: Props) {
               </div>
             ) : (
               <div className="space-y-8">
-                {versions.map((version: { 
-                  id: string; 
-                  date: string; 
-                  title: string; 
-                  description: string; 
-                  cover_photo_url?: string;
-                  tags?: string[];
-                }) => (
+                {versions.map((version) => (
                   <div
                     key={version.id}
                     className="flex flex-col sm:flex-row gap-4 sm:gap-6"

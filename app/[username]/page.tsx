@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Journey } from '@/types/journey';
+import { getPublicProfileByUsername, getPublicJourneysByUserId } from '@/utils/publicProfile';
 
 type Props = {
   params: Promise<{ username: string }>;
@@ -16,34 +17,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-async function getPublicProfile(username: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  
-  try {
-    const response = await fetch(`${baseUrl}/api/user/${username}`, {
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching public profile:', error);
-    return null;
-  }
-}
-
 export default async function PublicProfilePage({ params }: Props) {
   const { username } = await params;
-  const data = await getPublicProfile(username);
-
-  if (!data) {
+  
+  // Fetch profile data directly from Supabase
+  const profileData = await getPublicProfileByUsername(username);
+  
+  if (!profileData) {
     notFound();
   }
 
-  const { profile, journeys } = data;
+  // Fetch public journeys
+  const journeys = await getPublicJourneysByUserId(profileData.userId);
+  const profile = profileData.profile;
 
   return (
     <div className="min-h-screen bg-white">
