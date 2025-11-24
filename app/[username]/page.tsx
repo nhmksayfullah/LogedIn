@@ -32,9 +32,9 @@ export default async function PublicProfilePage({ params }: Props) {
   const profile = profileData.profile;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Container with same width as header */}
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto flex-1 w-full">
         {/* Cover Photo Section */}
         <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-b-xl overflow-hidden" style={{ paddingTop: '16.13%' }}>
           {profile.coverPhotoUrl ? (
@@ -56,10 +56,10 @@ export default async function PublicProfilePage({ params }: Props) {
         {/* Profile Content */}
         <div className="px-4 sm:px-6 lg:px-8">
           {/* Profile Header - Centered */}
-          <div className="relative -mt-16 mb-8">
+          <div className="relative -mt-10 mb-4">
             <div className="flex flex-col items-center">
               {/* Profile Picture - Centered */}
-              <div className="relative w-32 h-32 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden mb-4">
+              <div className="relative w-20 h-20 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden mb-2">
                 {profile.profilePictureUrl ? (
                   <Image
                     src={profile.profilePictureUrl}
@@ -69,7 +69,7 @@ export default async function PublicProfilePage({ params }: Props) {
                     priority
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-4xl font-bold">
+                  <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
                     {(profile.name || profile.username).charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -77,11 +77,11 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Name and Username - Centered */}
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                <h1 className="text-xl font-bold text-gray-900 mb-1">
                   {profile.name || profile.username}
                 </h1>
                 {profile.name && (
-                  <p className="text-sm text-gray-500 mb-3">
+                  <p className="text-sm text-gray-500 mb-2">
                     @{profile.username}
                   </p>
                 )}
@@ -89,14 +89,14 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Bio - Centered */}
               {profile.bio && (
-                <p className="text-gray-700 text-center max-w-2xl whitespace-pre-wrap mt-2">
+                <p className="text-sm text-gray-700 text-center max-w-2xl whitespace-pre-wrap mt-1">
                   {profile.bio}
                 </p>
               )}
 
               {/* Social Links - Centered */}
               {(profile.twitterUrl || profile.websiteUrl) && (
-                <div className="flex items-center justify-center gap-4 mt-4">
+                <div className="flex items-center justify-center gap-4 mt-3">
                   {profile.twitterUrl && (
                     <a
                       href={profile.twitterUrl}
@@ -129,16 +129,7 @@ export default async function PublicProfilePage({ params }: Props) {
           </div>
 
           {/* Journeys Section */}
-          <div className="pb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Public Journeys
-              {journeys.length > 0 && (
-                <span className="ml-2 text-sm font-normal text-gray-500">
-                  ({journeys.length})
-                </span>
-              )}
-            </h2>
-
+          <div className="pb-12 pt-6 border-t border-gray-200">
             {journeys.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {journeys.map((journey: Journey) => (
@@ -221,31 +212,31 @@ export default async function PublicProfilePage({ params }: Props) {
             )}
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="border-t border-gray-200 py-12 px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/logedin_logo.svg"
-                alt="Loged.in"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-              />
-            </div>
-            <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
-              Every journey deserves to be shared. Start documenting your story today.
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
-            >
-              Share Your Story
-            </Link>
-          </div>
-        </footer>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/logedin_logo.svg"
+              alt="Loged.in"
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+            />
+          </div>
+          <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+            Every journey deserves to be shared. Start documenting your story today.
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+          >
+            Share Your Story
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 export const dynamic = 'force-dynamic';
 import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Hash, X, Trash2, Globe, Lock, Settings, Upload } from 'lucide-react';
+import { Plus, Hash, X, Trash2, Globe, Lock, Settings, Upload, Edit2 } from 'lucide-react';
 import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
 
 interface Journey {
@@ -37,6 +37,13 @@ export default function JourneyPage() {
   
   // Journey edit modal state
   const [isJourneyModalOpen, setIsJourneyModalOpen] = useState(false);
+  
+  // Delete confirmation state
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletingVersionId, setDeletingVersionId] = useState<string | null>(null);
+  
+  // Edit version state
+  const [editingVersion, setEditingVersion] = useState<typeof versions[0] | null>(null);
   
   // Version modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -117,6 +124,16 @@ export default function JourneyPage() {
     }
   };
 
+  const handleEditVersion = (version: typeof versions[0]) => {
+    setEditingVersion(version);
+    setNewVersionTitle(version.title);
+    setNewVersionDescription(version.description || '');
+    setNewVersionDate(new Date(version.date).toISOString().split('T')[0]);
+    setNewVersionTags(version.tags?.join(', ') || '');
+    setCoverPhotoPreview(version.cover_photo_url || null);
+    setIsModalOpen(true);
+  };
+
   const handleCreateVersion = async () => {
     if (!newVersionTitle.trim()) {
       setCreateError('Please enter a version title');
@@ -132,9 +149,9 @@ export default function JourneyPage() {
       setIsCreating(true);
       setCreateError(null);
 
-      let coverPhotoUrl: string | undefined = undefined;
+      let coverPhotoUrl: string | undefined | null = undefined;
 
-      // Upload cover photo first if provided
+      // Upload cover photo first if provided and it's a new file
       if (newVersionCoverPhoto) {
         setIsUploadingPhoto(true);
         const photoFormData = new FormData();
@@ -153,6 +170,12 @@ export default function JourneyPage() {
         const uploadData = await uploadResponse.json();
         coverPhotoUrl = uploadData.coverPhotoUrl;
         setIsUploadingPhoto(false);
+      } else if (editingVersion && !coverPhotoPreview) {
+        // Explicitly set to null if editing and preview was removed
+        coverPhotoUrl = null;
+      } else if (editingVersion && coverPhotoPreview) {
+        // Keep existing cover photo if editing and preview exists but no new file
+        coverPhotoUrl = editingVersion.cover_photo_url || undefined;
       }
 
       // Parse tags from comma-separated string
@@ -161,13 +184,30 @@ export default function JourneyPage() {
         .map(tag => tag.trim())
         .filter(tag => tag.length > 0);
 
-      await createVersion({
-        title: newVersionTitle,
-        description: newVersionDescription || undefined,
-        cover_photo_url: coverPhotoUrl,
-        date: new Date(newVersionDate).toISOString(),
-        tags: tags.length > 0 ? tags : undefined,
-      });
+      if (editingVersion) {
+        // Edit existing version
+        const { error } = await supabase
+          .from('versions')
+          .update({
+            title: newVersionTitle,
+            description: newVersionDescription || null,
+            cover_photo_url: coverPhotoUrl,
+            date: new Date(newVersionDate).toISOString(),
+            tags: tags.length > 0 ? tags : null,
+          })
+          .eq('id', editingVersion.id);
+
+        if (error) throw error;
+      } else {
+        // Create new version
+        await createVersion({
+          title: newVersionTitle,
+          description: newVersionDescription || undefined,
+          cover_photo_url: coverPhotoUrl || undefined,
+          date: new Date(newVersionDate).toISOString(),
+          tags: tags.length > 0 ? tags : undefined,
+        });
+      }
 
       // Reset form and close modal
       setNewVersionTitle('');
@@ -176,6 +216,7 @@ export default function JourneyPage() {
       setCoverPhotoPreview(null);
       setNewVersionDate(new Date().toISOString().split('T')[0]);
       setNewVersionTags('');
+      setEditingVersion(null);
       setIsModalOpen(false);
 
       // Refetch versions
@@ -183,8 +224,8 @@ export default function JourneyPage() {
         refetch();
       }, 500);
     } catch (err) {
-      console.error('Failed to create version:', err);
-      setCreateError(err instanceof Error ? err.message : 'Failed to create version');
+      console.error('Failed to save version:', err);
+      setCreateError(err instanceof Error ? err.message : 'Failed to save version');
     } finally {
       setIsCreating(false);
       setIsUploadingPhoto(false);
@@ -222,16 +263,27 @@ export default function JourneyPage() {
   const handleRemoveCoverPhoto = () => {
     setNewVersionCoverPhoto(null);
     setCoverPhotoPreview(null);
+    // If editing, mark that we want to remove the cover photo
+    if (editingVersion) {
+      setEditingVersion({ ...editingVersion, cover_photo_url: null });
+    }
   };
 
-  const handleDeleteVersion = async (versionId: string) => {
-    if (!confirm('Are you sure you want to delete this version?')) return;
+  const handleDeleteVersion = (versionId: string) => {
+    setDeletingVersionId(versionId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDeleteVersion = async () => {
+    if (!deletingVersionId) return;
 
     try {
-      await deleteVersion(versionId);
+      await deleteVersion(deletingVersionId);
+      setShowDeleteConfirm(false);
+      setDeletingVersionId(null);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      alert('Failed to delete version');
+      alert('Failed to delete milestone');
     }
   };
 
@@ -288,98 +340,111 @@ export default function JourneyPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        {/* Journey Header */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm mb-8">
-          {/* Cover Section */}
-          <div 
-            className="h-48 rounded-t-xl flex items-center justify-center relative"
-            style={{
-              background: journey.cover_image_url 
-                ? 'none' 
-                : `linear-gradient(135deg, ${journey.cover_color || '#3B82F6'} 0%, ${journey.cover_color ? `${journey.cover_color}dd` : '#2563EB'} 100%)`
-            }}
+      <div className="max-w-6xl mx-auto">
+        {/* Cover Photo Section */}
+        <div 
+          className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-b-xl overflow-hidden"
+          style={{ paddingTop: '16.13%' }}
+        >
+          {journey.cover_image_url ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img 
+              src={journey.cover_image_url} 
+              alt={journey.title}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(135deg, ${journey.cover_color || '#3B82F6'} 0%, ${journey.cover_color ? `${journey.cover_color}dd` : '#2563EB'} 100%)`
+              }}
+            />
+          )}
+          
+          {/* Settings Button */}
+          <button
+            onClick={() => setIsJourneyModalOpen(true)}
+            className="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-lg shadow-lg transition-all backdrop-blur-sm"
           >
-            {journey.cover_image_url && (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img 
-                src={journey.cover_image_url} 
-                alt={journey.title}
-                className="w-full h-full object-cover rounded-t-xl"
-              />
-            )}
-            
-            {/* Settings Button */}
-            <button
-              onClick={() => setIsJourneyModalOpen(true)}
-              className="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-lg shadow-lg transition-all backdrop-blur-sm"
-            >
-              <Settings className="w-5 h-5 text-slate-700" />
-            </button>
-          </div>
-
-          {/* Content Section */}
-          <div className="p-8">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex-1">
-                <h1 className="text-4xl font-bold text-slate-900 mb-3">
-                  {journey.title}
-                </h1>
-                {journey.description && (
-                  <p className="text-lg text-slate-600">
-                    {journey.description}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Meta Info */}
-            <div className="flex items-center space-x-4 text-sm text-slate-500 mb-6">
-              <div className="flex items-center space-x-2">
-                {journey.is_public ? (
-                  <>
-                    <Globe className="w-4 h-4 text-blue-500" />
-                    <span className="text-blue-600 font-medium">Public</span>
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-4 h-4" />
-                    <span>Private</span>
-                  </>
-                )}
-              </div>
-              <span>•</span>
-              <span>Created {formatDate(journey.created_at)}</span>
-            </div>
-
-            {/* Add Version Button */}
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
-            >
-              <Plus className="w-5 h-5" />
-              <span>Add Milestone</span>
-            </button>
-          </div>
+            <Settings className="w-5 h-5 text-gray-700" />
+          </button>
         </div>
 
-        {/* Versions Timeline */}
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-slate-900">Timeline</h2>
+        {/* Journey Content */}
+        <div className="px-4 sm:px-6 lg:px-8">
+          {/* Journey Header */}
+          <div className="py-8">
+            {/* Title and Description */}
+            <div className="mb-6">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                {journey.title}
+              </h1>
+              {journey.description && (
+                <p className="text-lg text-gray-600">
+                  {journey.description}
+                </p>
+              )}
+            </div>
 
+            {/* Meta Info and Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              {/* Meta Info */}
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
+                <div className="flex items-center space-x-2">
+                  {journey.is_public ? (
+                    <>
+                      <Globe className="w-4 h-4 text-blue-500" />
+                      <span className="text-blue-600 font-medium">Public</span>
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      <span className="font-medium">Private</span>
+                    </>
+                  )}
+                </div>
+                <span>•</span>
+                <span>Created {formatDate(journey.created_at)}</span>
+                <span>•</span>
+                <span>{versions.length} {versions.length === 1 ? 'milestone' : 'milestones'}</span>
+              </div>
+
+              {/* Add Milestone Button */}
+              <button
+                onClick={() => {
+                  setEditingVersion(null);
+                  setNewVersionTitle('');
+                  setNewVersionDescription('');
+                  setNewVersionCoverPhoto(null);
+                  setCoverPhotoPreview(null);
+                  setNewVersionDate(new Date().toISOString().split('T')[0]);
+                  setNewVersionTags('');
+                  setIsModalOpen(true);
+                }}
+                className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md"
+              >
+                <Plus className="w-5 h-5" />
+                <span>Add Milestone</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Versions Timeline */}
+          <div className="pt-6 border-t border-gray-200">
           {isLoadingVersions ? (
             <div className="flex items-center justify-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
             </div>
           ) : versions.length === 0 ? (
-            <div className="bg-white rounded-xl border border-slate-200 p-12 text-center">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Hash className="w-8 h-8 text-slate-400" />
+            <div className="bg-gray-50 rounded-xl p-12 text-center">
+              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Hash className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
                 No milestones yet
               </h3>
-              <p className="text-slate-600 mb-6">
+              <p className="text-gray-600 mb-6">
                 Start documenting your journey by adding your first milestone
               </p>
               <button
@@ -391,77 +456,92 @@ export default function JourneyPage() {
               </button>
             </div>
           ) : (
-            versions.map((version, index) => (
+            <div className="space-y-4">
+            {versions.map((version, index) => (
               <motion.div
                 key={version.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-slate-50 to-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                className="flex flex-col sm:flex-row gap-4 sm:gap-6"
               >
-                {/* Cover Photo */}
-                {version.cover_photo_url && (
-                  <div className="relative w-full h-64 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img 
-                      src={version.cover_photo_url} 
-                      alt={version.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                  </div>
-                )}
+                {/* Date - Left side */}
+                <div className="flex-shrink-0 sm:w-32 sm:text-right">
+                  <time className="text-sm sm:text-base font-medium text-gray-900">
+                    {formatDate(version.date)}
+                  </time>
+                </div>
 
-                {/* Content */}
-                <div className="p-8">
-                  {/* Date at the top left */}
-                  <div className="mb-4">
-                    <time className="text-sm font-medium text-slate-500">
-                      {formatDate(version.date)}
-                    </time>
-                  </div>
+                {/* Card - Right side */}
+                <div className="flex-1 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group relative">
 
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight">
-                    {version.title}
-                  </h3>
-
-                  {/* Description with rich text styling */}
-                  {version.description && (
-                    <div 
-                      className="prose prose-slate max-w-none mb-4"
-                      dangerouslySetInnerHTML={{ __html: version.description }}
-                    />
-                  )}
-
-                  {/* Tags */}
-                  {version.tags && version.tags.length > 0 && (
-                    <div className="flex items-center flex-wrap gap-2 mt-6 pt-6 border-t border-slate-200">
-                      {version.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                  {/* Cover Photo */}
+                  {version.cover_photo_url && (
+                    <div className="relative w-full h-32 overflow-hidden">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={version.cover_photo_url} 
+                        alt={version.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
                     </div>
                   )}
-                </div>
 
-                {/* Delete Button - appears on hover */}
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    onClick={() => handleDeleteVersion(version.id)}
-                    className="p-2.5 bg-white/95 hover:bg-red-50 text-slate-700 hover:text-red-600 rounded-lg shadow-lg backdrop-blur-sm transition-all"
-                    title="Delete milestone"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  {/* Content */}
+                  <div className="p-4">
+                    {/* Title */}
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">
+                      {version.title}
+                    </h3>
+
+                    {/* Description with rich text styling */}
+                    {version.description && (
+                      <div 
+                        className="prose prose-sm prose-slate max-w-none mb-3 text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: version.description }}
+                      />
+                    )}
+
+                    {/* Tags */}
+                    {version.tags && version.tags.length > 0 && (
+                      <div className="flex items-center flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200">
+                        {version.tags.map((tag, i) => (
+                          <span
+                            key={i}
+                            className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="mt-4 pt-3 border-t border-gray-200 flex items-center space-x-3">
+                      <button
+                        onClick={() => handleEditVersion(version)}
+                        className="flex items-center space-x-2 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                        <span>Edit</span>
+                      </button>
+                      <span className="text-gray-300">•</span>
+                      <button
+                        onClick={() => handleDeleteVersion(version.id)}
+                        className="flex items-center space-x-2 text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
-            ))
+            ))}
+            </div>
           )}
+        </div>
         </div>
       </div>
 
@@ -506,7 +586,7 @@ export default function JourneyPage() {
                 {/* Modal Header */}
                 <div className="flex items-center justify-between p-6 border-b border-slate-200">
                   <h2 className="text-2xl font-bold text-slate-900">
-                    Add New Milestone
+                    {editingVersion ? 'Edit Milestone' : 'Add New Milestone'}
                   </h2>
                   <button
                     onClick={() => setIsModalOpen(false)}
@@ -642,8 +722,55 @@ export default function JourneyPage() {
                     disabled={isCreating || isUploadingPhoto || !newVersionTitle.trim()}
                     className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isUploadingPhoto ? 'Uploading photo...' : isCreating ? 'Creating...' : 'Create Milestone'}
+                    {isUploadingPhoto ? 'Uploading photo...' : isCreating ? (editingVersion ? 'Saving...' : 'Creating...') : (editingVersion ? 'Save Changes' : 'Create Milestone')}
                   </button>
+                </div>
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteConfirm && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowDeleteConfirm(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            />
+            <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="bg-white rounded-2xl shadow-2xl max-w-md w-full"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    Delete Milestone?
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Are you sure you want to delete this milestone? This will also delete any photos associated with it. This action cannot be undone.
+                  </p>
+                  <div className="flex items-center justify-end space-x-3">
+                    <button
+                      onClick={() => setShowDeleteConfirm(false)}
+                      className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmDeleteVersion}
+                      className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all"
+                    >
+                      Delete Milestone
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             </div>
