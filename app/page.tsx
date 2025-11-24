@@ -20,6 +20,47 @@ export default function LandingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalIntent, setModalIntent] = useState<ModalIntent>('signup');
 
+  // Add JSON-LD structured data on client-side only
+  useEffect(() => {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Loged.in",
+      "url": "https://loged.in",
+      "description": "Loged.in helps you track personal milestones, document your transformation, and share your progress with the world. Private by default, powerful when shared.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Doddlesoft"
+      }
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(jsonLd);
+    script.id = 'json-ld-schema';
+    document.head.appendChild(script);
+
+    return () => {
+      const existingScript = document.getElementById('json-ld-schema');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
+
   // Check if we should open payment modal after OAuth redirect
   useEffect(() => {
     if (searchParams.get('show_payment') === 'true') {
