@@ -55,7 +55,7 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.1 }}
-        className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-all cursor-pointer overflow-hidden group relative"
+        className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-gray-700 hover:shadow-lg transition-all cursor-pointer overflow-hidden group relative"
         onClick={onClick}
       >
         {/* Cover Image */}
@@ -83,9 +83,9 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
                 e.stopPropagation();
                 setShowMenu(!showMenu);
               }}
-              className="p-2 bg-white/90 hover:bg-white rounded-lg shadow-lg transition-all"
+              className="p-2 bg-white/90 dark:bg-slate-700/90 hover:bg-white dark:hover:bg-slate-700 rounded-lg shadow-lg transition-all"
             >
-              <MoreVertical className="w-4 h-4 text-slate-700" />
+              <MoreVertical className="w-4 h-4 text-slate-700 dark:text-slate-200" />
             </button>
             
             {/* Dropdown Menu */}
@@ -106,18 +106,18 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-xl border border-slate-200 py-1 z-50"
+                    className="absolute right-0 mt-2 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-gray-700 py-1 z-50"
                   >
                     <button
                       onClick={handleEdit}
-                      className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
                       <span>Edit</span>
                     </button>
                     <button
                       onClick={handleDelete}
-                      className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                       <span>Delete</span>
@@ -132,24 +132,24 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
         {/* Content */}
         <div className="p-6">
           <div className="flex items-start justify-between mb-3">
-            <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-500 transition-colors line-clamp-1 flex-1">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors line-clamp-1 flex-1">
               {journey.title}
             </h3>
             {journey.is_public ? (
               <Globe className="w-4 h-4 text-blue-500 flex-shrink-0 ml-2" />
             ) : (
-              <Lock className="w-4 h-4 text-slate-400 flex-shrink-0 ml-2" />
+              <Lock className="w-4 h-4 text-slate-400 dark:text-slate-500 flex-shrink-0 ml-2" />
             )}
           </div>
 
           {journey.description && (
-            <p className="text-sm text-slate-600 mb-4 line-clamp-2">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
               {journey.description}
             </p>
           )}
 
           <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-4 text-slate-500">
+            <div className="flex items-center space-x-4 text-slate-500 dark:text-slate-400">
               <span className="font-medium">{journey.version_count || 0} versions</span>
               <span className="flex items-center space-x-1">
                 <Calendar className="w-3.5 h-3.5" />
@@ -176,20 +176,20 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-2xl shadow-2xl max-w-md w-full"
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                     Delete Journey?
                   </h3>
-                  <p className="text-slate-600 mb-6">
+                  <p className="text-slate-600 dark:text-slate-300 mb-6">
                     Are you sure you want to delete &quot;{journey.title}&quot;? This will also delete all versions and photos. This action cannot be undone.
                   </p>
                   <div className="flex items-center justify-end space-x-3">
                     <button
                       onClick={cancelDelete}
-                      className="px-4 py-2 text-slate-700 hover:bg-slate-100 rounded-lg font-medium transition-colors"
+                      className="px-4 py-2 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg font-medium transition-colors"
                     >
                       Cancel
                     </button>

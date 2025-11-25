@@ -125,33 +125,33 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
         />
         
         {/* Modal */}
-        <div className="relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl p-8 animate-in fade-in zoom-in duration-200 border border-slate-200">
+        <div className="relative w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 animate-in fade-in zoom-in duration-200 border border-slate-200 dark:border-slate-700">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+            className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
 
           {/* Header */}
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               Get Lifetime Pro Access
             </h2>
-            <p className="text-slate-600">
+            <p className="text-slate-600 dark:text-slate-300">
               Pay once, own forever. Unlock unlimited journeys.
             </p>
           </div>
 
           {/* Pricing highlight */}
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
+          <div className="bg-blue-50 dark:bg-slate-700 border border-blue-200 dark:border-blue-600 rounded-xl p-4 mb-6">
             <div className="flex items-baseline justify-center space-x-2 mb-2">
-              <span className="text-lg text-slate-400 line-through">$99.99</span>
-              <span className="text-3xl font-bold text-slate-900">$39</span>
+              <span className="text-lg text-slate-400 dark:text-slate-500 line-through">$99.99</span>
+              <span className="text-3xl font-bold text-slate-900 dark:text-white">$39</span>
             </div>
             <div className="text-center">
-              <span className="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-semibold rounded-full">
+              <span className="inline-block px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white text-xs font-semibold rounded-full">
                 60% OFF · LAUNCHDEAL
               </span>
             </div>
@@ -169,13 +169,13 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
           {/* Skip option */}
           <button
             onClick={handleSkipPayment}
-            className="w-full py-2 text-sm text-slate-600 hover:text-slate-900 transition-colors"
+            className="w-full py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-colors"
           >
             Skip for now, take me to dashboard →
           </button>
 
           {/* Footer note */}
-          <p className="mt-4 text-xs text-center text-slate-500">
+          <p className="mt-4 text-xs text-center text-slate-500 dark:text-slate-400">
             Secure payment powered by Stripe
           </p>
         </div>
@@ -193,11 +193,11 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl p-8 animate-in fade-in zoom-in duration-200 border border-slate-200">
+      <div className="relative w-full max-w-md mx-4 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 animate-in fade-in zoom-in duration-200 border border-slate-200 dark:border-slate-700">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
+          className="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
         >
           <X className="w-6 h-6" />
         </button>
@@ -205,15 +205,15 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
         {/* Header */}
         <div className="text-center mb-8">
           {intent === 'payment' ? (
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Sign in to purchase
             </h2>
           ) : (
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              Welcome to loged<span className="text-blue-500">in</span>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Welcome to loged<span className="text-blue-500 dark:text-blue-400">in</span>
             </h2>
           )}
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-300">
             {intent === 'payment' 
               ? 'Create an account or sign in to get lifetime access'
               : 'Sign in to start documenting your journey'}
@@ -222,7 +222,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
 
         {/* Error message */}
         {error && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+          <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm">
             {error}
           </div>
         )}
@@ -232,7 +232,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full py-3 px-4 border border-slate-200 rounded-lg shadow-sm text-slate-700 bg-white hover:bg-slate-50 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 border border-slate-200 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Image
               src="/Google-Logo.png"
@@ -247,7 +247,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
           <button
             onClick={handleTwitterSignIn}
             disabled={isLoading}
-            className="w-full py-3 px-4 border border-slate-200 rounded-lg shadow-sm text-slate-700 bg-white hover:bg-slate-50 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 border border-slate-200 dark:border-slate-600 rounded-lg shadow-sm text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <svg
               className="mr-3"
@@ -263,7 +263,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
         </div>
 
         {/* Footer note */}
-        <p className="mt-6 text-xs text-center text-slate-500">
+        <p className="mt-6 text-xs text-center text-slate-500 dark:text-slate-400">
           By continuing, you agree to our Terms of Service and Privacy Policy
         </p>
       </div>

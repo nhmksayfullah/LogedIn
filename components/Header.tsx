@@ -86,7 +86,7 @@ export default function Header() {
       {/* Spacer div to push content down when header is fixed */}
       <div className="h-20" />
       <header className="fixed top-0 w-full z-50 pt-4 px-4">
-        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-lg border border-slate-200">
+        <div className="max-w-6xl mx-auto bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700">
           <div className="px-6 py-3 flex items-center justify-between">
             {/* Logo */}
             <button 
@@ -99,6 +99,15 @@ export default function Header() {
                 width={78}
                 height={32}
                 priority
+                className="dark:hidden"
+              />
+              <Image
+                src="/logedin_logo_light.svg"
+                alt="Loged.in"
+                width={78}
+                height={32}
+                priority
+                className="hidden dark:block"
               />
             </button>
             
@@ -107,13 +116,13 @@ export default function Header() {
               <nav className="hidden md:flex items-center space-x-6">
                 <button 
                   onClick={() => scrollToSection('features')}
-                  className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
+                  className="text-landing-small text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
                 >
                   Features
                 </button>
                 <button 
                   onClick={() => scrollToSection('pricing')}
-                  className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
+                  className="text-landing-small text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
                 >
                   Pricing
                 </button>
@@ -126,13 +135,13 @@ export default function Header() {
                 <>
                   <button 
                     onClick={() => openAuthModal('login')}
-                    className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
+                    className="text-landing-small text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     Log in
                   </button>
                   <button 
                     onClick={() => openAuthModal('payment')}
-                    className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-landing-small rounded-lg font-medium transition-all"
+                    className="px-4 py-2 bg-slate-900 dark:bg-blue-600 hover:bg-slate-800 dark:hover:bg-blue-700 text-white text-landing-small rounded-lg font-medium transition-all"
                   >
                     Get lifetime access
                   </button>
@@ -141,7 +150,7 @@ export default function Header() {
                 <>
                   <button 
                     onClick={() => router.push('/dashboard')}
-                    className="text-landing-small text-slate-600 hover:text-slate-900 transition-colors"
+                    className="text-landing-small text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
                   >
                     Dashboard
                   </button>
@@ -150,9 +159,9 @@ export default function Header() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"
+                      className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                     >
-                      <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white text-sm font-medium overflow-hidden">
+                      <div className="w-8 h-8 bg-slate-900 dark:bg-slate-700 rounded-full flex items-center justify-center text-white text-sm font-medium overflow-hidden">
                         {profilePictureUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img 
@@ -168,19 +177,19 @@ export default function Header() {
 
                     {/* Dropdown Menu */}
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-50">
+                      <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 py-1 z-50">
                         <button
                           onClick={() => {
                             router.push('/profile');
                             setIsUserMenuOpen(false);
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                          className="block w-full text-left px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           Profile & Plan
                         </button>
                         <button
                           onClick={handleLogout}
-                          className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-slate-100"
+                          className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           Sign Out
                         </button>
@@ -198,7 +207,7 @@ export default function Header() {
                 // Toggle mobile menu - you can implement this later if needed
               }}
             >
-              <svg className="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-slate-900 dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>

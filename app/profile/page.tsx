@@ -77,10 +77,10 @@ function ProfileContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mb-4 mx-auto"></div>
-          <p className="text-slate-600">Redirecting to login...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 dark:border-blue-400 mb-4 mx-auto"></div>
+          <p className="text-slate-600 dark:text-slate-300">Redirecting to login...</p>
         </div>
       </div>
     );
@@ -89,25 +89,25 @@ function ProfileContent() {
   return (
     <ErrorBoundary
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center p-4">
           <div className="text-center">
-            <p className="text-red-500 text-landing-body">Failed to load purchase details. Please try refreshing.</p>
+            <p className="text-red-500 dark:text-red-400 text-landing-body">Failed to load purchase details. Please try refreshing.</p>
           </div>
         </div>
       }
     >
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white dark:bg-slate-900">
         {/* Success Banner */}
         {paymentStatus === 'success' && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-200"
+            className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-b border-green-200 dark:border-green-800"
           >
             <div className="max-w-4xl mx-auto px-6 py-4">
               <div className="flex items-center justify-center space-x-2">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
-                <p className="text-green-700 font-medium">
+                <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
+                <p className="text-green-700 dark:text-green-300 font-medium">
                   🎉 Welcome to Lifetime Pro! Your payment was successful.
                 </p>
               </div>
@@ -122,9 +122,9 @@ function ProfileContent() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="bg-white border border-slate-200 rounded-xl p-6 mb-6"
+            className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6 mb-6"
           >
-            <h2 className="text-landing-card-title font-bold text-slate-900 mb-4">Account Details</h2>
+            <h2 className="text-landing-card-title font-bold text-slate-900 dark:text-white mb-4">Account Details</h2>
             <AccountManagement />
           </motion.div>
 
@@ -135,88 +135,88 @@ function ProfileContent() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             {error ? (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-                <p className="text-red-600 text-landing-body">{error}</p>
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-6">
+                <p className="text-red-600 dark:text-red-400 text-landing-body">{error}</p>
               </div>
             ) : isLoadingPurchase ? (
-              <div className="bg-white border border-slate-200 rounded-xl p-12">
+              <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-12">
                 <div className="flex flex-col items-center justify-center space-y-3">
-                  <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-                  <p className="text-slate-600 text-landing-small">Loading your subscription...</p>
+                  <div className="w-8 h-8 border-2 border-blue-500 dark:border-blue-400 border-t-transparent rounded-full animate-spin" />
+                  <p className="text-slate-600 dark:text-slate-300 text-landing-small">Loading your subscription...</p>
                 </div>
               </div>
             ) : hasLifetimeAccess ? (
               // Pro User Card
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-500 rounded-xl p-6 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-500 dark:border-blue-600 rounded-xl p-6 relative overflow-hidden">
                 {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-indigo-400/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-400/10 dark:bg-blue-400/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-20 h-20 bg-indigo-400/10 dark:bg-indigo-400/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                 
                 <div className="relative">
                   {/* Status Badge */}
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
-                      <Crown className="w-5 h-5 text-blue-600" />
-                      <span className="text-landing-body font-bold text-slate-900">Lifetime Pro</span>
+                      <Crown className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      <span className="text-landing-body font-bold text-slate-900 dark:text-white">Lifetime Pro</span>
                     </div>
-                    <span className="px-3 py-1 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full">
+                    <span className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white text-landing-tiny font-semibold rounded-full">
                       ACTIVE
                     </span>
                   </div>
 
                   {/* Purchase Details */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-                    <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3">
-                      <p className="text-landing-tiny text-slate-600 mb-1">Plan Type</p>
-                      <p className="text-landing-small font-semibold text-slate-900">
+                    <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-lg p-3">
+                      <p className="text-landing-tiny text-slate-600 dark:text-slate-400 mb-1">Plan Type</p>
+                      <p className="text-landing-small font-semibold text-slate-900 dark:text-white">
                         {purchase?.purchase_type?.replace('_', ' ').toUpperCase()}
                       </p>
                     </div>
-                    <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3">
-                      <p className="text-landing-tiny text-slate-600 mb-1">Purchased</p>
-                      <p className="text-landing-small font-semibold text-slate-900">
+                    <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-lg p-3">
+                      <p className="text-landing-tiny text-slate-600 dark:text-slate-400 mb-1">Purchased</p>
+                      <p className="text-landing-small font-semibold text-slate-900 dark:text-white">
                         {purchase?.purchased_at ? new Date(purchase.purchased_at).toLocaleDateString() : 'N/A'}
                       </p>
                     </div>
-                    <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3">
-                      <p className="text-landing-tiny text-slate-600 mb-1">Amount Paid</p>
-                      <p className="text-landing-small font-semibold text-slate-900">
+                    <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-lg p-3">
+                      <p className="text-landing-tiny text-slate-600 dark:text-slate-400 mb-1">Amount Paid</p>
+                      <p className="text-landing-small font-semibold text-slate-900 dark:text-white">
                         ${purchase?.amount_paid ? (purchase.amount_paid / 100).toFixed(2) : '0.00'} {purchase?.currency?.toUpperCase()}
                       </p>
                     </div>
                     {purchase?.coupon_id && (
-                      <div className="bg-white/60 backdrop-blur-sm rounded-lg p-3">
-                        <p className="text-landing-tiny text-slate-600 mb-1">Coupon</p>
-                        <p className="text-landing-small font-semibold text-slate-900">{purchase.coupon_id}</p>
+                      <div className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-lg p-3">
+                        <p className="text-landing-tiny text-slate-600 dark:text-slate-400 mb-1">Coupon</p>
+                        <p className="text-landing-small font-semibold text-slate-900 dark:text-white">{purchase.coupon_id}</p>
                       </div>
                     )}
                   </div>
 
                   {/* Benefits */}
-                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 mb-4">
+                  <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg p-3 mb-4">
                     <div className="flex items-center space-x-2 mb-2">
-                      <Sparkles className="w-4 h-4 text-blue-600" />
-                      <p className="text-landing-small font-semibold text-slate-900">Your Benefits</p>
+                      <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      <p className="text-landing-small font-semibold text-slate-900 dark:text-white">Your Benefits</p>
                     </div>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
-                      <li className="flex items-center text-landing-tiny text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-1.5 flex-shrink-0" />
+                      <li className="flex items-center text-landing-tiny text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mr-1.5 flex-shrink-0" />
                         Unlimited journeys
                       </li>
-                      <li className="flex items-center text-landing-tiny text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-1.5 flex-shrink-0" />
+                      <li className="flex items-center text-landing-tiny text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mr-1.5 flex-shrink-0" />
                         No watermark
                       </li>
-                      <li className="flex items-center text-landing-tiny text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-1.5 flex-shrink-0" />
+                      <li className="flex items-center text-landing-tiny text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mr-1.5 flex-shrink-0" />
                         Custom themes
                       </li>
-                      <li className="flex items-center text-landing-tiny text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-1.5 flex-shrink-0" />
+                      <li className="flex items-center text-landing-tiny text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mr-1.5 flex-shrink-0" />
                         Priority support
                       </li>
-                      <li className="flex items-center text-landing-tiny text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 mr-1.5 flex-shrink-0" />
+                      <li className="flex items-center text-landing-tiny text-slate-700 dark:text-slate-300">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 mr-1.5 flex-shrink-0" />
                         All future updates
                       </li>
                     </ul>
@@ -225,7 +225,7 @@ function ProfileContent() {
                   {/* CTA Button */}
                   <button
                     onClick={() => router.push('/dashboard')}
-                    className="w-full px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 group text-landing-small"
+                    className="w-full px-6 py-2.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 group text-landing-small"
                   >
                     <span>Go to Dashboard</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -236,15 +236,15 @@ function ProfileContent() {
               // Free User - Upgrade Card
               <div className="space-y-6">
                 {/* Current Plan Card */}
-                <div className="bg-white border border-slate-200 rounded-xl p-6">
+                <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-landing-card-title font-bold text-slate-900">Current Plan</h3>
-                    <span className="px-3 py-1 bg-slate-100 text-slate-700 text-landing-tiny font-semibold rounded-full">
+                    <h3 className="text-landing-card-title font-bold text-slate-900 dark:text-white">Current Plan</h3>
+                    <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-landing-tiny font-semibold rounded-full">
                       FREE
                     </span>
                   </div>
                   
-                  <p className="text-landing-small text-slate-600">
+                  <p className="text-landing-small text-slate-600 dark:text-slate-300">
                     Limited to 1 journey with basic features.
                   </p>
                 </div>
@@ -253,35 +253,35 @@ function ProfileContent() {
                 <div className="relative">
                   {/* Decorative Badge - Outside overflow-hidden */}
                   <div className="absolute top-0 right-4 -translate-y-1/2 z-20">
-                    <span className="px-3 py-1.5 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full shadow-lg whitespace-nowrap">
+                    <span className="px-3 py-1.5 bg-blue-500 dark:bg-blue-600 text-white text-landing-tiny font-semibold rounded-full shadow-lg whitespace-nowrap">
                       One-time · Lifetime access
                     </span>
                   </div>
 
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-500 rounded-xl p-6 pt-10 relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-500 dark:border-blue-600 rounded-xl p-6 pt-10 relative overflow-hidden">
                     {/* Decorative elements */}
-                    <div className="absolute bottom-0 right-0 w-24 h-24 bg-blue-400/10 rounded-full translate-y-1/2 translate-x-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-24 h-24 bg-blue-400/10 dark:bg-blue-400/5 rounded-full translate-y-1/2 translate-x-1/2"></div>
                     
                     <div className="relative">
                       <div className="flex items-center space-x-2 mb-2">
-                        <Crown className="w-5 h-5 text-blue-600" />
-                        <h3 className="text-landing-card-title font-bold text-slate-900">
+                        <Crown className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        <h3 className="text-landing-card-title font-bold text-slate-900 dark:text-white">
                           Upgrade to Lifetime Pro
                         </h3>
                       </div>
                       
                       <div className="mb-4">
-                        <p className="text-landing-small text-slate-700 mb-2">
+                        <p className="text-landing-small text-slate-700 dark:text-slate-300 mb-2">
                           Get unlimited journeys and all premium features
                         </p>
                         <div className="flex items-center justify-center space-x-3">
-                          <span className="text-landing-body text-slate-400 line-through">$99.99</span>
-                          <span className="text-landing-section font-bold text-blue-600">$39</span>
-                          <span className="px-2 py-0.5 bg-green-100 text-green-700 text-landing-tiny font-semibold rounded">
+                          <span className="text-landing-body text-slate-400 dark:text-slate-500 line-through">$99.99</span>
+                          <span className="text-landing-section font-bold text-blue-600 dark:text-blue-400">$39</span>
+                          <span className="px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-landing-tiny font-semibold rounded">
                             LAUNCHDEAL
                           </span>
                         </div>
-                        <p className="text-landing-tiny text-slate-600 text-center mt-1">
+                        <p className="text-landing-tiny text-slate-600 dark:text-slate-400 text-center mt-1">
                           60% off launch discount · One-time payment
                         </p>
                       </div>
@@ -289,28 +289,28 @@ function ProfileContent() {
                       {/* Features Grid */}
                       <div className="grid grid-cols-2 gap-2 mb-6">
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">Unlimited journeys</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">Unlimited journeys</span>
                         </div>
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">No watermark</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">No watermark</span>
                         </div>
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">Custom themes</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">Custom themes</span>
                         </div>
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">Priority support</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">Priority support</span>
                         </div>
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">Future updates</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">Future updates</span>
                         </div>
                         <div className="flex items-center space-x-1.5">
-                          <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-landing-tiny text-slate-700">Before/after view</span>
+                          <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                          <span className="text-landing-tiny text-slate-700 dark:text-slate-300">Before/after view</span>
                         </div>
                       </div>
 
@@ -322,7 +322,7 @@ function ProfileContent() {
                         />
                       </div>
 
-                      <p className="text-landing-tiny text-slate-600 text-center">
+                      <p className="text-landing-tiny text-slate-600 dark:text-slate-400 text-center">
                         Limited time offer · Prices increase soon
                       </p>
                     </div>

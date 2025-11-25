@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 export default function TermsAndConditions() {
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-sm rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Terms & Conditions for Loged.in</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-900/50 rounded-lg p-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Terms & Conditions for Loged.in</h1>
         
-        <div className="space-y-6 text-gray-700">
+        <div className="space-y-6 text-gray-700 dark:text-gray-300">
           <div>
             <p className="font-semibold">Last Updated: November 22, 2025</p>
             <p className="mt-2">
@@ -17,7 +17,7 @@ export default function TermsAndConditions() {
           </div>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Acceptance of Terms</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">1. Acceptance of Terms</h2>
             <p>
               By accessing or using Loged.in (&quot;the Service&quot;), you agree to be bound by these Terms &amp; Conditions (&quot;Terms&quot;).
               If you do not agree, you must stop using the Service.
@@ -28,7 +28,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">2. Description of the Service</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">2. Description of the Service</h2>
             <p>Loged.in is a web-based platform that enables users to:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Create personal transformation journeys</li>
@@ -43,7 +43,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">3. Eligibility</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">3. Eligibility</h2>
             <p>To use Loged.in, you must:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Be at least 16 years old</li>
@@ -53,9 +53,9 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">4. Account Registration</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">4. Account Registration</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">4.1 OAuth Login</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">4.1 OAuth Login</h3>
             <p>You may sign in using:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Google OAuth</li>
@@ -68,12 +68,12 @@ export default function TermsAndConditions() {
               We do not receive or store your password.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">4.2 Accurate Information</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">4.2 Accurate Information</h3>
             <p>
               You agree to provide accurate information and keep your account details up to date.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">4.3 Responsibility for Your Account</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">4.3 Responsibility for Your Account</h3>
             <p>You are responsible for:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>All activity under your account</li>
@@ -86,9 +86,9 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">5. User Content</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">5. User Content</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.1 Ownership</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">5.1 Ownership</h3>
             <p>You retain all ownership rights to any content you upload, including:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Journeys</li>
@@ -98,7 +98,7 @@ export default function TermsAndConditions() {
               <li>Titles and descriptions</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.2 License to Us</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">5.2 License to Us</h3>
             <p>By uploading content, you grant us a non-exclusive, worldwide, royalty-free license to:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Store, display, and process your content</li>
@@ -108,7 +108,7 @@ export default function TermsAndConditions() {
               This license exists solely to operate the Service.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.3 Public Journeys</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">5.3 Public Journeys</h3>
             <p>If you mark a journey as public, you understand that:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Anyone with the link can view it</li>
@@ -117,7 +117,7 @@ export default function TermsAndConditions() {
               <li>You are responsible for the content you choose to make public.</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">5.4 Prohibited Content</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">5.4 Prohibited Content</h3>
             <p>You agree not to upload content that is:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Illegal</li>
@@ -133,9 +133,9 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">6. Payments & Pricing</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">6. Payments & Pricing</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.1 Lifetime Pro Plan</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">6.1 Lifetime Pro Plan</h3>
             <p>
               The Service offers a one-time payment for Lifetime Pro access, processed through Stripe.
             </p>
@@ -148,12 +148,12 @@ export default function TermsAndConditions() {
               <li>Additional features as described on the website</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.2 Payment Processing</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">6.2 Payment Processing</h3>
             <p>
               All payments are handled by Stripe and are subject to Stripe&apos;s Terms of Service and Privacy Policy.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.3 Refund Policy</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">6.3 Refund Policy</h3>
             <p>
               Refunds are granted in accordance with UK consumer law.
               We may approve refunds at our discretion in cases of:
@@ -171,7 +171,7 @@ export default function TermsAndConditions() {
               .
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">6.4 Price Changes</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">6.4 Price Changes</h3>
             <p>
               We reserve the right to change pricing for future users.
               Existing Lifetime Pro users keep their benefits permanently.
@@ -179,7 +179,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">7. Data Protection & Privacy</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">7. Data Protection & Privacy</h2>
             <p>
               Your use of the Service is also governed by our{' '}
               <Link href="/privacy-policy" className="text-blue-600 hover:underline">
@@ -191,7 +191,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">8. Service Availability</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">8. Service Availability</h2>
             <p>We aim for high uptime but do not guarantee uninterrupted service.</p>
             <p className="mt-4">We may modify, suspend, or discontinue parts of the Service at any time for:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -206,7 +206,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">9. Termination</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">9. Termination</h2>
             <p>We may suspend or terminate accounts that:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Violate these Terms</li>
@@ -225,7 +225,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">10. Intellectual Property</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">10. Intellectual Property</h2>
             <p>
               The Loged.in website, codebase, branding, and design are owned by Doddle Software Limited.
             </p>
@@ -239,7 +239,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">11. Disclaimers</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">11. Disclaimers</h2>
             <p>
               The Service is provided &quot;as is&quot; with no warranties, express or implied.
             </p>
@@ -255,7 +255,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">12. Limitation of Liability</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">12. Limitation of Liability</h2>
             <p>
               To the fullest extent permitted by law, Doddle Software Limited is not liable for:
             </p>
@@ -272,7 +272,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">13. Governing Law</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">13. Governing Law</h2>
             <p>These Terms are governed by the laws of:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>The United Kingdom</li>
@@ -284,7 +284,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">14. Changes to These Terms</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">14. Changes to These Terms</h2>
             <p>We may revise these Terms as needed.</p>
             <p className="mt-4">When updates occur, we will:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -297,7 +297,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">15. Contact</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">15. Contact</h2>
             <p>If you have questions about these Terms, contact us at:</p>
             <p className="mt-4">
               <strong>Email:</strong>{' '}

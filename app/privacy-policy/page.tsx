@@ -1,10 +1,10 @@
-export default function PrivacyPolicy() {
+export default function PrivacyPolicyPage() {
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-sm rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Privacy Policy for Loged.in</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-900/50 rounded-lg p-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Privacy Policy for Loged.in</h1>
         
-        <div className="space-y-6 text-gray-700">
+        <div className="space-y-6 text-gray-700 dark:text-gray-300">
           <div>
             <p className="font-semibold">Last Updated: November 22, 2025</p>
             <p className="mt-2">
@@ -15,7 +15,7 @@ export default function PrivacyPolicy() {
           </div>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">1. Introduction</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">1. Introduction</h2>
             <p>
               Loged.in (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) is a personal transformation journaling platform that allows users to document and share their journeys through timelines and versioned logs. We value your privacy and are committed to protecting your personal data.
             </p>
@@ -28,9 +28,9 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">2. Information We Collect</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">2. Information We Collect</h2>
             
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.1 Data collected through OAuth (Google & X)</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">2.1 Data collected through OAuth (Google & X)</h3>
             <p>When you sign in using Google or X (Twitter), we receive the following information from the selected provider:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Email address</li>
@@ -44,7 +44,7 @@ export default function PrivacyPolicy() {
               <li>We do not request additional permissions beyond what is required for authentication.</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.2 User-Generated Content</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">2.2 User-Generated Content</h3>
             <p>While using Loged.in, you may voluntarily upload:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Journey titles & descriptions</li>
@@ -57,7 +57,7 @@ export default function PrivacyPolicy() {
               You choose what content to upload and whether your journeys are public or private.
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.3 Payment Information (Stripe)</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">2.3 Payment Information (Stripe)</h3>
             <p>When you purchase the Lifetime Pro plan, Stripe collects:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Email address</li>
@@ -69,7 +69,7 @@ export default function PrivacyPolicy() {
               <li>Stripe handles all payment processing securely under its own Privacy Policy.</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">2.4 Technical & Usage Data</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">2.4 Technical & Usage Data</h3>
             <p>We may automatically collect:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Device type</li>
@@ -88,31 +88,31 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">3. How We Use Your Information</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">3. How We Use Your Information</h2>
             <p>We use your information only for the following purposes:</p>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">3.1 To provide and operate the service</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">3.1 To provide and operate the service</h3>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Authenticate your account via Google or X</li>
               <li>Create and manage your journeys</li>
               <li>Sync and store your data</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">3.2 Payments and Purchases</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">3.2 Payments and Purchases</h3>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Process one-time payments</li>
               <li>Provide receipts and payment confirmations</li>
               <li>Manage your Lifetime Pro access</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">3.3 Account Management</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">3.3 Account Management</h3>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Allow you to update or delete data</li>
               <li>Provide support when requested</li>
               <li>Maintain login sessions</li>
             </ul>
 
-            <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">3.4 Legal and security purposes</h3>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3">3.4 Legal and security purposes</h3>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Prevent fraud and abuse</li>
               <li>Comply with applicable UK and international laws</li>
@@ -121,7 +121,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">4. Public Journeys and Shared Content</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">4. Public Journeys and Shared Content</h2>
             <p>Loged.in allows users to make certain journeys public.</p>
             <p className="mt-4">When you make a journey public:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -136,7 +136,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">5. How We Store Your Data</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">5. How We Store Your Data</h2>
             <p>
               All user data is stored securely in Supabase (PostgreSQL) with industry-standard encryption and access controls.
             </p>
@@ -148,7 +148,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">6. Data Retention</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">6. Data Retention</h2>
             <p>We retain your data for as long as your account remains active.</p>
             <p className="mt-4">If you delete your account:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -159,7 +159,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">7. Your Rights (GDPR & UK Data Protection Act)</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">7. Your Rights (GDPR & UK Data Protection Act)</h2>
             <p>As a user based in the UK/EU, you have the right to:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
               <li>Access your data</li>
@@ -180,7 +180,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">8. Sharing Your Information</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">8. Sharing Your Information</h2>
             <p>We do not sell or rent your data.</p>
             <p className="mt-4">We only share your information with the following trusted partners:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -195,7 +195,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">9. Children&apos;s Privacy</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">9. Children&apos;s Privacy</h2>
             <p>
               Loged.in is not intended for anyone under 16.
               We do not knowingly collect personal data from children.
@@ -203,7 +203,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">10. International Data Transfers</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">10. International Data Transfers</h2>
             <p>
               Because we use global cloud infrastructure (Supabase, Stripe), your data may be processed outside the UK/EU.
               All transfers follow GDPR-compliant safeguards such as SCCs (Standard Contractual Clauses).
@@ -211,7 +211,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">11. Changes to This Policy</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">11. Changes to This Policy</h2>
             <p>We may update this Privacy Policy from time to time.</p>
             <p className="mt-4">When changes are made, we will:</p>
             <ul className="list-disc list-inside mt-2 space-y-1 ml-4">
@@ -221,7 +221,7 @@ export default function PrivacyPolicy() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">12. Contact Us</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">12. Contact Us</h2>
             <p>For privacy questions, data requests, or concerns, contact us at:</p>
             <p className="mt-4">
               <strong>Email:</strong>{' '}

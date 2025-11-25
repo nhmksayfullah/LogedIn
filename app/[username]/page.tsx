@@ -32,7 +32,7 @@ export default async function PublicProfilePage({ params }: Props) {
   const profile = profileData.profile;
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-slate-900 flex flex-col">
       {/* Container with same width as header */}
       <div className="max-w-6xl mx-auto flex-1 w-full">
         {/* Cover Photo Section */}
@@ -77,11 +77,11 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Name and Username - Centered */}
               <div className="text-center">
-                <h1 className="text-xl font-bold text-gray-900 mb-1">
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
                   {profile.name || profile.username}
                 </h1>
                 {profile.name && (
-                  <p className="text-sm text-gray-500 mb-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     @{profile.username}
                   </p>
                 )}
@@ -89,7 +89,7 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Bio - Centered */}
               {profile.bio && (
-                <p className="text-sm text-gray-700 text-center max-w-2xl whitespace-pre-wrap mt-1">
+                <p className="text-sm text-gray-700 dark:text-gray-300 text-center max-w-2xl whitespace-pre-wrap mt-1">
                   {profile.bio}
                 </p>
               )}
@@ -102,7 +102,7 @@ export default async function PublicProfilePage({ params }: Props) {
                       href={profile.twitterUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-900"
+                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                       aria-label="Twitter"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -115,7 +115,7 @@ export default async function PublicProfilePage({ params }: Props) {
                       href={profile.websiteUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-600 hover:text-gray-900"
+                      className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                       aria-label="Website"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,14 +129,14 @@ export default async function PublicProfilePage({ params }: Props) {
           </div>
 
           {/* Journeys Section */}
-          <div className="pb-12 pt-6 border-t border-gray-200">
+          <div className="pb-12 pt-6 border-t border-gray-200 dark:border-gray-700">
             {journeys.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {journeys.map((journey: Journey) => (
                   <Link
                     key={journey.id}
                     href={`/${username}/${journey.slug}`}
-                    className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-all overflow-hidden cursor-pointer group"
+                    className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all overflow-hidden cursor-pointer group"
                   >
                     {/* Cover Image */}
                     <div 
@@ -159,17 +159,17 @@ export default async function PublicProfilePage({ params }: Props) {
 
                     {/* Content */}
                     <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-500 transition-colors mb-2 line-clamp-2">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
                         {journey.title}
                       </h3>
                       
                       {journey.description && (
-                        <p className="text-sm text-slate-600 mb-4 line-clamp-2">
+                        <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
                           {journey.description}
                         </p>
                       )}
 
-                      <div className="flex items-center justify-between text-sm text-slate-500">
+                      <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
                         <span className="font-medium">
                           {journey.version_count || 0} milestones
                         </span>
@@ -186,8 +186,8 @@ export default async function PublicProfilePage({ params }: Props) {
                 ))}
               </div>
             ) : (
-              <div className="bg-gray-50 rounded-lg p-12 text-center">
-                <div className="text-gray-400 mb-2">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-12 text-center">
+                <div className="text-gray-400 dark:text-gray-500 mb-2">
                   <svg
                     className="mx-auto h-12 w-12"
                     fill="none"
@@ -202,10 +202,10 @@ export default async function PublicProfilePage({ params }: Props) {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-1">
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
                   No public journeys yet
                 </h3>
-                <p className="text-gray-500">
+                <p className="text-gray-500 dark:text-gray-400">
                   @{profile.username} hasn&apos;t shared any journeys publicly.
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default async function PublicProfilePage({ params }: Props) {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <footer className="border-t border-gray-200 dark:border-gray-700 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-800">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex justify-center mb-4">
             <Image
@@ -223,15 +223,24 @@ export default async function PublicProfilePage({ params }: Props) {
               alt="Loged.in"
               width={120}
               height={40}
-              className="h-10 w-auto"
+              className="h-10 w-auto dark:hidden"
+              priority
+            />
+            <Image
+              src="/logedin_logo_light.svg"
+              alt="Loged.in"
+              width={120}
+              height={40}
+              className="h-10 w-auto hidden dark:block"
+              priority
             />
           </div>
-          <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
             Every journey deserves to be shared. Start documenting your story today.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold rounded-lg transition-colors"
           >
             Share Your Story
           </Link>

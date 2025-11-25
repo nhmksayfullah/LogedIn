@@ -50,7 +50,7 @@ export default async function PublicJourneyPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-slate-900 flex flex-col">
       {/* Container with same width as header */}
       <div className="max-w-6xl mx-auto flex-1 w-full">
         {/* Cover Photo Section */}
@@ -100,23 +100,23 @@ export default async function PublicJourneyPage({ params }: Props) {
 
               {/* Journey Title and Info - Centered */}
               <div className="text-center max-w-3xl">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                   {journey.title}
                 </h1>
                 {journey.description && (
-                  <p className="text-base text-gray-600 mb-3">
+                  <p className="text-base text-gray-600 dark:text-gray-300 mb-3">
                     {journey.description}
                   </p>
                 )}
 
                 {/* Meta Info - Centered */}
-                <div className="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 text-sm text-gray-500">
+                <div className="flex items-center justify-center flex-wrap gap-x-3 gap-y-1 text-sm text-gray-500 dark:text-gray-400">
                   <Link
                     href={`/${username}`}
-                    className="flex items-center space-x-1 hover:text-blue-600 transition-colors"
+                    className="flex items-center space-x-1 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                   >
                     <span>By</span>
-                    <span className="font-medium text-gray-900">
+                    <span className="font-medium text-gray-900 dark:text-white">
                       {profile.name || `@${username}`}
                     </span>
                   </Link>
@@ -130,16 +130,16 @@ export default async function PublicJourneyPage({ params }: Props) {
           </div>
 
           {/* Milestones Timeline */}
-          <div className="pb-12 pt-6 border-t border-gray-200">
+          <div className="pb-12 pt-6 border-t border-gray-200 dark:border-gray-700">
             {versions.length === 0 ? (
-              <div className="bg-gray-50 rounded-xl p-12 text-center">
-                <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-8 h-8 text-gray-400" />
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-xl p-12 text-center">
+                <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="w-8 h-8 text-gray-400 dark:text-gray-500" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                   No milestones yet
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-300">
                   This journey doesn&apos;t have any milestones yet.
                 </p>
               </div>
@@ -152,13 +152,13 @@ export default async function PublicJourneyPage({ params }: Props) {
                   >
                     {/* Date - Left side */}
                     <div className="flex-shrink-0 sm:w-32 sm:text-right">
-                      <time className="text-sm sm:text-base font-medium text-gray-900">
+                      <time className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">
                         {formatDate(version.date)}
                       </time>
                     </div>
 
                     {/* Card - Right side */}
-                    <div className="flex-1 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <div className="flex-1 bg-gradient-to-br from-gray-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
                       {/* Cover Photo */}
                       {version.cover_photo_url && (
                         <div className="relative w-full h-32 overflow-hidden">
@@ -175,25 +175,25 @@ export default async function PublicJourneyPage({ params }: Props) {
                       {/* Content */}
                       <div className="p-4">
                         {/* Title */}
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                           {version.title}
                         </h3>
 
                         {/* Description with rich text styling */}
                         {version.description && (
                           <div 
-                            className="prose prose-sm prose-slate max-w-none mb-3 text-gray-700"
+                            className="prose prose-sm prose-slate dark:prose-invert max-w-none mb-3 text-gray-700 dark:text-gray-300"
                             dangerouslySetInnerHTML={{ __html: version.description }}
                           />
                         )}
 
                         {/* Tags */}
                         {version.tags && version.tags.length > 0 && (
-                          <div className="flex items-center flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200">
+                          <div className="flex items-center flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                             {version.tags.map((tag: string, i: number) => (
                               <span
                                 key={i}
-                                className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
+                                className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full"
                               >
                                 {tag}
                               </span>
@@ -211,7 +211,7 @@ export default async function PublicJourneyPage({ params }: Props) {
       </div>
 
       {/* Footer CTA */}
-      <footer className="border-t border-gray-200 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <footer className="border-t border-gray-200 dark:border-gray-700 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-800">
         <div className="max-w-6xl mx-auto text-center">
           <div className="flex justify-center mb-4">
             <Image
@@ -219,15 +219,22 @@ export default async function PublicJourneyPage({ params }: Props) {
               alt="Loged.in"
               width={120}
               height={40}
-              className="h-10 w-auto"
+              className="h-10 w-auto dark:hidden"
+            />
+            <Image
+              src="/logedin_logo_light.svg"
+              alt="Loged.in"
+              width={120}
+              height={40}
+              className="h-10 w-auto hidden dark:block"
             />
           </div>
-          <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
             Every journey deserves to be shared. Start documenting your story today.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold rounded-lg transition-colors"
           >
             Share Your Story
           </Link>

@@ -316,20 +316,20 @@ export default function JourneyPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 dark:border-blue-400"></div>
       </div>
     );
   }
 
   if (!journey) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Journey not found</h2>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Journey not found</h2>
           <button
             onClick={() => router.push('/dashboard')}
-            className="text-blue-500 hover:underline"
+            className="text-blue-500 dark:text-blue-400 hover:underline"
           >
             Back to Dashboard
           </button>
@@ -339,7 +339,7 @@ export default function JourneyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       <div className="max-w-6xl mx-auto">
         {/* Cover Photo Section */}
         <div 
@@ -365,9 +365,9 @@ export default function JourneyPage() {
           {/* Settings Button */}
           <button
             onClick={() => setIsJourneyModalOpen(true)}
-            className="absolute top-4 right-4 p-2.5 bg-white/90 hover:bg-white rounded-lg shadow-lg transition-all backdrop-blur-sm"
+            className="absolute top-4 right-4 p-2.5 bg-white/90 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-800 rounded-lg shadow-lg transition-all backdrop-blur-sm"
           >
-            <Settings className="w-5 h-5 text-gray-700" />
+            <Settings className="w-5 h-5 text-gray-700 dark:text-gray-200" />
           </button>
         </div>
 
@@ -377,11 +377,11 @@ export default function JourneyPage() {
           <div className="py-8">
             {/* Title and Description */}
             <div className="mb-6">
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3">
                 {journey.title}
               </h1>
               {journey.description && (
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-gray-600 dark:text-gray-300">
                   {journey.description}
                 </p>
               )}
@@ -390,12 +390,12 @@ export default function JourneyPage() {
             {/* Meta Info and Actions */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               {/* Meta Info */}
-              <div className="flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500 dark:text-gray-400">
                 <div className="flex items-center space-x-2">
                   {journey.is_public ? (
                     <>
-                      <Globe className="w-4 h-4 text-blue-500" />
-                      <span className="text-blue-600 font-medium">Public</span>
+                      <Globe className="w-4 h-4 text-blue-500 dark:text-blue-400" />
+                      <span className="text-blue-600 dark:text-blue-400 font-medium">Public</span>
                     </>
                   ) : (
                     <>
@@ -422,7 +422,7 @@ export default function JourneyPage() {
                   setNewVersionTags('');
                   setIsModalOpen(true);
                 }}
-                className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md"
+                className="flex items-center justify-center space-x-2 px-6 py-2.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md"
               >
                 <Plus className="w-5 h-5" />
                 <span>Add Milestone</span>
@@ -431,25 +431,25 @@ export default function JourneyPage() {
           </div>
 
           {/* Versions Timeline */}
-          <div className="pt-6 border-t border-gray-200">
+          <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
           {isLoadingVersions ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 dark:border-blue-400"></div>
             </div>
           ) : versions.length === 0 ? (
-            <div className="bg-gray-50 rounded-xl p-12 text-center">
-              <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Hash className="w-8 h-8 text-gray-400" />
+            <div className="bg-gray-50 dark:bg-slate-800 rounded-xl p-12 text-center">
+              <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Hash className="w-8 h-8 text-gray-400 dark:text-gray-500" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 No milestones yet
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
                 Start documenting your journey by adding your first milestone
               </p>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all"
+                className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-all"
               >
                 <Plus className="w-5 h-5" />
                 <span>Add First Milestone</span>
@@ -467,13 +467,13 @@ export default function JourneyPage() {
               >
                 {/* Date - Left side */}
                 <div className="flex-shrink-0 sm:w-32 sm:text-right">
-                  <time className="text-sm sm:text-base font-medium text-gray-900">
+                  <time className="text-sm sm:text-base font-medium text-gray-900 dark:text-white">
                     {formatDate(version.date)}
                   </time>
                 </div>
 
                 {/* Card - Right side */}
-                <div className="flex-1 bg-gradient-to-br from-gray-50 to-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group relative">
+                <div className="flex-1 bg-gradient-to-br from-gray-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group relative">
 
                   {/* Cover Photo */}
                   {version.cover_photo_url && (
@@ -491,25 +491,25 @@ export default function JourneyPage() {
                   {/* Content */}
                   <div className="p-4">
                     {/* Title */}
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">
                       {version.title}
                     </h3>
 
                     {/* Description with rich text styling */}
                     {version.description && (
                       <div 
-                        className="prose prose-sm prose-slate max-w-none mb-3 text-gray-700"
+                        className="prose prose-sm prose-slate dark:prose-invert max-w-none mb-3 text-gray-700 dark:text-gray-300"
                         dangerouslySetInnerHTML={{ __html: version.description }}
                       />
                     )}
 
                     {/* Tags */}
                     {version.tags && version.tags.length > 0 && (
-                      <div className="flex items-center flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200">
+                      <div className="flex items-center flex-wrap gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                         {version.tags.map((tag, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 bg-blue-50 text-blue-700 text-sm font-medium rounded-full"
+                            className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full"
                           >
                             {tag}
                           </span>
@@ -518,18 +518,18 @@ export default function JourneyPage() {
                     )}
 
                     {/* Action Buttons */}
-                    <div className="mt-4 pt-3 border-t border-gray-200 flex items-center space-x-3">
+                    <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 flex items-center space-x-3">
                       <button
                         onClick={() => handleEditVersion(version)}
-                        className="flex items-center space-x-2 text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                        className="flex items-center space-x-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
                       >
                         <Edit2 className="w-4 h-4" />
                         <span>Edit</span>
                       </button>
-                      <span className="text-gray-300">•</span>
+                      <span className="text-gray-300 dark:text-gray-600">•</span>
                       <button
                         onClick={() => handleDeleteVersion(version.id)}
-                        className="flex items-center space-x-2 text-sm text-red-600 hover:text-red-700 font-medium transition-colors"
+                        className="flex items-center space-x-2 text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                         <span>Delete</span>
@@ -581,18 +581,18 @@ export default function JourneyPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
               >
                 {/* Modal Header */}
-                <div className="flex items-center justify-between p-6 border-b border-slate-200">
-                  <h2 className="text-2xl font-bold text-slate-900">
+                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
                     {editingVersion ? 'Edit Milestone' : 'Add New Milestone'}
                   </h2>
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
                   >
-                    <X className="w-5 h-5 text-slate-500" />
+                    <X className="w-5 h-5 text-slate-500 dark:text-slate-400" />
                   </button>
                 </div>
 
@@ -600,7 +600,7 @@ export default function JourneyPage() {
                 <div className="p-6 space-y-5">
                   {/* Title Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                       Title *
                     </label>
                     <input
@@ -608,27 +608,27 @@ export default function JourneyPage() {
                       value={newVersionTitle}
                       onChange={(e) => setNewVersionTitle(e.target.value)}
                       placeholder="e.g., Launched my first Business"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                       maxLength={100}
                     />
                   </div>
 
                   {/* Date Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                       Date *
                     </label>
                     <input
                       type="date"
                       value={newVersionDate}
                       onChange={(e) => setNewVersionDate(e.target.value)}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     />
                   </div>
 
                   {/* Cover Photo Upload */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                       Cover Photo (optional)
                     </label>
                     
@@ -638,7 +638,7 @@ export default function JourneyPage() {
                         <img 
                           src={coverPhotoPreview} 
                           alt="Cover preview" 
-                          className="w-full h-48 object-cover rounded-lg border border-slate-300"
+                          className="w-full h-48 object-cover rounded-lg border border-slate-300 dark:border-slate-600"
                         />
                         <button
                           type="button"
@@ -649,13 +649,13 @@ export default function JourneyPage() {
                         </button>
                       </div>
                     ) : (
-                      <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all">
+                      <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-all">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-10 h-10 text-slate-400 mb-3" />
-                          <p className="mb-2 text-sm text-slate-600">
+                          <Upload className="w-10 h-10 text-slate-400 dark:text-slate-500 mb-3" />
+                          <p className="mb-2 text-sm text-slate-600 dark:text-slate-400">
                             <span className="font-semibold">Click to upload</span> or drag and drop
                           </p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-slate-500 dark:text-slate-500">
                             PNG, JPG, WebP or GIF (max 10MB)
                           </p>
                         </div>
@@ -671,7 +671,7 @@ export default function JourneyPage() {
 
                   {/* Description Input with Rich Text Support */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                       Description
                     </label>
                     <textarea
@@ -679,17 +679,17 @@ export default function JourneyPage() {
                       onChange={(e) => setNewVersionDescription(e.target.value)}
                       placeholder="Share your story, achievements, and reflections..."
                       rows={8}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all font-mono text-sm"
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none transition-all font-mono text-sm"
                       maxLength={5000}
                     />
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
                       You can use bullet points (•) and formatting. HTML is supported.
                     </p>
                   </div>
 
                   {/* Tags Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                       Tags (optional, comma-separated)
                     </label>
                     <input
@@ -697,30 +697,30 @@ export default function JourneyPage() {
                       value={newVersionTags}
                       onChange={(e) => setNewVersionTags(e.target.value)}
                       placeholder="e.g., milestone, business, achievement"
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                     />
                   </div>
 
                   {/* Error Message */}
                   {createError && (
-                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-600">{createError}</p>
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-sm text-red-600 dark:text-red-400">{createError}</p>
                     </div>
                   )}
                 </div>
 
                 {/* Modal Footer */}
-                <div className="flex items-center justify-end space-x-3 p-6 border-t border-slate-200">
+                <div className="flex items-center justify-end space-x-3 p-6 border-t border-slate-200 dark:border-slate-700">
                   <button
                     onClick={() => setIsModalOpen(false)}
-                    className="px-5 py-2.5 text-slate-700 hover:bg-slate-100 rounded-lg font-medium transition-colors"
+                    className="px-5 py-2.5 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg font-medium transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleCreateVersion}
                     disabled={isCreating || isUploadingPhoto || !newVersionTitle.trim()}
-                    className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isUploadingPhoto ? 'Uploading photo...' : isCreating ? (editingVersion ? 'Saving...' : 'Creating...') : (editingVersion ? 'Save Changes' : 'Create Milestone')}
                   </button>
@@ -747,20 +747,20 @@ export default function JourneyPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-2xl shadow-2xl max-w-md w-full"
+                className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-md w-full"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     Delete Milestone?
                   </h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
                     Are you sure you want to delete this milestone? This will also delete any photos associated with it. This action cannot be undone.
                   </p>
                   <div className="flex items-center justify-end space-x-3">
                     <button
                       onClick={() => setShowDeleteConfirm(false)}
-                      className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+                      className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg font-medium transition-colors"
                     >
                       Cancel
                     </button>

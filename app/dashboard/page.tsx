@@ -38,10 +38,10 @@ export default function Dashboard() {
   // Update the loading check
   if (isAuthLoading && !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-900">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground mb-4 mx-auto"></div>
-          <p className="text-foreground">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 dark:border-blue-400 mb-4 mx-auto"></div>
+          <p className="text-slate-900 dark:text-white">Loading...</p>
         </div>
       </div>
     );
@@ -91,20 +91,20 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-6 py-12 mt-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">My Journeys</h1>
-            <p className="text-slate-600 mt-2">
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">My Journeys</h1>
+            <p className="text-slate-600 dark:text-slate-300 mt-2">
               Track your transformations, one version at a time
             </p>
           </div>
           <button
             onClick={openCreateModal}
-            className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
+            className="flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
           >
             <Plus className="w-5 h-5" />
             <span>Start New Journey</span>
@@ -114,7 +114,7 @@ export default function Dashboard() {
         {/* Journeys Grid */}
         {isLoadingJourneys ? (
           <div className="flex items-center justify-center py-20">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 dark:border-blue-400"></div>
           </div>
         ) : journeys.length === 0 ? (
           <motion.div
@@ -122,18 +122,18 @@ export default function Dashboard() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-20"
           >
-            <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <BookOpen className="w-10 h-10 text-slate-400" />
+            <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+              <BookOpen className="w-10 h-10 text-slate-400 dark:text-slate-500" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               Start Your First Journey
             </h2>
-            <p className="text-slate-600 mb-8 max-w-md mx-auto">
+            <p className="text-slate-600 dark:text-slate-300 mb-8 max-w-md mx-auto">
               Create a journey to document your transformation. Track progress, add versions, and share your story.
             </p>
             <button
               onClick={openCreateModal}
-              className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all"
+              className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-lg font-medium transition-all"
             >
               <Plus className="w-5 h-5" />
               <span>Start New Journey</span>
@@ -159,13 +159,13 @@ export default function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6 text-center"
+            className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 text-center"
           >
-            <p className="text-slate-700">
+            <p className="text-slate-700 dark:text-slate-200">
               You&apos;re on the <span className="font-semibold">Free Plan</span> ({journeyLimits.currentCount}/{journeyLimits.limit} journey used).{' '}
               <button
                 onClick={() => setIsPaymentModalOpen(true)}
-                className="text-blue-600 font-semibold hover:underline"
+                className="text-blue-600 dark:text-blue-400 font-semibold hover:underline"
               >
                 Upgrade to Lifetime Pro
               </button>{' '}
@@ -179,16 +179,16 @@ export default function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl p-8 text-center shadow-lg"
+            className="mt-8 bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 text-white rounded-xl p-8 text-center shadow-lg"
           >
             <h3 className="text-2xl font-bold mb-2">Journey Limit Reached</h3>
-            <p className="mb-6 text-blue-50">
+            <p className="mb-6 text-blue-50 dark:text-blue-100">
               You&apos;ve reached your limit of {journeyLimits.limit} journey on the Free plan. 
               Upgrade to Lifetime Pro for unlimited journeys, custom themes, and more!
             </p>
             <button
               onClick={() => setIsPaymentModalOpen(true)}
-              className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl"
+              className="px-8 py-3 bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 font-semibold rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl"
             >
               Upgrade to Lifetime Pro - $39 (60% off)
             </button>

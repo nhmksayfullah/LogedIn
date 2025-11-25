@@ -104,18 +104,18 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Hero Section */}
-      <section className="pt-24 pb-landing-xl px-4">
+      <section className="pt-24 pb-landing-xl px-4 dark:bg-slate-900">
         <div className="max-w-4xl mx-auto">
           {/* Headline */}
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-landing-hero md:text-landing-hero-lg font-semibold text-center text-slate-900 leading-tight"
+            className="text-landing-hero md:text-landing-hero-lg font-semibold text-center text-slate-900 dark:text-white leading-tight"
           >
-            log every <span className="text-blue-500">version</span> of yourself
+            Your Personal <span className="text-blue-500 dark:text-blue-400">Transformation</span> Portfolio
           </motion.h1>
 
           {/* Subheading */}
@@ -123,9 +123,9 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 text-landing-body md:text-landing-body-lg text-slate-600 text-center max-w-3xl mx-auto"
+            className="mt-4 text-landing-body md:text-landing-body-lg text-slate-600 dark:text-slate-300 text-center max-w-3xl mx-auto"
           >
-            Turn your journey into a beautiful timeline — track progress, write your story, and inspire the world with your evolution.
+            Track your journey. Share your milestones. Inspire others.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -144,7 +144,7 @@ export default function LandingPage() {
             {!hasLifetimeAccess && (
               <button 
                 onClick={handleGetLifetimeClick}
-                className="px-6 py-2.5 bg-white hover:bg-slate-50 text-slate-900 text-landing-body font-semibold rounded-lg border-2 border-slate-200 transition-all"
+                className="px-6 py-2.5 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-landing-body font-semibold rounded-lg border-2 border-slate-200 dark:border-slate-600 transition-all"
               >
                 Get lifetime access
               </button>
@@ -156,9 +156,9 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-4 text-landing-small text-slate-500 text-center"
+            className="mt-4 text-landing-small text-slate-500 dark:text-slate-400 text-center"
           >
-            Your journey stays private until you choose to share it
+            Document who you&apos;re becoming — and show your progress to the world.
           </motion.p>
         </div>
 
@@ -376,7 +376,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative -mt-[84px] md:-mt-[112px] pt-[124px] md:pt-[152px] z-30">
+      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 relative -mt-[84px] md:-mt-[112px] pt-[124px] md:pt-[152px] z-30">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -385,180 +385,180 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Become the person your <span className="text-blue-600">future self</span> will thank you for.
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+              Your journey, <span className="text-blue-600 dark:text-blue-400">beautifully told</span>
             </h2>
+            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+              Document who you&apos;re becoming — and show your progress to the world.
+            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Feature 1 - Showcase Your Best */}
+            {/* Feature 1 - Turn your growth into a story */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-8 hover:shadow-2xl dark:hover:shadow-slate-900/50 transition-all cursor-pointer group border dark:border-slate-700"
             >
-              <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center overflow-hidden">
-                <div className="flex gap-4">
-                  {/* Private Mode */}
-                  <div className="w-32 h-40 bg-white rounded-xl shadow-lg p-3 group-hover:scale-105 transition-transform">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="text-[8px] font-semibold text-slate-700">My Journey</div>
-                      <div className="w-5 h-5 bg-slate-200 rounded-full flex items-center justify-center">
-                        <span className="text-[10px]">🔒</span>
-                      </div>
-                    </div>
-                    <div className="text-[6px] text-slate-500 mb-2">Private</div>
-                    <div className="space-y-1.5">
-                      <div className="h-2 bg-slate-200 rounded"></div>
-                      <div className="h-2 bg-slate-100 rounded"></div>
-                      <div className="h-2 bg-slate-200 rounded"></div>
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-700 dark:to-slate-600 rounded-2xl flex items-center justify-center p-4">
+                <div className="w-full max-w-xs space-y-3">
+                  {/* Timeline visualization */}
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform">
+                    <div className="w-12 h-12 bg-blue-500 dark:bg-blue-600 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jan</div>
+                    <div className="flex-1 bg-white dark:bg-slate-700 rounded-lg p-2 shadow">
+                      <div className="h-2 w-16 bg-slate-800 dark:bg-slate-300 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-600 rounded"></div>
                     </div>
                   </div>
-                  {/* Public Mode */}
-                  <div className="w-32 h-40 bg-white rounded-xl shadow-lg p-3 group-hover:scale-105 transition-transform">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="text-[8px] font-semibold text-slate-700">My Journey</div>
-                      <div className="w-5 h-5 bg-blue-100 rounded-full flex items-center justify-center">
-                        <span className="text-[10px]">🌐</span>
-                      </div>
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-75">
+                    <div className="w-12 h-12 bg-purple-500 dark:bg-purple-600 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Mar</div>
+                    <div className="flex-1 bg-white dark:bg-slate-700 rounded-lg p-2 shadow">
+                      <div className="h-2 w-20 bg-slate-800 dark:bg-slate-300 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-600 rounded"></div>
                     </div>
-                    <div className="text-[6px] text-blue-600 mb-2">Public</div>
-                    <div className="space-y-1.5">
-                      <div className="h-2 bg-blue-200 rounded"></div>
-                      <div className="h-2 bg-blue-100 rounded"></div>
-                      <div className="h-2 bg-blue-200 rounded"></div>
+                  </div>
+                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-150">
+                    <div className="w-12 h-12 bg-green-500 dark:bg-green-600 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jun</div>
+                    <div className="flex-1 bg-white dark:bg-slate-700 rounded-lg p-2 shadow">
+                      <div className="h-2 w-14 bg-slate-800 dark:bg-slate-300 rounded mb-1"></div>
+                      <div className="h-1.5 w-full bg-slate-200 dark:bg-slate-600 rounded"></div>
                     </div>
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Transform in Private — or Inspire the World</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Grow quietly or share boldly. Keep your journey private, or publish it when you&apos;re ready to inspire someone who needs your story.
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Turn your growth into a story</h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                A beautiful timeline that captures every step of your journey.
               </p>
             </motion.div>
 
-            {/* Feature 2 - Automatic Updates */}
+            {/* Feature 2 - Stay accountable, stay consistent */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-8 hover:shadow-2xl dark:hover:shadow-slate-900/50 transition-all cursor-pointer group border dark:border-slate-700"
             >
-              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl flex items-center justify-center p-4">
-                <div className="w-full max-w-xs space-y-3">
-                  {/* Milestone 1 */}
-                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform">
-                    <div className="w-12 h-12 bg-blue-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jan</div>
-                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
-                      <div className="h-2 w-16 bg-slate-800 rounded mb-1"></div>
-                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-slate-700 dark:to-slate-600 rounded-2xl flex items-center justify-center p-6 overflow-hidden">
+                <div className="w-full max-w-xs bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 group-hover:scale-105 transition-transform">
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="text-[10px] font-bold text-slate-900 dark:text-white">Consistency</div>
+                    <div className="text-[8px] text-green-600 dark:text-green-400 font-semibold flex items-center gap-1">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                      Active
                     </div>
                   </div>
-                  {/* Milestone 2 */}
-                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-75">
-                    <div className="w-12 h-12 bg-purple-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Mar</div>
-                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
-                      <div className="h-2 w-20 bg-slate-800 rounded mb-1"></div>
-                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
-                    </div>
+                  {/* Streak visualization */}
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {[...Array(28)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-full aspect-square rounded ${i < 23 ? 'bg-green-400 dark:bg-green-500' : 'bg-slate-200 dark:bg-slate-700'} group-hover:scale-110 transition-transform`}
+                        style={{ transitionDelay: `${i * 10}ms` }}
+                      ></div>
+                    ))}
                   </div>
-                  {/* Milestone 3 */}
-                  <div className="flex gap-2 group-hover:translate-x-1 transition-transform delay-150">
-                    <div className="w-12 h-12 bg-green-500 rounded-lg shadow-md flex items-center justify-center text-white font-bold text-xs">Jun</div>
-                    <div className="flex-1 bg-white rounded-lg p-2 shadow">
-                      <div className="h-2 w-14 bg-slate-800 rounded mb-1"></div>
-                      <div className="h-1.5 w-full bg-slate-200 rounded"></div>
-                    </div>
+                  <div className="text-center">
+                    <div className="text-xl font-bold text-green-600 dark:text-green-400">23</div>
+                    <div className="text-[7px] text-slate-600 dark:text-slate-400">day streak</div>
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Capture the Milestones That Changed You</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Record every meaningful step — big or small. Your milestones become a timeline of who you were, who you are, and who you&apos;re becoming.
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Stay accountable, stay consistent</h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                When your progress is public, your discipline becomes effortless.
               </p>
             </motion.div>
 
-            {/* Feature 3 - Customize Profile */}
+            {/* Feature 3 - Inspire others with your transformation */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
+              className="bg-white dark:bg-slate-800 rounded-3xl p-8 hover:shadow-2xl dark:hover:shadow-slate-900/50 transition-all cursor-pointer group border dark:border-slate-700"
             >
-              <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl flex items-center justify-center overflow-hidden">
-                <div className="w-full max-w-xs bg-white rounded-2xl shadow-xl overflow-hidden group-hover:scale-105 transition-transform">
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-purple-50 to-pink-100 dark:from-slate-700 dark:to-slate-600 rounded-2xl flex items-center justify-center p-4 overflow-hidden">
+                {/* Hearts and reactions floating */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-4xl animate-bounce" style={{ animationDelay: '0ms', animationDuration: '2s' }}>❤️</div>
+                  <div className="text-3xl absolute top-8 left-12 animate-bounce" style={{ animationDelay: '300ms', animationDuration: '2.5s' }}>🔥</div>
+                  <div className="text-3xl absolute bottom-12 right-16 animate-bounce" style={{ animationDelay: '600ms', animationDuration: '2.2s' }}>💪</div>
+                  <div className="text-2xl absolute top-16 right-12 animate-bounce" style={{ animationDelay: '900ms', animationDuration: '2.8s' }}>🌟</div>
+                  <div className="text-2xl absolute bottom-8 left-16 animate-bounce" style={{ animationDelay: '1200ms', animationDuration: '2.4s' }}>👏</div>
+                </div>
+                {/* Stats overlay */}
+                <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur rounded-lg p-3 shadow-lg group-hover:scale-105 transition-transform">
+                  <div className="flex justify-around text-center">
+                    <div>
+                      <div className="text-lg font-bold text-purple-600 dark:text-purple-400">1.2K</div>
+                      <div className="text-[7px] text-slate-600 dark:text-slate-400">Views</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-pink-600 dark:text-pink-400">456</div>
+                      <div className="text-[7px] text-slate-600 dark:text-slate-400">Reactions</div>
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-blue-600 dark:text-blue-400">89</div>
+                      <div className="text-[7px] text-slate-600 dark:text-slate-400">Shares</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Inspire others with your transformation</h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                Your journey could be someone else&apos;s motivation.
+              </p>
+            </motion.div>
+
+            {/* Feature 4 - Own your evolution */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-white dark:bg-slate-800 rounded-3xl p-8 hover:shadow-2xl dark:hover:shadow-slate-900/50 transition-all cursor-pointer group border dark:border-slate-700"
+            >
+              <div className="mb-6 relative h-48 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-600 rounded-2xl flex items-center justify-center overflow-hidden">
+                <div className="w-full max-w-xs bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden group-hover:scale-105 transition-transform border dark:border-slate-700">
                   {/* Cover Photo */}
-                  <div className="h-16 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                  <div className="h-16 bg-gradient-to-br from-blue-400 to-purple-500 relative">
+                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur rounded-full px-2 py-1 flex items-center gap-1">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <span className="text-[6px] font-semibold text-slate-700">Your Portfolio</span>
+                    </div>
+                  </div>
                   {/* Profile Section */}
                   <div className="px-4 pb-4 -mt-8">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-white mb-2"></div>
-                    <div className="h-3 w-28 bg-slate-800 rounded mb-2"></div>
-                    <div className="h-2 w-20 bg-slate-300 rounded mb-3"></div>
-                    {/* Timeline Preview */}
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full border-4 border-white dark:border-slate-800 mb-2"></div>
+                    <div className="h-3 w-28 bg-slate-800 dark:bg-slate-300 rounded mb-2"></div>
+                    <div className="h-2 w-20 bg-slate-300 dark:bg-slate-600 rounded mb-3"></div>
+                    {/* Journey versions */}
                     <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <div className="text-[6px] text-slate-600 w-8">Jan</div>
-                        <div className="flex-1 bg-blue-50 rounded p-1.5">
-                          <div className="h-1 w-12 bg-blue-400 rounded"></div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-500 rounded-lg"></div>
+                        <div className="flex-1">
+                          <div className="h-1.5 w-16 bg-slate-700 dark:bg-slate-400 rounded mb-1"></div>
+                          <div className="h-1 w-12 bg-slate-300 dark:bg-slate-600 rounded"></div>
                         </div>
                       </div>
-                      <div className="flex gap-2">
-                        <div className="text-[6px] text-slate-600 w-8">Mar</div>
-                        <div className="flex-1 bg-blue-50 rounded p-1.5">
-                          <div className="h-1 w-16 bg-blue-400 rounded"></div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-500 rounded-lg"></div>
+                        <div className="flex-1">
+                          <div className="h-1.5 w-14 bg-slate-700 dark:bg-slate-400 rounded mb-1"></div>
+                          <div className="h-1 w-10 bg-slate-300 dark:bg-slate-600 rounded"></div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Turn Your Journey Into a Story</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Not just before-and-after. Create a beautiful, shareable timeline that shows the real moments behind your transformation.
-              </p>
-            </motion.div>
-
-            {/* Feature 4 - Track Analytics */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-white rounded-3xl p-8 hover:shadow-2xl transition-all cursor-pointer group"
-            >
-              <div className="mb-6 relative h-48 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center p-6">
-                <div className="w-full h-full bg-white rounded-xl shadow-lg p-4 group-hover:scale-105 transition-transform">
-                  <div className="flex justify-between items-center mb-3">
-                    <div className="text-[10px] font-bold text-slate-900">Your Growth</div>
-                    <div className="text-[8px] text-green-600 font-semibold">↗ +24%</div>
-                  </div>
-                  {/* Growth curve */}
-                  <div className="relative h-28">
-                    <svg className="w-full h-full" viewBox="0 0 200 100" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="growthGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" style={{stopColor: '#3b82f6', stopOpacity: 0.3}} />
-                          <stop offset="100%" style={{stopColor: '#3b82f6', stopOpacity: 0.05}} />
-                        </linearGradient>
-                      </defs>
-                      <path d="M 0 80 Q 50 60, 100 40 T 200 10" fill="none" stroke="#3b82f6" strokeWidth="3" className="group-hover:stroke-[4] transition-all"/>
-                      <path d="M 0 80 Q 50 60, 100 40 T 200 10 L 200 100 L 0 100 Z" fill="url(#growthGradient)"/>
-                    </svg>
-                    {/* Milestone markers */}
-                    <div className="absolute bottom-1 left-0 w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="absolute bottom-5 left-1/4 w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="absolute bottom-12 left-1/2 w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div className="absolute bottom-20 right-0 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Built for Long-Term Growth</h3>
-              <p className="text-slate-600 leading-relaxed">
-                Come back anytime. Your milestones stay organized, safe, and waiting for your next breakthrough.
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Own your evolution</h3>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                Create a personal portfolio that evolves as you do.
               </p>
             </motion.div>
           </div>
@@ -566,7 +566,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-landing-xl px-4 bg-slate-50">
+      <section id="pricing" className="py-landing-xl px-4 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -574,10 +574,10 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-landing-section md:text-landing-section-lg font-bold text-center text-slate-900 mb-3">
+            <h2 className="text-landing-section md:text-landing-section-lg font-bold text-center text-slate-900 dark:text-white mb-3">
               Simple pricing. Grow at your own pace.
             </h2>
-            <p className="text-landing-body text-slate-600 text-center mt-3">
+            <p className="text-landing-body text-slate-600 dark:text-slate-300 text-center mt-3">
               Start free. Upgrade once and keep your journey forever.
             </p>
           </motion.div>
@@ -589,57 +589,57 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-white border border-slate-200 rounded-xl p-6"
+              className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-6"
             >
-              <div className="text-landing-small font-semibold text-slate-600 mb-2">Free</div>
-              <div className="text-landing-section font-bold text-slate-900 mb-4">£0</div>
+              <div className="text-landing-small font-semibold text-slate-600 dark:text-slate-400 mb-2">Free</div>
+              <div className="text-landing-section font-bold text-slate-900 dark:text-white mb-4">£0</div>
               
               <ul className="space-y-3 mb-6">
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">1 transformation journey</span>
+                  <span className="text-slate-700 dark:text-slate-300">1 transformation journey</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Unlimited milestones</span>
+                  <span className="text-slate-700 dark:text-slate-300">Unlimited milestones</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Limited media storage</span>
+                  <span className="text-slate-700 dark:text-slate-300">Limited media storage</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-700">Basic public pages</span>
+                  <span className="text-slate-700 dark:text-slate-300">Basic public pages</span>
                 </li>
                 <li className="flex items-start opacity-50">
-                  <svg className="w-5 h-5 text-slate-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-slate-400 dark:text-slate-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-500">Verified badge</span>
+                  <span className="text-slate-500 dark:text-slate-500">Verified badge</span>
                 </li>
                 <li className="flex items-start opacity-50">
-                  <svg className="w-5 h-5 text-slate-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-5 h-5 text-slate-400 dark:text-slate-600 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"/>
                   </svg>
-                  <span className="text-slate-500">Hide or show specific milestones</span>
+                  <span className="text-slate-500 dark:text-slate-500">Hide or show specific milestones</span>
                 </li>
               </ul>
 
-              <p className="text-sm text-slate-500 mb-6">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
                 Perfect for getting started with your first journey.
               </p>
 
               <button 
                 onClick={handleCtaClick}
-                className="w-full px-6 py-3 bg-white hover:bg-slate-50 text-slate-900 font-semibold rounded-lg border-2 border-slate-300 transition-all"
+                className="w-full px-6 py-3 bg-white hover:bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-white font-semibold rounded-lg border-2 border-slate-300 dark:border-slate-600 transition-all"
               >
                 {user ? 'Go to Dashboard' : 'Start for free'}
               </button>
@@ -652,62 +652,62 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-blue-50 border-2 border-blue-500 rounded-xl p-6 relative"
+                className="bg-blue-50 dark:bg-slate-800 border-2 border-blue-500 dark:border-blue-600 rounded-xl p-6 relative"
               >
                 <div className="absolute top-0 right-6 -translate-y-1/2">
-                  <span className="px-3 py-1 bg-blue-500 text-white text-landing-tiny font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white text-landing-tiny font-semibold rounded-full">
                     60% off · LAUNCHDEAL
                   </span>
                 </div>
                 
-                <div className="text-landing-small font-semibold text-blue-600 mb-2">Lifetime Pro</div>
+                <div className="text-landing-small font-semibold text-blue-600 dark:text-blue-400 mb-2">Lifetime Pro</div>
                 <div className="flex items-baseline space-x-2 mb-1">
-                  <span className="text-landing-body text-slate-400 line-through">$99.99</span>
-                  <span className="text-landing-section font-bold text-slate-900">$39</span>
+                  <span className="text-landing-body text-slate-400 dark:text-slate-500 line-through">$99.99</span>
+                  <span className="text-landing-section font-bold text-slate-900 dark:text-white">$39</span>
                 </div>
-                <div className="text-landing-small text-slate-600 mb-4">one-time payment</div>
+                <div className="text-landing-small text-slate-600 dark:text-slate-400 mb-4">one-time payment</div>
                 
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited transformation journeys</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-semibold">Unlimited transformation journeys</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited milestones</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-semibold">Unlimited milestones</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Extended media storage</span>
+                    <span className="text-slate-700 dark:text-slate-300">Extended media storage</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Custom themes & layouts</span>
+                    <span className="text-slate-700 dark:text-slate-300">Custom themes & layouts</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Verified badge</span>
+                    <span className="text-slate-700 dark:text-slate-300">Verified badge</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-blue-500 dark:text-blue-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Hide or show specific milestones</span>
+                    <span className="text-slate-700 dark:text-slate-300">Hide or show specific milestones</span>
                   </li>
                 </ul>
 
-                <p className="text-sm text-slate-600 mb-6">
-                  Limited time launch offer. Use code <span className="font-semibold text-blue-600">LAUNCHDEAL</span> for 60% off.
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+                  Limited time launch offer. Use code <span className="font-semibold text-blue-600 dark:text-blue-400">LAUNCHDEAL</span> for 60% off.
                 </p>
 
                 <button 
@@ -723,57 +723,57 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="bg-green-50 border-2 border-green-500 rounded-xl p-6 relative"
+                className="bg-green-50 dark:bg-slate-800 border-2 border-green-500 dark:border-green-600 rounded-xl p-6 relative"
               >
                 <div className="absolute top-0 right-6 -translate-y-1/2">
-                  <span className="px-3 py-1 bg-green-500 text-white text-landing-tiny font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-green-500 dark:bg-green-600 text-white text-landing-tiny font-semibold rounded-full">
                     ✓ ACTIVE
                   </span>
                 </div>
                 
-                <div className="text-landing-small font-semibold text-green-600 mb-2">Lifetime Pro</div>
-                <div className="text-landing-section font-bold text-slate-900 mb-4">You&apos;re all set!</div>
+                <div className="text-landing-small font-semibold text-green-600 dark:text-green-400 mb-2">Lifetime Pro</div>
+                <div className="text-landing-section font-bold text-slate-900 dark:text-white mb-4">You&apos;re all set!</div>
                 
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited transformation journeys</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-semibold">Unlimited transformation journeys</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700 font-semibold">Unlimited milestones</span>
+                    <span className="text-slate-700 dark:text-slate-300 font-semibold">Unlimited milestones</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Extended media storage</span>
+                    <span className="text-slate-700 dark:text-slate-300">Extended media storage</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Custom themes & layouts</span>
+                    <span className="text-slate-700 dark:text-slate-300">Custom themes & layouts</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Verified badge</span>
+                    <span className="text-slate-700 dark:text-slate-300">Verified badge</span>
                   </li>
                   <li className="flex items-start">
-                    <svg className="w-5 h-5 text-green-500 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-green-500 dark:text-green-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
                     </svg>
-                    <span className="text-slate-700">Hide or show specific milestones</span>
+                    <span className="text-slate-700 dark:text-slate-300">Hide or show specific milestones</span>
                   </li>
                 </ul>
 
-                <p className="text-sm text-green-600 font-medium mb-6">
+                <p className="text-sm text-green-600 dark:text-green-400 font-medium mb-6">
                   Thank you for your support! Enjoy lifetime access to all Pro features.
                 </p>
 
@@ -797,28 +797,28 @@ export default function LandingPage() {
       />
 
       {/* Footer */}
-      <footer className="py-landing-lg px-4 bg-white border-t border-slate-200">
+      <footer className="py-landing-lg px-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-slate-600 text-landing-small mb-4 md:mb-0">
-              © 2025 loged<span className="text-blue-500">in</span> — a doddlesoft product
+            <div className="text-slate-600 dark:text-slate-400 text-landing-small mb-4 md:mb-0">
+              © 2025 loged<span className="text-blue-500 dark:text-blue-400">in</span> — a doddlesoft product
             </div>
             <div className="flex items-center space-x-6">
               <button 
                 onClick={() => router.push('/terms')}
-                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
               >
                 Terms
               </button>
               <button 
                 onClick={() => router.push('/privacy-policy')}
-                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
               >
                 Privacy
               </button>
               <a 
                 href="mailto:connect@doddle.software"
-                className="text-slate-600 hover:text-slate-900 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
               >
                 Contact
               </a>

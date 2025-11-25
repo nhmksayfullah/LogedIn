@@ -401,7 +401,7 @@ export function AccountManagement() {
   };
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden">
+    <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden">
       {/* Cover Photo Section - YouTube ratio 6.2:1 (1546x423) */}
       <div className="relative w-full" style={{ paddingTop: '16.13%' }}>
         {/* Cover background */}
@@ -420,7 +420,7 @@ export function AccountManagement() {
           <button
             onClick={handleCoverPhotoClick}
             disabled={isUploadingCover}
-            className="flex items-center gap-2 px-3 py-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
             title="Upload cover photo"
           >
             {isUploadingCover ? (
@@ -434,7 +434,7 @@ export function AccountManagement() {
           <button
             onClick={() => setShowColorPicker(!showColorPicker)}
             disabled={isUploadingCover}
-            className="flex items-center gap-2 px-3 py-2 bg-black/50 hover:bg-black/70 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-3 py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
             title="Choose cover color"
           >
             <Palette className="w-4 h-4" />
@@ -455,14 +455,14 @@ export function AccountManagement() {
 
         {/* Color picker popup */}
         {showColorPicker && (
-          <div className="absolute top-16 right-4 bg-white rounded-lg shadow-xl p-4 z-10 border border-slate-200">
-            <p className="text-landing-small font-medium text-slate-700 mb-3">Choose a color</p>
+          <div className="absolute top-16 right-4 bg-white dark:bg-slate-800 rounded-lg shadow-xl p-4 z-10 border border-slate-200 dark:border-gray-700">
+            <p className="text-landing-small font-medium text-slate-700 dark:text-slate-200 mb-3">Choose a color</p>
             <div className="grid grid-cols-5 gap-2 mb-3">
               {['#1DA1F2', '#794BC4', '#F91880', '#FF6900', '#17BF63', '#F45D22', '#E1E8ED', '#14171A', '#657786'].map((color) => (
                 <button
                   key={color}
                   onClick={() => handleCoverColorChange(color)}
-                  className="w-10 h-10 rounded-lg border-2 border-slate-200 hover:border-slate-400 transition-colors"
+                  className="w-10 h-10 rounded-lg border-2 border-slate-200 dark:border-gray-600 hover:border-slate-400 dark:hover:border-gray-500 transition-colors"
                   style={{ backgroundColor: color }}
                   title={color}
                 />
@@ -494,7 +494,7 @@ export function AccountManagement() {
         {/* Profile Picture - positioned to overlap cover */}
         <div className="flex flex-col items-center -mt-16 mb-4">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-white flex items-center justify-center border-4 border-white shadow-lg">
+            <div className="w-32 h-32 rounded-full overflow-hidden bg-white dark:bg-slate-700 flex items-center justify-center border-4 border-white dark:border-slate-800 shadow-lg">
               {profilePictureUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img 
@@ -503,7 +503,7 @@ export function AccountManagement() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <User className="w-16 h-16 text-slate-400" />
+                <User className="w-16 h-16 text-slate-400 dark:text-slate-500" />
               )}
             </div>
             
@@ -557,7 +557,7 @@ export function AccountManagement() {
             <p className="text-red-500 text-landing-small mt-2">{error}</p>
           )}
 
-          <p className="text-landing-tiny text-slate-500 mt-2 text-center">
+          <p className="text-landing-tiny text-slate-500 dark:text-slate-400 mt-2 text-center">
             Profile: Max 5MB • Cover: Max 10MB • JPEG, PNG, WebP, or GIF
           </p>
         </div>
@@ -565,13 +565,13 @@ export function AccountManagement() {
         </div>
 
         {/* User Information */}
-        <div className="space-y-3 pt-6 border-t border-slate-200">
+        <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-gray-700">
           {/* Profile Visibility Toggle */}
-          <div className="pb-4 border-b border-slate-200">
+          <div className="pb-4 border-b border-slate-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h3 className="text-landing-body font-semibold text-slate-900">Public Profile</h3>
-                <p className="text-landing-tiny text-slate-500 mt-0.5">
+                <h3 className="text-landing-body font-semibold text-slate-900 dark:text-white">Public Profile</h3>
+                <p className="text-landing-tiny text-slate-500 dark:text-slate-400 mt-0.5">
                   {isPublic 
                     ? `Anyone can view your profile at /${username}`
                     : 'Your profile is private'}
@@ -591,7 +591,7 @@ export function AccountManagement() {
             
             {/* Name Editor */}
             <div className="mt-3">
-              <label className="block text-landing-small font-medium text-slate-700 mb-1.5">
+              <label className="block text-landing-small font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Display Name
               </label>
               <input
@@ -599,11 +599,11 @@ export function AccountManagement() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 maxLength={100}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-landing-small focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg text-landing-small bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Your name..."
               />
               <div className="flex items-center justify-between mt-1.5">
-                <span className="text-landing-tiny text-slate-500">
+                <span className="text-landing-tiny text-slate-500 dark:text-slate-400">
                   {name.length}/100 characters
                 </span>
                 <button
@@ -618,7 +618,7 @@ export function AccountManagement() {
 
             {/* Bio Editor */}
             <div className="mt-3">
-              <label className="block text-landing-small font-medium text-slate-700 mb-1.5">
+              <label className="block text-landing-small font-medium text-slate-700 dark:text-slate-300 mb-1.5">
                 Bio
               </label>
               <textarea
@@ -626,11 +626,11 @@ export function AccountManagement() {
                 onChange={(e) => setBio(e.target.value)}
                 maxLength={500}
                 rows={3}
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-landing-small focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-slate-300 dark:border-gray-600 rounded-lg text-landing-small bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 placeholder="Tell people about yourself..."
               />
               <div className="flex items-center justify-between mt-1.5">
-                <span className="text-landing-tiny text-slate-500">
+                <span className="text-landing-tiny text-slate-500 dark:text-slate-400">
                   {bio.length}/500 characters
                 </span>
                 <button
@@ -645,28 +645,28 @@ export function AccountManagement() {
           </div>
           
           {username && (
-          <div className="flex items-center justify-between py-3 border-b border-slate-200">
-            <span className="text-landing-small text-slate-600">
+          <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-gray-700">
+            <span className="text-landing-small text-slate-600 dark:text-slate-400">
               {isTwitterUser ? 'X Handle' : 'Username'}
             </span>
-            <span className="text-landing-body font-medium text-slate-900">
+            <span className="text-landing-body font-medium text-slate-900 dark:text-white">
               {isTwitterUser ? `@${username}` : username}
             </span>
           </div>
         )}
-        <div className="flex items-center justify-between py-3 border-b border-slate-200">
-          <span className="text-landing-small text-slate-600">Email</span>
-          <span className="text-landing-body font-medium text-slate-900">{user?.email}</span>
+        <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-gray-700">
+          <span className="text-landing-small text-slate-600 dark:text-slate-400">Email</span>
+          <span className="text-landing-body font-medium text-slate-900 dark:text-white">{user?.email}</span>
         </div>
-        <div className="flex items-center justify-between py-3 border-b border-slate-200">
-          <span className="text-landing-small text-slate-600">Last Sign In</span>
-          <span className="text-landing-body font-medium text-slate-900">
+        <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-gray-700">
+          <span className="text-landing-small text-slate-600 dark:text-slate-400">Last Sign In</span>
+          <span className="text-landing-body font-medium text-slate-900 dark:text-white">
             {new Date(user?.last_sign_in_at || '').toLocaleString()}
           </span>
         </div>
         <div className="flex items-center justify-between py-3">
-          <span className="text-landing-small text-slate-600">Account Type</span>
-          <span className="text-landing-body font-medium text-slate-900">
+          <span className="text-landing-small text-slate-600 dark:text-slate-400">Account Type</span>
+          <span className="text-landing-body font-medium text-slate-900 dark:text-white">
             {isTwitterUser ? 'X Account' : isGoogleUser ? 'Google Account' : 'Email Account'}
           </span>
         </div>
@@ -676,7 +676,7 @@ export function AccountManagement() {
         {!isOAuthUser && (
           <button
             onClick={() => router.push(`/reset-password?email=${encodeURIComponent(user?.email || '')}`)}
-            className="w-full px-4 py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-900 rounded-lg font-medium transition-colors text-landing-small border border-slate-200"
+            className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-900 dark:text-white rounded-lg font-medium transition-colors text-landing-small border border-slate-200 dark:border-gray-600"
           >
             Reset Password
           </button>
@@ -693,9 +693,9 @@ export function AccountManagement() {
       {/* Delete Account Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-semibold mb-4 text-slate-900">Delete Account?</h3>
-            <p className="text-slate-600 mb-6">
+          <div className="bg-white dark:bg-slate-800 rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">Delete Account?</h3>
+            <p className="text-slate-600 dark:text-slate-300 mb-6">
               This action cannot be undone. All your data will be permanently deleted.
             </p>
             {error && (
@@ -704,7 +704,7 @@ export function AccountManagement() {
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 text-slate-600"
+                className="px-4 py-2 text-slate-600 dark:text-slate-300"
               >
                 Cancel
               </button>

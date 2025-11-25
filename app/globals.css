@@ -7,20 +7,22 @@
   --foreground: #2F3E46;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0F172A;
+    --foreground: #F8FAFC;
+  }
+}
+
 html,
 body {
   color: var(--foreground);
-  background: #FFFFFF !important;
+  background: var(--background);
   font-family: 'Inter', sans-serif;
 }
 
 * {
   box-sizing: border-box;
-}
-
-#__next,
-[id^="__next"] {
-  background: #FFFFFF !important;
 }
 
 /* Add some cooking-themed utility classes */

@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-white">
-      <body className={`${geist.className} bg-white`}>
+    <html lang="en">
+      <body className={geist.className}>
         <Analytics mode="auto" />
         {/* <PostHogErrorBoundary>
           <PostHogProvider> */}
