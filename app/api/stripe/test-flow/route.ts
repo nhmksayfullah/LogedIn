@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
     // Step 6: Check existing purchases for user
     results.push({ step: '6. Checking existing purchases in database', success: false });
     try {
-      const { data: purchases, error: purchaseError } = await supabaseAdmin
+      const { data: purchases } = await supabaseAdmin
         .from('purchases')
         .select('*')
         .eq('user_id', userId)
