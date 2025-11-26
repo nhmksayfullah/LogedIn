@@ -60,7 +60,7 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
       >
         {/* Cover Image */}
         <div 
-          className="h-40 flex items-center justify-center relative"
+          className="h-32 sm:h-40 flex items-center justify-center relative"
           style={{
             background: journey.cover_image_url 
               ? 'none' 
@@ -130,9 +130,9 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
         </div>
 
         {/* Content */}
-        <div className="p-6">
-          <div className="flex items-start justify-between mb-3">
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors line-clamp-1 flex-1">
+        <div className="p-4 sm:p-6">
+          <div className="flex items-start justify-between mb-2 sm:mb-3">
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors line-clamp-1 flex-1">
               {journey.title}
             </h3>
             {journey.is_public ? (
@@ -143,13 +143,13 @@ export function JourneyCard({ journey, index, onClick, onEdit, onDelete }: Journ
           </div>
 
           {journey.description && (
-            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-3 sm:mb-4 line-clamp-2">
               {journey.description}
             </p>
           )}
 
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center space-x-4 text-slate-500 dark:text-slate-400">
+          <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 text-xs sm:text-sm">
+            <div className="flex items-center flex-wrap gap-2 xs:gap-4 text-slate-500 dark:text-slate-400">
               <span className="font-medium">{journey.version_count || 0} versions</span>
               <span className="flex items-center space-x-1">
                 <Calendar className="w-3.5 h-3.5" />

@@ -59,19 +59,19 @@ export default function TopBar() {
 
   return (
     <div className="w-full bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-700">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-        <Link href="/" className="text-md sm:text-lg font-medium text-text dark:text-text-dark flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span className="text-2xl font-bold">Loged.in</span>
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-3 sm:px-4 py-2.5 sm:py-3">
+        <Link href="/" className="text-sm sm:text-md md:text-lg font-medium text-text dark:text-text-dark flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <span className="text-xl sm:text-2xl font-bold">Loged.in</span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {!user ? (
             <>
               <BuyMeCoffee />
               {/* Show login button for unauthenticated users */}
               <button
                 onClick={() => openAuthModal('login')}
-                className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white bg-primary hover:bg-primary-dark rounded-full transition-colors shadow-subtle hover:shadow-hover"
               >
                 Sign in
               </button>
@@ -82,9 +82,10 @@ export default function TopBar() {
               {!isLoadingPurchase && !hasLifetimeAccess && (
                 <button
                   onClick={() => openAuthModal('payment')}
-                  className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
+                  className="hidden sm:block px-3 md:px-4 py-1.5 md:py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-xs md:text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
                 >
-                  Get Lifetime Pro
+                  <span className="hidden md:inline">Get Lifetime Pro</span>
+                  <span className="md:hidden">Upgrade</span>
                 </button>
               )}
               <BuyMeCoffee />
@@ -92,18 +93,19 @@ export default function TopBar() {
               {!isLoadingPurchase && hasLifetimeAccess && pathname !== '/dashboard' && (
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="hidden sm:block px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
+                  className="hidden sm:block px-3 md:px-4 py-1.5 md:py-2 bg-primary hover:bg-primary-dark text-white rounded-full text-xs md:text-sm font-medium transition-colors shadow-subtle hover:shadow-hover"
                 >
-                  Start Building
+                  <span className="hidden md:inline">Start Building</span>
+                  <span className="md:hidden">Dashboard</span>
                 </button>
               )}
               
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center gap-2 hover:bg-neutral-darker/10 dark:hover:bg-neutral-darker/50 px-3 py-2 rounded-full transition-colors"
+                  className="flex items-center gap-2 hover:bg-neutral-darker/10 dark:hover:bg-neutral-darker/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-full transition-colors"
                 >
-                  <div className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary dark:text-primary-light overflow-hidden">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 dark:bg-primary/20 rounded-full flex items-center justify-center text-primary dark:text-primary-light overflow-hidden text-xs sm:text-sm">
                     {profilePictureUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img 

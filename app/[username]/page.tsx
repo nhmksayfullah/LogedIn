@@ -36,7 +36,7 @@ export default async function PublicProfilePage({ params }: Props) {
       {/* Container with same width as header */}
       <div className="max-w-6xl mx-auto flex-1 w-full">
         {/* Cover Photo Section */}
-        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 rounded-b-xl overflow-hidden" style={{ paddingTop: '16.13%' }}>
+        <div className="relative w-full bg-gradient-to-br from-blue-500 to-purple-600 sm:rounded-b-xl overflow-hidden" style={{ paddingTop: '20%' }}>
           {profile.coverPhotoUrl ? (
             <Image
               src={profile.coverPhotoUrl}
@@ -56,10 +56,10 @@ export default async function PublicProfilePage({ params }: Props) {
         {/* Profile Content */}
         <div className="px-4 sm:px-6 lg:px-8">
           {/* Profile Header - Centered */}
-          <div className="relative -mt-10 mb-4">
+          <div className="relative -mt-8 sm:-mt-10 mb-4 sm:mb-6">
             <div className="flex flex-col items-center">
               {/* Profile Picture - Centered */}
-              <div className="relative w-20 h-20 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden mb-2">
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full border-4 border-white bg-white shadow-xl overflow-hidden mb-2 sm:mb-3">
                 {profile.profilePictureUrl ? (
                   <Image
                     src={profile.profilePictureUrl}
@@ -77,11 +77,11 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Name and Username - Centered */}
               <div className="text-center">
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
                   {profile.name || profile.username}
                 </h1>
                 {profile.name && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
                     @{profile.username}
                   </p>
                 )}
@@ -89,14 +89,14 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Bio - Centered */}
               {profile.bio && (
-                <p className="text-sm text-gray-700 dark:text-gray-300 text-center max-w-2xl whitespace-pre-wrap mt-1">
+                <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 text-center max-w-2xl whitespace-pre-wrap mt-1 px-4">
                   {profile.bio}
                 </p>
               )}
 
               {/* Social Links - Centered */}
               {(profile.twitterUrl || profile.websiteUrl) && (
-                <div className="flex items-center justify-center gap-4 mt-3">
+                <div className="flex items-center justify-center gap-3 sm:gap-4 mt-2 sm:mt-3">
                   {profile.twitterUrl && (
                     <a
                       href={profile.twitterUrl}
@@ -105,7 +105,7 @@ export default async function PublicProfilePage({ params }: Props) {
                       className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                       aria-label="Twitter"
                     >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                       </svg>
                     </a>
@@ -118,7 +118,7 @@ export default async function PublicProfilePage({ params }: Props) {
                       className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
                       aria-label="Website"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                       </svg>
                     </a>
@@ -129,9 +129,9 @@ export default async function PublicProfilePage({ params }: Props) {
           </div>
 
           {/* Journeys Section */}
-          <div className="pb-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="pb-8 sm:pb-12 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
             {journeys.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {journeys.map((journey: Journey) => (
                   <Link
                     key={journey.id}
@@ -140,7 +140,7 @@ export default async function PublicProfilePage({ params }: Props) {
                   >
                     {/* Cover Image */}
                     <div 
-                      className="h-40 relative"
+                      className="h-32 sm:h-40 relative"
                       style={{
                         background: journey.cover_image_url 
                           ? 'none' 
@@ -158,18 +158,18 @@ export default async function PublicProfilePage({ params }: Props) {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
+                    <div className="p-4 sm:p-6">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-500 dark:group-hover:text-blue-400 transition-colors mb-2 line-clamp-2">
                         {journey.title}
                       </h3>
                       
                       {journey.description && (
-                        <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-3 sm:mb-4 line-clamp-2">
                           {journey.description}
                         </p>
                       )}
 
-                      <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center justify-between text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                         <span className="font-medium">
                           {journey.version_count || 0} milestones
                         </span>
@@ -186,10 +186,10 @@ export default async function PublicProfilePage({ params }: Props) {
                 ))}
               </div>
             ) : (
-              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-12 text-center">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-8 sm:p-12 text-center">
                 <div className="text-gray-400 dark:text-gray-500 mb-2">
                   <svg
-                    className="mx-auto h-12 w-12"
+                    className="mx-auto h-10 w-10 sm:h-12 sm:w-12"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -202,10 +202,10 @@ export default async function PublicProfilePage({ params }: Props) {
                     />
                   </svg>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">
+                <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-1">
                   No public journeys yet
                 </h3>
-                <p className="text-gray-500 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400">
                   @{profile.username} hasn&apos;t shared any journeys publicly.
                 </p>
               </div>
@@ -215,15 +215,15 @@ export default async function PublicProfilePage({ params }: Props) {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-gray-700 py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-800">
+      <footer className="border-t border-gray-200 dark:border-gray-700 py-6 sm:py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-800">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-3 sm:mb-4">
             <Image
               src="/logedin_logo.svg"
               alt="Loged.in"
               width={120}
               height={40}
-              className="h-10 w-auto dark:hidden"
+              className="h-8 sm:h-10 w-auto dark:hidden"
               priority
             />
             <Image
@@ -231,16 +231,16 @@ export default async function PublicProfilePage({ params }: Props) {
               alt="Loged.in"
               width={120}
               height={40}
-              className="h-10 w-auto hidden dark:block"
+              className="h-8 sm:h-10 w-auto hidden dark:block"
               priority
             />
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 max-w-2xl mx-auto px-4">
             Every journey deserves to be shared. Start documenting your story today.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold rounded-lg transition-colors"
+            className="inline-flex items-center px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold rounded-lg transition-colors"
           >
             Share Your Story
           </Link>

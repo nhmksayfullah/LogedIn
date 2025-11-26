@@ -416,39 +416,39 @@ export function AccountManagement() {
         />
         
         {/* Cover photo controls */}
-        <div className="absolute top-4 right-4 flex gap-2">
+        <div className="absolute top-2 sm:top-4 right-2 sm:right-4 flex gap-1 sm:gap-2">
           <button
             onClick={handleCoverPhotoClick}
             disabled={isUploadingCover}
-            className="flex items-center gap-2 px-3 py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-xs sm:text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
             title="Upload cover photo"
           >
             {isUploadingCover ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
             ) : (
-              <ImageIcon className="w-4 h-4" />
+              <ImageIcon className="w-3 h-3 sm:w-4 sm:h-4" />
             )}
-            Photo
+            <span className="hidden xs:inline">Photo</span>
           </button>
           
           <button
             onClick={() => setShowColorPicker(!showColorPicker)}
             disabled={isUploadingCover}
-            className="flex items-center gap-2 px-3 py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-xs sm:text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
             title="Choose cover color"
           >
-            <Palette className="w-4 h-4" />
-            Color
+            <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden xs:inline">Color</span>
           </button>
           
           {hasCoverPhoto && (
             <button
               onClick={handleRemoveCoverPhoto}
               disabled={isUploadingCover}
-              className="flex items-center gap-2 px-3 py-2 bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-red-500/80 hover:bg-red-600/90 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-xs sm:text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
               title="Remove cover photo"
             >
-              <Trash2 className="w-4 h-4" />
+              <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           )}
         </div>
@@ -490,11 +490,11 @@ export function AccountManagement() {
       </div>
 
       {/* Profile section with overlap */}
-      <div className="px-6 pb-6">
+      <div className="px-4 sm:px-6 pb-4 sm:pb-6">
         {/* Profile Picture - positioned to overlap cover */}
-        <div className="flex flex-col items-center -mt-16 mb-4">
+        <div className="flex flex-col items-center -mt-12 sm:-mt-16 mb-3 sm:mb-4">
           <div className="relative group">
-            <div className="w-32 h-32 rounded-full overflow-hidden bg-white dark:bg-slate-700 flex items-center justify-center border-4 border-white dark:border-slate-800 shadow-lg">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-white dark:bg-slate-700 flex items-center justify-center border-4 border-white dark:border-slate-800 shadow-lg">
               {profilePictureUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img 
@@ -503,7 +503,7 @@ export function AccountManagement() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <User className="w-16 h-16 text-slate-400 dark:text-slate-500" />
+                <User className="w-12 h-12 sm:w-16 sm:h-16 text-slate-400 dark:text-slate-500" />
               )}
             </div>
             
@@ -514,9 +514,9 @@ export function AccountManagement() {
               className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity disabled:cursor-not-allowed"
             >
               {isUploadingPicture ? (
-                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
-                <Camera className="w-8 h-8 text-white" />
+                <Camera className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               )}
             </button>
           </div>
@@ -531,33 +531,34 @@ export function AccountManagement() {
           />
 
           {/* Upload/Remove buttons */}
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-3 sm:mt-4">
             <button
               onClick={handleProfilePictureClick}
               disabled={isUploadingPicture}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors text-landing-small disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors text-xs sm:text-landing-small disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Upload className="w-4 h-4" />
-              {hasCustomPicture ? 'Change' : 'Upload'} Picture
+              <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden xs:inline">{hasCustomPicture ? 'Change' : 'Upload'} Picture</span>
+              <span className="xs:hidden">{hasCustomPicture ? 'Change' : 'Upload'}</span>
             </button>
             
             {hasCustomPicture && (
               <button
                 onClick={handleRemoveProfilePicture}
                 disabled={isUploadingPicture}
-                className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors text-landing-small disabled:opacity-50 disabled:cursor-not-allowed border border-red-200"
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg font-medium transition-colors text-xs sm:text-landing-small disabled:opacity-50 disabled:cursor-not-allowed border border-red-200"
               >
-                <Trash2 className="w-4 h-4" />
-                Remove
+                <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Remove</span>
               </button>
             )}
           </div>
 
           {error && (
-            <p className="text-red-500 text-landing-small mt-2">{error}</p>
+            <p className="text-red-500 text-xs sm:text-landing-small mt-2">{error}</p>
           )}
 
-          <p className="text-landing-tiny text-slate-500 dark:text-slate-400 mt-2 text-center">
+          <p className="text-xs sm:text-landing-tiny text-slate-500 dark:text-slate-400 mt-2 text-center px-2">
             Profile: Max 5MB • Cover: Max 10MB • JPEG, PNG, WebP, or GIF
           </p>
         </div>
