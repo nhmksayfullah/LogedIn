@@ -9,6 +9,7 @@ export interface PublicProfile {
   coverColor: string;
   twitterUrl: string | null;
   websiteUrl: string | null;
+  hasLifetimeAccess: boolean;
 }
 
 export interface PublicJourney {
@@ -58,6 +59,17 @@ export async function getPublicProfileByUsername(
     return null;
   }
 
+  // Check if user has lifetime access
+  const { data: purchaseData } = await supabase
+    .from('purchases')
+    .select('status, purchase_type')
+    .eq('user_id', userData.id)
+    .single();
+
+  const hasLifetimeAccess = 
+    purchaseData?.status === 'active' && 
+    purchaseData?.purchase_type === 'lifetime_pro';
+
   return {
     userId: userData.id,
     profile: {
@@ -69,6 +81,7 @@ export async function getPublicProfileByUsername(
       coverColor: userData.cover_color || '#1DA1F2',
       twitterUrl: userData.twitter_url,
       websiteUrl: userData.website_url,
+      hasLifetimeAccess,
     },
   };
 }

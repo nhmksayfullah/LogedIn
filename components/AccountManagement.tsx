@@ -1,9 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Camera, Trash2, Upload, User, Image as ImageIcon, Palette } from 'lucide-react';
+import { Camera, Trash2, Upload, User, Image as ImageIcon, Palette, BadgeCheck } from 'lucide-react';
 
-export function AccountManagement() {
+interface AccountManagementProps {
+  hasLifetimeAccess?: boolean;
+}
+
+export function AccountManagement({ hasLifetimeAccess = false }: AccountManagementProps) {
   const { user, signOut, refreshProfilePicture } = useAuth();
   const router = useRouter();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -401,7 +405,7 @@ export function AccountManagement() {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg overflow-hidden">
+    <div className="bg-white dark:bg-slate-800 rounded-lg overflow-visible">
       {/* Cover Photo Section - YouTube ratio 6.2:1 (1546x423) */}
       <div className="relative w-full" style={{ paddingTop: '16.13%' }}>
         {/* Cover background */}
@@ -566,7 +570,7 @@ export function AccountManagement() {
         </div>
 
         {/* User Information */}
-        <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-gray-700">
+        <div className="space-y-3 pt-6 border-t border-slate-200 dark:border-gray-700 overflow-visible">
           {/* Profile Visibility Toggle */}
           <div className="pb-4 border-b border-slate-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2">
@@ -650,9 +654,19 @@ export function AccountManagement() {
             <span className="text-landing-small text-slate-600 dark:text-slate-400">
               {isTwitterUser ? 'X Handle' : 'Username'}
             </span>
-            <span className="text-landing-body font-medium text-slate-900 dark:text-white">
-              {isTwitterUser ? `@${username}` : username}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-landing-body font-medium text-slate-900 dark:text-white">
+                {isTwitterUser ? `@${username}` : username}
+              </span>
+              {hasLifetimeAccess && (
+                <div className="relative group">
+                  <BadgeCheck className="w-4 h-4 text-blue-500 dark:text-blue-400 flex-shrink-0 cursor-help" />
+                  <span className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 text-xs text-white bg-gray-900 dark:bg-gray-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                    Verified Profile
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         )}
         <div className="flex items-center justify-between py-3 border-b border-slate-200 dark:border-gray-700">

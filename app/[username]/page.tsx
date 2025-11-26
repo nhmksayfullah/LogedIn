@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { BadgeCheck } from 'lucide-react';
 import { Journey } from '@/types/journey';
 import { getPublicProfileByUsername, getPublicJourneysByUserId } from '@/utils/publicProfile';
 
@@ -77,9 +78,19 @@ export default async function PublicProfilePage({ params }: Props) {
 
               {/* Name and Username - Centered */}
               <div className="text-center">
-                <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
-                  {profile.name || profile.username}
-                </h1>
+                <div className="flex items-center justify-center gap-1.5 mb-1">
+                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                    {profile.name || profile.username}
+                  </h1>
+                  {profile.hasLifetimeAccess && (
+                    <div className="relative group">
+                      <BadgeCheck className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 dark:text-blue-400 flex-shrink-0 cursor-help" />
+                      <span className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 text-xs text-white bg-gray-900 dark:bg-gray-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                        Verified Profile
+                      </span>
+                    </div>
+                  )}
+                </div>
                 {profile.name && (
                   <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
                     @{profile.username}
