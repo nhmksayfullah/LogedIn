@@ -317,8 +317,7 @@ function ProfileContent() {
                       {/* Stripe Button Container */}
                       <div className="flex justify-center mb-3">
                         <StripeBuyButton
-                          buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
-                          publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
+                          buttonText="Upgrade to Lifetime Pro"
                         />
                       </div>
 

@@ -161,8 +161,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
           <div className="mb-4">
             <StripeBuyButton
               className="flex justify-center"
-              buyButtonId={process.env.NEXT_PUBLIC_STRIPE_BUTTON_ID || ''}
-              publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''}
+              buttonText="Get Lifetime Access · $79"
             />
           </div>
 

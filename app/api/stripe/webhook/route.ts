@@ -141,8 +141,52 @@ export const POST = withCors(async function POST(request: NextRequest) {
           }
         } else {
           // Fallback: No client_reference_id or customer
-          // Let payment_intent.succeeded handle this via email lookup
-          logWebhookEvent('Checkout session missing client_reference_id or customer - will be handled by payment_intent.succeeded', {
+          // Try to get email from customer_details as additional fallback
+          const email = session.customer_details?.email || session.customer_email;
+          
+          if (email) {
+            logWebhookEvent('Attempting email-based user lookup from customer_details', { email });
+            
+            try {
+              const { data: user, error: userError } = await supabaseAdmin
+                .from('users')
+                .select('id')
+                .eq('email', email)
+                .single();
+
+              if (user && !userError) {
+                logWebhookEvent('Found user by email, creating purchase', { userId: user.id });
+                
+                // Check for existing purchase
+                const hasExistingPurchase = await checkExistingPurchase(user.id);
+                
+                if (!hasExistingPurchase) {
+                  const purchaseStatus = session.payment_status === 'paid' ? 'active' : 'pending';
+                  
+                  await createPurchase(
+                    session.payment_intent as string,
+                    user.id,
+                    (session.customer as string) || '',
+                    purchaseStatus
+                  );
+                  
+                  return NextResponse.json({ 
+                    status: 'success',
+                    message: 'Purchase created via email lookup'
+                  });
+                } else {
+                  logWebhookEvent('User already has existing purchase', { userId: user.id });
+                }
+              } else {
+                logWebhookEvent('Could not find user by email', { email, error: userError });
+              }
+            } catch (error) {
+              logWebhookEvent('Error in email-based user lookup', error);
+            }
+          }
+          
+          // Last resort: Let payment_intent.succeeded handle this
+          logWebhookEvent('Checkout session missing client_reference_id - deferring to payment_intent.succeeded', {
             sessionId: session.id,
             paymentIntent: session.payment_intent,
             paymentStatus: session.payment_status
