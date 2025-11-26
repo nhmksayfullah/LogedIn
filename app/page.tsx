@@ -106,14 +106,14 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900">
       {/* Hero Section */}
-      <section className="pt-24 pb-landing-xl px-4 dark:bg-slate-900">
+      <section className="pt-16 md:pt-24 pb-12 md:pb-landing-xl px-4 dark:bg-slate-900">
         <div className="max-w-4xl mx-auto">
           {/* Headline */}
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-landing-hero md:text-landing-hero-lg font-semibold text-center text-slate-900 dark:text-white leading-tight"
+            className="text-3xl md:text-landing-hero lg:text-landing-hero-lg font-semibold text-center text-slate-900 dark:text-white leading-tight"
           >
             Your Personal <span className="text-blue-500 dark:text-blue-400">Transformation</span> Portfolio
           </motion.h1>
@@ -123,7 +123,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 text-landing-body md:text-landing-body-lg text-slate-600 dark:text-slate-300 text-center max-w-3xl mx-auto"
+            className="mt-3 md:mt-4 text-base md:text-landing-body lg:text-landing-body-lg text-slate-600 dark:text-slate-300 text-center max-w-3xl mx-auto px-4"
           >
             Track your journey. Share your milestones. Inspire others.
           </motion.p>
@@ -133,18 +133,18 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-landing-lg flex flex-col sm:flex-row items-center justify-center gap-3"
+            className="mt-6 md:mt-landing-lg flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 w-full max-w-md mx-auto px-4"
           >
             <button 
               onClick={handleCtaClick}
-              className="px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-landing-body font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+              className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-base md:text-landing-body font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
             >
               {user ? 'Go to Dashboard' : 'Start for free'}
             </button>
             {!hasLifetimeAccess && (
               <button 
                 onClick={handleGetLifetimeClick}
-                className="px-6 py-2.5 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-landing-body font-semibold rounded-lg border-2 border-slate-200 dark:border-slate-600 transition-all"
+                className="w-full sm:w-auto px-6 py-3 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-base md:text-landing-body font-semibold rounded-lg border-2 border-slate-200 dark:border-slate-600 transition-all"
               >
                 Get lifetime access
               </button>
@@ -156,7 +156,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-4 text-landing-small text-slate-500 dark:text-slate-400 text-center"
+            className="mt-3 md:mt-4 text-sm md:text-landing-small text-slate-500 dark:text-slate-400 text-center px-4"
           >
             Document who you&apos;re becoming — and show your progress to the world.
           </motion.p>
@@ -167,11 +167,11 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-landing-xl max-w-6xl mx-auto relative"
+          className="mt-12 md:mt-landing-xl max-w-6xl mx-auto relative overflow-hidden"
         >
-          <div className="flex items-end justify-center gap-4 md:gap-6 relative">
+          <div className="flex items-end justify-center gap-2 md:gap-6 relative scale-75 sm:scale-90 md:scale-100">
             {/* Left Mobile */}
-            <div className="w-52 md:w-72 h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-3 border-4 border-slate-700 relative z-20 translate-y-[168px] md:translate-y-[224px] translate-x-[40px] md:translate-x-[60px]">
+            <div className="hidden sm:block w-40 sm:w-52 md:w-72 h-[336px] sm:h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-2 sm:p-3 border-2 sm:border-4 border-slate-700 relative z-20 translate-y-[134px] sm:translate-y-[168px] md:translate-y-[224px] translate-x-[32px] sm:translate-x-[40px] md:translate-x-[60px]">
               <div className="bg-white rounded-2xl h-full p-4 flex flex-col overflow-hidden">
                 {/* Status Bar */}
                 <div className="flex justify-between items-center mb-4">
@@ -227,7 +227,7 @@ export default function LandingPage() {
             </div>
 
             {/* Desktop Mockup - Center */}
-            <div className="w-[500px] md:w-[700px] h-[320px] md:h-[440px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl p-3 border-4 border-slate-700 relative z-10 translate-y-[32px] md:translate-y-[44px]">
+            <div className="w-[320px] sm:w-[500px] md:w-[700px] h-[205px] sm:h-[320px] md:h-[440px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl sm:rounded-2xl shadow-2xl p-2 sm:p-3 border-2 sm:border-4 border-slate-700 relative z-10 translate-y-[26px] sm:translate-y-[32px] md:translate-y-[44px]">
               <div className="bg-white rounded-xl h-full flex flex-col overflow-hidden">
                 {/* Browser Chrome */}
                 <div className="flex items-center px-4 py-2 border-b border-slate-200">
@@ -308,7 +308,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Mobile */}
-            <div className="w-52 md:w-72 h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-3 border-4 border-slate-700 relative z-20 translate-y-[168px] md:translate-y-[224px] -translate-x-[40px] md:-translate-x-[60px]">
+            <div className="hidden sm:block w-40 sm:w-52 md:w-72 h-[336px] sm:h-[420px] md:h-[560px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-2 sm:p-3 border-2 sm:border-4 border-slate-700 relative z-20 translate-y-[134px] sm:translate-y-[168px] md:translate-y-[224px] -translate-x-[32px] sm:-translate-x-[40px] md:-translate-x-[60px]">
               <div className="bg-white rounded-2xl h-full p-4 flex flex-col overflow-hidden">
                 {/* Status Bar */}
                 <div className="flex justify-between items-center mb-4">
@@ -376,19 +376,19 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 relative -mt-[84px] md:-mt-[112px] pt-[124px] md:pt-[152px] z-30">
+      <section id="features" className="py-12 md:py-20 px-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-800 dark:via-slate-800 dark:to-slate-900 relative -mt-[42px] sm:-mt-[67px] md:-mt-[112px] pt-[82px] sm:pt-[107px] md:pt-[152px] z-30">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-12 md:mb-16 px-4"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-3 md:mb-4">
               Your journey, <span className="text-blue-600 dark:text-blue-400">beautifully told</span>
             </h2>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
               Document who you&apos;re becoming — and show your progress to the world.
             </p>
           </motion.div>
@@ -566,7 +566,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-landing-xl px-4 bg-slate-50 dark:bg-slate-900">
+      <section id="pricing" className="py-12 md:py-landing-xl px-4 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -574,15 +574,15 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-landing-section md:text-landing-section-lg font-bold text-center text-slate-900 dark:text-white mb-3">
+            <h2 className="text-2xl md:text-landing-section lg:text-landing-section-lg font-bold text-center text-slate-900 dark:text-white mb-3 px-4">
               Simple pricing. Grow at your own pace.
             </h2>
-            <p className="text-landing-body text-slate-600 dark:text-slate-300 text-center mt-3">
+            <p className="text-base md:text-landing-body text-slate-600 dark:text-slate-300 text-center mt-3 px-4">
               Start free. Upgrade once and keep your journey forever.
             </p>
           </motion.div>
 
-          <div className="mt-landing-lg grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="mt-8 md:mt-landing-lg grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Free Plan */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -797,28 +797,28 @@ export default function LandingPage() {
       />
 
       {/* Footer */}
-      <footer className="py-landing-lg px-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+      <footer className="py-8 md:py-landing-lg px-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="text-slate-600 dark:text-slate-400 text-landing-small mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="text-slate-600 dark:text-slate-400 text-sm md:text-landing-small text-center md:text-left">
               © 2025 loged<span className="text-blue-500 dark:text-blue-400">in</span> — a doddlesoft product
             </div>
-            <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-4 md:space-x-6">
               <button 
                 onClick={() => router.push('/terms')}
-                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm md:text-landing-small transition-colors"
               >
                 Terms
               </button>
               <button 
                 onClick={() => router.push('/privacy-policy')}
-                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm md:text-landing-small transition-colors"
               >
                 Privacy
               </button>
               <a 
                 href="mailto:connect@doddle.software"
-                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-landing-small transition-colors"
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm md:text-landing-small transition-colors"
               >
                 Contact
               </a>

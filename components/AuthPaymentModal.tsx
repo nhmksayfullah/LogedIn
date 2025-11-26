@@ -161,7 +161,7 @@ export function AuthPaymentModal({ isOpen, onClose, intent }: AuthPaymentModalPr
           <div className="mb-4">
             <StripeBuyButton
               className="flex justify-center"
-              buttonText="Get Lifetime Access · $79"
+              buttonText="Get Lifetime Access · $39"
             />
           </div>
 
