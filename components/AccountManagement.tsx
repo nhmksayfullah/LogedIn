@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { Camera, Trash2, Upload, User, Image as ImageIcon, BadgeCheck } from 'lucide-react';
 import { ColorPicker } from '@/components/ColorPicker';
+import { PhotoEditor } from '@/components/PhotoEditor';
 
 interface AccountManagementProps {
   isVerified?: boolean;
@@ -32,6 +33,12 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
   const [isPublic, setIsPublic] = useState(false);
   const [bio, setBio] = useState('');
   const [isUpdatingSettings, setIsUpdatingSettings] = useState(false);
+
+  // Photo editor states
+  const [isProfileEditorOpen, setIsProfileEditorOpen] = useState(false);
+  const [isCoverEditorOpen, setIsCoverEditorOpen] = useState(false);
+  const [selectedProfileFile, setSelectedProfileFile] = useState<File | null>(null);
+  const [selectedCoverFile, setSelectedCoverFile] = useState<File | null>(null);
 
   // Check if user signed in with OAuth
   const isOAuthUser = user?.app_metadata?.provider === 'google' || user?.app_metadata?.provider === 'twitter';
@@ -155,14 +162,37 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
 
     console.log('File selected:', { name: file.name, type: file.type, size: file.size });
 
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.');
+      return;
+    }
+
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      setError('File size too large. Maximum 10MB allowed.');
+      return;
+    }
+
+    setSelectedProfileFile(file);
+    setIsProfileEditorOpen(true);
+
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleProfilePhotoSave = async (croppedImage: Blob) => {
     setIsUploadingPicture(true);
     setError('');
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', croppedImage, 'profile.jpg');
 
-      console.log('Uploading file to /api/user/profile-picture...');
+      console.log('Uploading cropped file to /api/user/profile-picture...');
 
       const response = await fetch('/api/user/profile-picture', {
         method: 'POST',
@@ -189,10 +219,7 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
       setError(error instanceof Error ? error.message : 'Failed to upload profile picture');
     } finally {
       setIsUploadingPicture(false);
-      // Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      setSelectedProfileFile(null);
     }
   };
 
@@ -242,12 +269,35 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.');
+      return;
+    }
+
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      setError('File size too large. Maximum 10MB allowed.');
+      return;
+    }
+
+    setSelectedCoverFile(file);
+    setIsCoverEditorOpen(true);
+
+    // Reset file input
+    if (coverFileInputRef.current) {
+      coverFileInputRef.current.value = '';
+    }
+  };
+
+  const handleCoverPhotoSave = async (croppedImage: Blob) => {
     setIsUploadingCover(true);
     setError('');
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', croppedImage, 'cover.jpg');
 
       const response = await fetch('/api/user/cover-photo', {
         method: 'POST',
@@ -267,9 +317,7 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
       setError(error instanceof Error ? error.message : 'Failed to upload cover photo');
     } finally {
       setIsUploadingCover(false);
-      if (coverFileInputRef.current) {
-        coverFileInputRef.current.value = '';
-      }
+      setSelectedCoverFile(null);
     }
   };
 
@@ -704,6 +752,36 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
           </div>
         </div>
       )}
+
+      {/* Profile Photo Editor */}
+      <PhotoEditor
+        isOpen={isProfileEditorOpen}
+        onClose={() => {
+          setIsProfileEditorOpen(false);
+          setSelectedProfileFile(null);
+        }}
+        onSave={handleProfilePhotoSave}
+        aspectRatio={1}
+        title="Edit Profile Picture"
+        maxWidth={500}
+        maxHeight={500}
+        imageFile={selectedProfileFile}
+      />
+
+      {/* Cover Photo Editor */}
+      <PhotoEditor
+        isOpen={isCoverEditorOpen}
+        onClose={() => {
+          setIsCoverEditorOpen(false);
+          setSelectedCoverFile(null);
+        }}
+        onSave={handleCoverPhotoSave}
+        aspectRatio={6.2 / 1}
+        title="Edit Cover Photo"
+        maxWidth={1546}
+        maxHeight={423}
+        imageFile={selectedCoverFile}
+      />
     </div>
   );
 } 

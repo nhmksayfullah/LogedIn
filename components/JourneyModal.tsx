@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Globe, Lock, Image as ImageIcon, Link2 } from 'lucide-react';
 import { generateSlug, isValidSlug } from '@/utils/slug';
 import { ColorPicker } from '@/components/ColorPicker';
+import { PhotoEditor } from '@/components/PhotoEditor';
 
 interface JourneyModalProps {
   isOpen: boolean;
@@ -42,6 +43,10 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
   const [coverPhotoPreview, setCoverPhotoPreview] = useState<string | null>(null);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
+  
+  // Photo editor states
+  const [isCoverEditorOpen, setIsCoverEditorOpen] = useState(false);
+  const [selectedCoverFile, setSelectedCoverFile] = useState<File | null>(null);
 
   // Reset form when modal opens/closes or initialData changes
   useEffect(() => {
@@ -186,16 +191,22 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
         return;
       }
 
-      setCoverPhoto(file);
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setSelectedCoverFile(file);
+      setIsCoverEditorOpen(true);
       setError(null);
     }
+  };
+
+  const handleCoverPhotoSave = async (croppedImage: Blob) => {
+    setCoverPhoto(new File([croppedImage], 'cover.jpg', { type: 'image/jpeg' }));
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setCoverPhotoPreview(reader.result as string);
+      setCoverType('photo');
+    };
+    reader.readAsDataURL(croppedImage);
   };
 
   const handleRemoveCoverPhoto = () => {
@@ -432,6 +443,21 @@ export function JourneyModal({ isOpen, onClose, onSave, initialData, mode, journ
               </div>
             </motion.div>
           </div>
+
+          {/* Cover Photo Editor */}
+          <PhotoEditor
+            isOpen={isCoverEditorOpen}
+            onClose={() => {
+              setIsCoverEditorOpen(false);
+              setSelectedCoverFile(null);
+            }}
+            onSave={handleCoverPhotoSave}
+            aspectRatio={6.2 / 1}
+            title="Edit Journey Cover Photo"
+            maxWidth={1546}
+            maxHeight={423}
+            imageFile={selectedCoverFile}
+          />
         </>
       )}
     </AnimatePresence>

@@ -11,6 +11,7 @@ import { useVersions } from '@/hooks/useVersions';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Hash, X, Trash2, Globe, Lock, Settings, Upload, Edit2 } from 'lucide-react';
 import { JourneyModal, JourneyFormData } from '@/components/JourneyModal';
+import { PhotoEditor } from '@/components/PhotoEditor';
 
 interface Journey {
   id: string;
@@ -56,6 +57,10 @@ export default function JourneyPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  
+  // Photo editor states
+  const [isVersionCoverEditorOpen, setIsVersionCoverEditorOpen] = useState(false);
+  const [selectedVersionCoverFile, setSelectedVersionCoverFile] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchJourney = async () => {
@@ -248,16 +253,21 @@ export default function JourneyPage() {
         return;
       }
 
-      setNewVersionCoverPhoto(file);
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCoverPhotoPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setSelectedVersionCoverFile(file);
+      setIsVersionCoverEditorOpen(true);
       setCreateError(null);
     }
+  };
+
+  const handleVersionCoverPhotoSave = async (croppedImage: Blob) => {
+    setNewVersionCoverPhoto(new File([croppedImage], 'version-cover.jpg', { type: 'image/jpeg' }));
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setCoverPhotoPreview(reader.result as string);
+    };
+    reader.readAsDataURL(croppedImage);
   };
 
   const handleRemoveCoverPhoto = () => {
@@ -777,6 +787,21 @@ export default function JourneyPage() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Version Cover Photo Editor */}
+      <PhotoEditor
+        isOpen={isVersionCoverEditorOpen}
+        onClose={() => {
+          setIsVersionCoverEditorOpen(false);
+          setSelectedVersionCoverFile(null);
+        }}
+        onSave={handleVersionCoverPhotoSave}
+        aspectRatio={16 / 9}
+        title="Edit Milestone Cover Photo"
+        maxWidth={1200}
+        maxHeight={675}
+        imageFile={selectedVersionCoverFile}
+      />
     </div>
   );
 }
