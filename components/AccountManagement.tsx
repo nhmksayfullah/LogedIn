@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 import { Camera, Trash2, Upload, User, Image as ImageIcon, Palette, BadgeCheck } from 'lucide-react';
 
 interface AccountManagementProps {
-  hasLifetimeAccess?: boolean;
+  isVerified?: boolean;
 }
 
-export function AccountManagement({ hasLifetimeAccess = false }: AccountManagementProps) {
+export function AccountManagement({ isVerified = false }: AccountManagementProps) {
   const { user, signOut, refreshProfilePicture } = useAuth();
   const router = useRouter();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -658,7 +658,7 @@ export function AccountManagement({ hasLifetimeAccess = false }: AccountManageme
               <span className="text-landing-body font-medium text-slate-900 dark:text-white">
                 {isTwitterUser ? `@${username}` : username}
               </span>
-              {hasLifetimeAccess && (
+              {isVerified && (
                 <div className="relative group">
                   <BadgeCheck className="w-4 h-4 text-blue-500 dark:text-blue-400 flex-shrink-0 cursor-help" />
                   <span className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 text-xs text-white bg-gray-900 dark:bg-gray-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">

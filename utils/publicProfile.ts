@@ -9,7 +9,7 @@ export interface PublicProfile {
   coverColor: string;
   twitterUrl: string | null;
   websiteUrl: string | null;
-  hasLifetimeAccess: boolean;
+  isVerified: boolean;
 }
 
 export interface PublicJourney {
@@ -49,7 +49,7 @@ export async function getPublicProfileByUsername(
 
   const { data: userData, error: userError } = await supabase
     .from('users')
-    .select('id, username, name, bio, profile_picture_url, avatar_url, cover_photo_url, cover_color, is_public, twitter_url, website_url')
+    .select('id, username, name, bio, profile_picture_url, avatar_url, cover_photo_url, cover_color, is_public, twitter_url, website_url, is_verified')
     .eq('username', username)
     .eq('is_public', true)
     .single();
@@ -58,17 +58,6 @@ export async function getPublicProfileByUsername(
     console.error('[getPublicProfileByUsername] Error:', userError);
     return null;
   }
-
-  // Check if user has lifetime access
-  const { data: purchaseData } = await supabase
-    .from('purchases')
-    .select('status, purchase_type')
-    .eq('user_id', userData.id)
-    .single();
-
-  const hasLifetimeAccess = 
-    purchaseData?.status === 'active' && 
-    purchaseData?.purchase_type === 'lifetime_pro';
 
   return {
     userId: userData.id,
@@ -81,7 +70,7 @@ export async function getPublicProfileByUsername(
       coverColor: userData.cover_color || '#1DA1F2',
       twitterUrl: userData.twitter_url,
       websiteUrl: userData.website_url,
-      hasLifetimeAccess,
+      isVerified: userData.is_verified || false,
     },
   };
 }

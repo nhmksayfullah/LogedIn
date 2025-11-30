@@ -125,7 +125,7 @@ function ProfileContent() {
             className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 overflow-visible"
           >
             <h2 className="text-lg sm:text-landing-card-title font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">Account Details</h2>
-            <AccountManagement hasLifetimeAccess={hasLifetimeAccess} />
+            <AccountManagement isVerified={hasLifetimeAccess} />
           </motion.div>
 
           {/* Subscription Status Section */}

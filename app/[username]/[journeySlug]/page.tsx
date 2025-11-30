@@ -119,7 +119,7 @@ export default async function PublicJourneyPage({ params }: Props) {
                     <span className="font-medium text-gray-900 dark:text-white">
                       {profile.name || `@${username}`}
                     </span>
-                    {profile.hasLifetimeAccess && (
+                    {profile.isVerified && (
                       <div className="relative group inline-block">
                         <BadgeCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500 dark:text-blue-400 flex-shrink-0 ml-0.5 cursor-help" />
                         <span className="absolute left-1/2 -translate-x-1/2 -top-8 px-2 py-1 text-xs text-white bg-gray-900 dark:bg-gray-700 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
