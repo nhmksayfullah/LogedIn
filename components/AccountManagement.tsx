@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { Camera, Trash2, Upload, User, Image as ImageIcon, Palette, BadgeCheck } from 'lucide-react';
+import { Camera, Trash2, Upload, User, Image as ImageIcon, BadgeCheck } from 'lucide-react';
+import { ColorPicker } from '@/components/ColorPicker';
 
 interface AccountManagementProps {
   isVerified?: boolean;
@@ -25,7 +26,6 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
   const [coverColor, setCoverColor] = useState<string>('#1DA1F2');
   const [hasCoverPhoto, setHasCoverPhoto] = useState(false);
   const [isUploadingCover, setIsUploadingCover] = useState(false);
-  const [showColorPicker, setShowColorPicker] = useState(false);
   const coverFileInputRef = useRef<HTMLInputElement>(null);
   
   // Profile settings states
@@ -292,7 +292,6 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
       }
 
       setCoverColor(color);
-      setShowColorPicker(false);
     } catch (error) {
       console.error('Color update error:', error);
       setError(error instanceof Error ? error.message : 'Failed to update cover color');
@@ -435,15 +434,12 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
             <span className="hidden xs:inline">Photo</span>
           </button>
           
-          <button
-            onClick={() => setShowColorPicker(!showColorPicker)}
+          <ColorPicker
+            value={coverColor}
+            onChange={handleCoverColorChange}
             disabled={isUploadingCover}
-            className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-black/50 dark:bg-slate-700/80 hover:bg-black/70 dark:hover:bg-slate-700 backdrop-blur-sm text-white rounded-lg font-medium transition-colors text-xs sm:text-landing-tiny disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Choose cover color"
-          >
-            <Palette className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span className="hidden xs:inline">Color</span>
-          </button>
+            className="[&>button]:bg-black/50 [&>button]:dark:bg-slate-700/80 [&>button]:hover:bg-black/70 [&>button]:dark:hover:bg-slate-700 [&>button]:backdrop-blur-sm [&>button]:text-white [&>button]:border-transparent [&>button]:text-xs [&>button]:sm:text-landing-tiny [&>button]:px-2 [&>button]:sm:px-3 [&>button]:py-1.5 [&>button]:sm:py-2 [&>button_.w-5]:w-3 [&>button_.w-5]:h-3 [&>button_.w-5]:sm:w-4 [&>button_.w-5]:sm:h-4 [&>button_.w-4]:w-3 [&>button_.w-4]:h-3 [&>button_.w-4]:sm:w-4 [&>button_.w-4]:sm:h-4 [&>button>span:not(.hidden)]:hidden [&>button>span:not(.hidden)]:xs:inline"
+          />
           
           {hasCoverPhoto && (
             <button
@@ -456,32 +452,6 @@ export function AccountManagement({ isVerified = false }: AccountManagementProps
             </button>
           )}
         </div>
-
-        {/* Color picker popup */}
-        {showColorPicker && (
-          <div className="absolute top-16 right-4 bg-white dark:bg-slate-800 rounded-lg shadow-xl p-4 z-10 border border-slate-200 dark:border-gray-700">
-            <p className="text-landing-small font-medium text-slate-700 dark:text-slate-200 mb-3">Choose a color</p>
-            <div className="grid grid-cols-5 gap-2 mb-3">
-              {['#1DA1F2', '#794BC4', '#F91880', '#FF6900', '#17BF63', '#F45D22', '#E1E8ED', '#14171A', '#657786'].map((color) => (
-                <button
-                  key={color}
-                  onClick={() => handleCoverColorChange(color)}
-                  className="w-10 h-10 rounded-lg border-2 border-slate-200 dark:border-gray-600 hover:border-slate-400 dark:hover:border-gray-500 transition-colors"
-                  style={{ backgroundColor: color }}
-                  title={color}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={coverColor}
-                onChange={(e) => handleCoverColorChange(e.target.value)}
-                className="w-full h-10 rounded cursor-pointer"
-              />
-            </div>
-          </div>
-        )}
 
         {/* Hidden file input for cover photo */}
         <input
